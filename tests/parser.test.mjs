@@ -135,8 +135,11 @@ describe("csv", () => {
   });
 });
 
+const ADSENSE_SNIPPET =
+  '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4101065010696162" crossorigin="anonymous"></script>';
+
 describe("privacy constraints in source", () => {
-  it("does not use localStorage, analytics, or ads", () => {
+  it("does not use localStorage or analytics trackers", () => {
     const files = [
       "app.js",
       "parser.js",
@@ -152,9 +155,18 @@ describe("privacy constraints in source", () => {
     const joined = files.join("\n");
     assert.doesNotMatch(joined, /localStorage\s*[.[]|localStorage\s*=/);
     assert.doesNotMatch(joined, /google-analytics|gtag\(|googletagmanager|plausible|cloudflareinsights/i);
-    assert.doesNotMatch(joined, /adsbygoogle|adsense/i);
     assert.match(joined, /不是銀行夥伴/);
     assert.match(joined, /不是戶口結餘/);
     assert.match(joined, /不是詐騙偵測/);
+  });
+
+  it("includes the official AdSense site-connection snippet on both pages", () => {
+    const rootHtml = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+    const docsHtml = readFileSync(new URL("../docs/index.html", import.meta.url), "utf8");
+    assert.match(rootHtml, new RegExp(ADSENSE_SNIPPET.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(docsHtml, new RegExp(ADSENSE_SNIPPET.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    const pages = rootHtml + "\n" + docsHtml;
+    assert.doesNotMatch(pages, /ca-pub-(?!4101065010696162)\d+/);
+    assert.doesNotMatch(pages, /data-ad-slot|adsbygoogle\.push/i);
   });
 });
