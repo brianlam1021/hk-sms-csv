@@ -137,6 +137,9 @@ describe("csv", () => {
 
 const ADSENSE_SNIPPET =
   '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4101065010696162" crossorigin="anonymous"></script>';
+const ADSENSE_META =
+  '<meta name="google-adsense-account" content="ca-pub-4101065010696162">';
+const ADS_TXT_LINE = "google.com, pub-4101065010696162, DIRECT, f08c47fec0942fa0";
 
 describe("privacy constraints in source", () => {
   it("does not use localStorage or analytics trackers", () => {
@@ -165,8 +168,20 @@ describe("privacy constraints in source", () => {
     const docsHtml = readFileSync(new URL("../docs/index.html", import.meta.url), "utf8");
     assert.match(rootHtml, new RegExp(ADSENSE_SNIPPET.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     assert.match(docsHtml, new RegExp(ADSENSE_SNIPPET.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(rootHtml, new RegExp(ADSENSE_META.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(docsHtml, new RegExp(ADSENSE_META.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     const pages = rootHtml + "\n" + docsHtml;
     assert.doesNotMatch(pages, /ca-pub-(?!4101065010696162)\d+/);
     assert.doesNotMatch(pages, /data-ad-slot|adsbygoogle\.push/i);
+    assert.doesNotMatch(pages, /沒有廣告/);
+  });
+
+  it("serves the official ads.txt line from root and docs", () => {
+    const rootAds = readFileSync(new URL("../ads.txt", import.meta.url), "utf8");
+    const docsAds = readFileSync(new URL("../docs/ads.txt", import.meta.url), "utf8");
+    assert.equal(rootAds.replace(/\n$/, ""), ADS_TXT_LINE);
+    assert.equal(docsAds.replace(/\n$/, ""), ADS_TXT_LINE);
+    assert.doesNotMatch(rootAds, /</);
+    assert.doesNotMatch(docsAds, /</);
   });
 });
