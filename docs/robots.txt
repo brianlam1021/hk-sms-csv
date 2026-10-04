@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://brianlam1021.github.io/hk-sms-csv/sitemap.xml

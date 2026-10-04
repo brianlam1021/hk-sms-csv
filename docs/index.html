@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>香港銀行短訊轉 CSV｜滙豐、恒生、中銀、渣打記帳</title>
+    <meta
+      name="description"
+      content="把滙豐、恒生、中銀、渣打的信用卡簽賬短訊（中英文）貼上，在瀏覽器內整理成記帳摘要並下載 UTF-8 BOM CSV。不用上傳、不用註冊、不寫入 localStorage。"
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/" />
+    <meta property="og:title" content="香港銀行短訊轉 CSV｜滙豐、恒生、中銀、渣打記帳" />
+    <meta
+      property="og:description"
+      content="貼上香港銀行信用卡簽賬短訊，在瀏覽器內轉成 CSV。不用上傳、不用註冊。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/" />
+    <meta name="robots" content="index,follow" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "短訊會上傳到伺服器嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。這個頁面只在你的瀏覽器內把已貼上的文字格式化成表格與 CSV，沒有後端，也不會把內容送出。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "會儲存我的短訊嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。頁面不使用 localStorage、cookie 或帳號。關閉分頁或重整後，文字就會消失。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這是銀行夥伴、戶口結餘或詐騙偵測工具嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不是。它不是任何銀行的合作工具，不是戶口結餘，也不是詐騙偵測。它只把你貼上的卡簽賬短訊整理成預覽與 CSV。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header wrap">
+      <div class="brand">
+        <div class="chop" aria-hidden="true">短訊<br />記帳</div>
+        <p class="lede">
+          瀏覽器內把香港銀行信用卡簽賬短訊整理成摘要與 CSV。沒有上傳、沒有註冊、沒有廣告。
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <h1>短訊記帳CSV</h1>
+      <p class="lede">
+        支援滙豐、恒生、中銀、渣打的卡簽賬短訊，英文或繁體中文皆可。解析日期、金額、商戶、銀行與卡尾，然後下載可供 Excel 開啟的 UTF-8 BOM CSV。
+      </p>
+      <p class="notice">
+        本頁只把你貼上的文字格式化。不是銀行夥伴、不是戶口結餘、也不是詐騙偵測。
+      </p>
+
+      <section class="howto" aria-labelledby="howto-title">
+        <h2 id="howto-title">使用方法</h2>
+        <ol>
+          <li>從手機短訊複製信用卡簽賬通知；若只想試用，按「載入示範短訊」。</li>
+          <li>貼到下方文字框。解析只在這個瀏覽器進行，不會上傳。</li>
+          <li>核對摘要、預覽，以及未能辨識的行，再下載 CSV。</li>
+        </ol>
+      </section>
+
+      <section class="panel" aria-labelledby="paste-title">
+        <h2 id="paste-title">貼上短訊</h2>
+        <div class="toolbar">
+          <button id="load-samples" type="button">載入示範短訊</button>
+          <button id="clear-input" class="secondary" type="button">清空</button>
+          <button id="download-csv" type="button" disabled>下載 CSV</button>
+        </div>
+        <label for="sms-input">每則短訊一行，或用空行分隔</label>
+        <textarea
+          id="sms-input"
+          name="sms"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="在此貼上滙豐、恒生、中銀或渣打的卡簽賬短訊。示範短訊全部虛構，請勿貼上他人真實短訊。"
+        ></textarea>
+        <p id="parse-status" class="status" role="status"></p>
+      </section>
+
+      <p id="empty-state" class="status">貼上短訊或載入示範後，摘要與預覽會顯示在這裡。</p>
+
+      <section id="results" class="panel" hidden>
+        <h2>消費摘要</h2>
+        <div class="kpis">
+          <div class="kpi">
+            <span>已辨識總額</span>
+            <strong id="total-amount">HKD 0.00</strong>
+          </div>
+          <div class="kpi">
+            <span>已辨識筆數</span>
+            <strong id="total-count">0</strong>
+          </div>
+          <div class="kpi">
+            <span>未能辨識</span>
+            <strong id="unmatched-count">0</strong>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="breakdown">
+            <h3>按銀行</h3>
+            <ul id="by-bank"></ul>
+          </div>
+          <div class="breakdown">
+            <h3>按商戶</h3>
+            <ul id="by-merchant"></ul>
+          </div>
+        </div>
+
+        <h2>預覽</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>金額</th>
+                <th>商戶</th>
+                <th>銀行</th>
+                <th>卡尾</th>
+              </tr>
+            </thead>
+            <tbody id="preview-body"></tbody>
+          </table>
+        </div>
+
+        <div id="unmatched-box" class="unmatched" hidden>
+          <h3>未能辨識的行</h3>
+          <p class="muted">這些行不會計入總額，也不會寫入 CSV。</p>
+          <ul id="unmatched-list" class="unmatched-list"></ul>
+        </div>
+      </section>
+
+      <section class="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">常見問題</h2>
+        <details>
+          <summary>短訊會上傳嗎？要註冊嗎？</summary>
+          <p>不用註冊，也不會上傳。這個靜態頁只在瀏覽器內處理你貼上的文字，沒有後端、沒有廣告、沒有分析程式。</p>
+        </details>
+        <details>
+          <summary>會否把資料寫進電腦？</summary>
+          <p>不會寫入 localStorage，也不設雲端存檔。離開頁面或按清空後，內容即消失。只有你主動下載的 CSV 會留在你選擇的位置。</p>
+        </details>
+        <details>
+          <summary>支援哪些銀行與語言？</summary>
+          <p>目前對準香港滙豐、恒生、中銀、渣打的信用卡簽賬短訊，英文或繁體中文。銀行格式不時改動，未能對上的行會單獨列出。</p>
+        </details>
+        <details>
+          <summary>未能辨識的行會怎樣？</summary>
+          <p>會留在頁面上供你查看，但不計入總額、筆數、按銀行／按商戶，也不會進入下載的 CSV。</p>
+        </details>
+        <details>
+          <summary>這是不是銀行官方工具、結餘查詢或防詐系統？</summary>
+          <p>不是。本頁不是任何銀行的夥伴或官方服務，不會顯示戶口結餘，也不做詐騙偵測。它只把已貼上的文字格式化成表格與 CSV。</p>
+        </details>
+        <details>
+          <summary>示範短訊是否真實客戶資料？</summary>
+          <p>不是。載入示範短訊只使用虛構卡尾、虛構金額與常見商戶名稱，用來示範解析。請不要把真實他人短訊公開分享。</p>
+        </details>
+        <details>
+          <summary>CSV 用什麼編碼？</summary>
+          <p>UTF-8 並加上 BOM，方便 Excel 直接開啟中文欄位。欄位為日期、金額、貨幣、商戶、銀行、卡尾。</p>
+        </details>
+      </section>
+    </main>
+
+    <footer class="site-footer wrap">
+      <p>
+        短訊記帳CSV 是開源靜態頁，原始碼在
+        <a href="https://github.com/brianlam1021/hk-sms-csv">GitHub</a>。
+      </p>
+      <p class="fineprint">
+        只格式化你貼上的文字。不是銀行夥伴、不是戶口結餘、不是詐騙偵測。請以銀行 App 或月結單為準。
+      </p>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
