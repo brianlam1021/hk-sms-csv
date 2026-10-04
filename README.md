@@ -21,4 +21,6 @@
 npm test
 ```
 
-解析邏輯在 `docs/parser.js`。靜態網站在 `docs/`，由 GitHub Pages 從 `main` 的 `/docs` 發佈。
+解析邏輯在 `parser.js`（`docs/` 亦有一份，方便 Pages 選 `/` 或 `/docs`）。
+
+若 `https://brianlam1021.github.io/hk-sms-csv/` 仍是 404，用有 Admin 權限的帳號打開 [Pages 設定](https://github.com/brianlam1021/hk-sms-csv/settings/pages)，Source 選 **Deploy from a branch**，Branch 選 `main`，Folder 選 `/` 或 `/docs`，然後 Save。此倉庫的 integration token 沒有 Administration 權限，無法代你開啟 Pages。

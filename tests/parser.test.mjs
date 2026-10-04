@@ -138,6 +138,11 @@ describe("csv", () => {
 describe("privacy constraints in source", () => {
   it("does not use localStorage, analytics, or ads", () => {
     const files = [
+      "app.js",
+      "parser.js",
+      "csv.js",
+      "samples.js",
+      "index.html",
       "docs/app.js",
       "docs/parser.js",
       "docs/csv.js",
