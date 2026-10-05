@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="四字紙皮">
+  <rect width="32" height="32" rx="3" fill="#6f6a60"/>
+  <rect x="3" y="7" width="26" height="18" rx="1.2" fill="#8a8478"/>
+  <rect x="5" y="9" width="22" height="14" fill="#5c564c"/>
+  <rect x="6" y="10" width="4.4" height="4.4" fill="#e6d9c2"/>
+  <rect x="11.2" y="10" width="4.4" height="4.4" fill="#c4281c"/>
+  <rect x="16.4" y="10" width="4.4" height="4.4" fill="#e6d9c2"/>
+  <rect x="21.6" y="10" width="4.4" height="4.4" fill="#c4281c"/>
+  <rect x="6" y="15.2" width="4.4" height="4.4" fill="#c4281c"/>
+  <rect x="11.2" y="15.2" width="4.4" height="4.4" fill="#e6d9c2"/>
+  <rect x="16.4" y="15.2" width="4.4" height="4.4" fill="#c4281c"/>
+  <rect x="21.6" y="15.2" width="4.4" height="4.4" fill="#e6d9c2"/>
+</svg>

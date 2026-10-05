@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="打一句短語，畫成虛構港式紅白藍膠袋。此袋是迷因圖像，不是寄運標籤、報關單或身分證明。"
+    />
+    <title>紅白藍金句袋</title>
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/rwb-bag/" />
+    <meta property="og:title" content="紅白藍金句袋" />
+    <meta
+      property="og:description"
+      content="打一句短語，畫成虛構港式紅白藍膠袋。此袋是迷因圖像，不是寄運標籤、報關單或身分證明。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/rwb-bag/" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <p class="kicker">港式膠袋迷因圖</p>
+        <h1>紅白藍金句袋</h1>
+        <div class="stripe" aria-hidden="true"></div>
+        <p class="lead">
+          打一句短中文或粵語，頁面畫成一個虛構港式紅白藍行李膠袋。存圖即可轉發。
+        </p>
+        <p class="banner" role="note">
+          此袋是<strong>迷因圖像</strong>，不是寄運標籤、報關單或身分證明。
+        </p>
+      </header>
+
+      <form class="composer" id="composer">
+        <label class="field" for="phrase">短語</label>
+        <div class="input-row">
+          <input
+            id="phrase"
+            name="phrase"
+            type="text"
+            maxlength="24"
+            autocomplete="off"
+            enterkeyhint="done"
+            placeholder="例如：聽日再算"
+          />
+          <span class="count" id="count" aria-live="polite">0/12</span>
+        </div>
+        <p class="examples-label">試一句</p>
+        <div class="examples" id="examples">
+          <button type="button" data-phrase="聽日再算">聽日再算</button>
+          <button type="button" data-phrase="慢慢嚟">慢慢嚟</button>
+          <button type="button" data-phrase="夠喇">夠喇</button>
+        </div>
+      </form>
+
+      <section class="stage" aria-label="膠袋預覽">
+        <canvas id="bag" width="1080" height="1080"></canvas>
+      </section>
+
+      <button class="save" id="save" type="button">存成 PNG</button>
+      <p class="save-hint">下載一張圖，轉發到小紅書、Instagram 或 Threads。</p>
+
+      <aside class="warn" role="note">
+        <p>
+          畫面上嘅袋係原創簡筆迷因圖，唔係寄運標籤、報關單、行李牌或身分證明。沒有條碼、沒有追蹤編號、沒有公章。請勿當真實文件使用。
+        </p>
+        <p>與任何品牌、工作室或官方機構無關。唔好當運貨、過關或核對身分之用。</p>
+      </aside>
+      <p class="back-link"><a href="../">← 短訊記帳CSV</a></p>
+    </main>
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="紅白藍">
+  <rect width="32" height="32" fill="#f3ede0"/>
+  <rect x="0" y="0" width="32" height="8" fill="#1f4e89"/>
+  <rect x="0" y="12" width="32" height="8" fill="#f3ede0"/>
+  <rect x="0" y="24" width="32" height="8" fill="#be1e2d"/>
+  <rect x="6" y="0" width="6" height="32" fill="#be1e2d"/>
+  <rect x="20" y="0" width="6" height="32" fill="#1f4e89"/>
+</svg>
