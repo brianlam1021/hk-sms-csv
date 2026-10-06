@@ -24,3 +24,12 @@ npm test
 解析邏輯在 `parser.js`（`docs/` 亦有一份，方便 Pages 選 `/` 或 `/docs`）。
 
 若 `https://brianlam1021.github.io/hk-sms-csv/` 仍是 404，用有 Admin 權限的帳號打開 [Pages 設定](https://github.com/brianlam1021/hk-sms-csv/settings/pages)，Source 選 **Deploy from a branch**，Branch 選 `main`，Folder 選 `/` 或 `/docs`，然後 Save。此倉庫的 integration token 沒有 Administration 權限，無法代你開啟 Pages。
+
+## Cloudflare Pages（可選自動上傳）
+
+Cloudflare Pages 這個專案是 **direct-upload**，不會因 `main` 有新 commit 而自動部署。`.github/workflows/cloudflare-pages.yml` 會在推到 `main`（`docs/**`）或手動 `workflow_dispatch` 時把 `docs/` 上傳到 Pages 專案 `hk-sms-csv`。未設定 token 時 workflow 會跳過並成功結束。
+
+要啟用，Brian 需在 repo Settings → Secrets and variables → Actions 加入：
+
+1. `CLOUDFLARE_API_TOKEN` — 有 Cloudflare Pages 寫入權限的 API token
+2. `CLOUDFLARE_ACCOUNT_ID` — Cloudflare 帳戶 ID
