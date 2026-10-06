@@ -20,6 +20,7 @@
     <meta property="og:locale" content="zh_HK" />
     <meta name="robots" content="index,follow" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
     <link rel="stylesheet" href="./style.css" />
     <script type="application/ld+json">
       {
@@ -63,6 +64,14 @@
     </script>
   </head>
   <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
     <a class="skip no-print" href="#form-title">跳到表格 / Skip to form</a>
     <div class="wrap">
       <div class="topbar no-print">
@@ -348,17 +357,24 @@
         <a href="https://www.fdh.labour.gov.hk/res/pdf/Sample_Wage_Receipt_for_FDH_Eng.pdf" rel="noopener noreferrer">English sample</a>
       </p>
 
-      <footer class="site-footer no-print">
-        <p><a href="../" data-i18n="backHome">← 返回短訊記帳CSV</a></p>
-        <p>
-          <span data-i18n="source">開源靜態頁，原始碼在</span>
-          <a href="https://github.com/brianlam1021/hk-sms-csv">GitHub</a>。
-        </p>
-        <p class="fineprint" data-i18n="footerFine">
-          不是勞工處、入境處或任何政府部門的官方工具。數字會隨政府公布改動，請自行核對。
-        </p>
-      </footer>
     </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="./">外傭工資收據</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../sizi-cipi/">四字紙皮</a>
+          <a href="../rwb-bag/">紅白藍金句袋</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
     <script src="./app.js"></script>
   </body>
 </html>

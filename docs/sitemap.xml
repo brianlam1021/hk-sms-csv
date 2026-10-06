@@ -6,14 +6,14 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://hk-sms-csv.pages.dev/sizi-cipi/</loc>
+    <loc>https://hk-sms-csv.pages.dev/about/</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://hk-sms-csv.pages.dev/rwb-bag/</loc>
+    <loc>https://hk-sms-csv.pages.dev/privacy/</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://hk-sms-csv.pages.dev/helper-receipt/</loc>
@@ -31,19 +31,29 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://hk-sms-csv.pages.dev/sizi-cipi/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hk-sms-csv.pages.dev/rwb-bag/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://brianlam1021.github.io/hk-sms-csv/sizi-cipi/</loc>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/about/</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://brianlam1021.github.io/hk-sms-csv/rwb-bag/</loc>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/privacy/</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/helper-receipt/</loc>
@@ -57,6 +67,16 @@
   </url>
   <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/utility-account/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/sizi-cipi/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/rwb-bag/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

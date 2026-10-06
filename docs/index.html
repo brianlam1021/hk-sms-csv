@@ -22,6 +22,7 @@
     <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/" />
     <meta name="robots" content="index,follow" />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./site.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -56,6 +57,14 @@
     </script>
   </head>
   <body>
+    <nav class="hk-nav" aria-label="Site">
+      <a class="hk-brand" href="./">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="./#tools">工具 Tools</a></li>
+        <li><a href="./about/">關於 About</a></li>
+        <li><a href="./privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
     <header class="site-header wrap">
       <div class="brand">
         <div class="chop" aria-hidden="true">短訊<br />記帳</div>
@@ -66,7 +75,38 @@
     </header>
 
     <main class="wrap">
-      <h1>短訊記帳CSV</h1>
+      <section class="hk-hub" id="tools" aria-labelledby="all-tools-title">
+        <h2 id="all-tools-title">所有工具 All tools</h2>
+        <p class="hk-hub-lead">免費、只在瀏覽器運算的香港生活小工具。不用註冊、不用上傳。</p>
+        <div class="hk-tools-grid">
+          <a class="hk-tool-card" href="#sms-tool">
+            <strong>短訊記帳CSV</strong>
+            <span>把滙豐、恒生、中銀、渣打的信用卡簽賬短訊整理成摘要並下載 CSV。</span>
+          </a>
+          <a class="hk-tool-card" href="./helper-receipt/">
+            <strong>外傭工資收據</strong>
+            <span>中英雙語外傭糧單：填寫、預覽、列印或另存 PDF，並記下假期。</span>
+          </a>
+          <a class="hk-tool-card" href="./repair-levy/">
+            <strong>大廈維修費分攤</strong>
+            <span>按公契或業權份數把大維修開支攤分至各戶，可產生繳款通知。</span>
+          </a>
+          <a class="hk-tool-card" href="./utility-account/">
+            <strong>分租水電費帳目</strong>
+            <span>為劏房規管租賃或合租室友產生水電等費用的書面分攤帳目。</span>
+          </a>
+          <a class="hk-tool-card" href="./sizi-cipi/">
+            <strong>四字紙皮</strong>
+            <span>輸入最多四個字，畫成一塊虛構港式紙皮石門牌。</span>
+          </a>
+          <a class="hk-tool-card" href="./rwb-bag/">
+            <strong>紅白藍金句袋</strong>
+            <span>打一句短語，畫成虛構港式紅白藍膠袋迷因圖。</span>
+          </a>
+        </div>
+      </section>
+
+      <h1 id="sms-tool">短訊記帳CSV</h1>
       <p class="lede">
         支援滙豐、恒生、中銀、渣打的卡簽賬短訊，英文或繁體中文皆可。解析日期、金額、商戶、銀行與卡尾，然後下載可供 Excel 開啟的 UTF-8 BOM CSV。
       </p>
@@ -186,26 +226,22 @@
       </section>
     </main>
 
-    <footer class="site-footer wrap">
-      <p>
-        短訊記帳CSV 是開源靜態頁，原始碼在
-        <a href="https://github.com/brianlam1021/hk-sms-csv">GitHub</a>。
-      </p>
-      <p class="more-tools">
-        其他免費工具：
-        <a href="./sizi-cipi/">四字紙皮</a>
-        ·
-        <a href="./rwb-bag/">紅白藍金句袋</a>
-        ·
-        <a href="./helper-receipt/">外傭工資收據</a>
-        ·
-        <a href="./repair-levy/">大廈維修費分攤</a>
-        ·
-        <a href="./utility-account/">分租水電費帳目</a>
-      </p>
-      <p class="fineprint">
-        只格式化你貼上的文字。不是銀行夥伴、不是戶口結餘、不是詐騙偵測。請以銀行 App 或月結單為準。
-      </p>
+    <footer class="hk-footer">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="./">Home</a>
+          <a href="./about/">關於 About</a>
+          <a href="./privacy/">私隱 Privacy</a>
+          <a href="./helper-receipt/">外傭工資收據</a>
+          <a href="./repair-levy/">大廈維修費分攤</a>
+          <a href="./utility-account/">分租水電費帳目</a>
+          <a href="./sizi-cipi/">四字紙皮</a>
+          <a href="./rwb-bag/">紅白藍金句袋</a>
+          <a href="./">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
     </footer>
     <script type="module" src="./app.js"></script>
   </body>
