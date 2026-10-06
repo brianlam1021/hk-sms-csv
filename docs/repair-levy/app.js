@@ -142,8 +142,11 @@ const I18N = {
     copied: "已複製摘要。",
     copyFail: "未能複製，請改用下載 CSV。",
     confirmClear: "確定清除本機所有已儲存的分攤資料？",
-    formula:
+    formulaZh:
       "本戶項目金額 = 項目金額 × 本戶份數 ÷ 參與該項目的單位份數合計（最大餘數法湊整）。法例：《建築物管理條例》第22條——管理委員會須按公契分攤；公契無規定則按業權份數。",
+    formulaEn:
+      "Unit item share = item amount × unit shares ÷ sum of shares of units in the participating categories (largest-remainder rounding). Cap. 344 s.22: the management committee apportions in accordance with the DMC; if the DMC is silent, by undivided shares.",
+    previewMore: "列印時每戶一頁；螢幕只預覽第一戶。",
   },
   en: {
     pageTitle: "Building Repair Levy Apportionment Calculator",
@@ -274,8 +277,11 @@ const I18N = {
     copied: "Summary copied.",
     copyFail: "Could not copy. Download CSV instead.",
     confirmClear: "Clear all saved levy data in this browser?",
-    formula:
+    formulaZh:
+      "本戶項目金額 = 項目金額 × 本戶份數 ÷ 參與該項目的單位份數合計（最大餘數法湊整）。法例：《建築物管理條例》第22條——管理委員會須按公契分攤；公契無規定則按業權份數。",
+    formulaEn:
       "Unit item share = item amount × unit shares ÷ sum of shares of units in the participating categories (largest-remainder rounding). Cap. 344 s.22: the management committee apportions in accordance with the DMC; if the DMC is silent, by undivided shares.",
+    previewMore: "Each unit prints on its own page; this screen previews the first unit.",
   },
 };
 
@@ -654,9 +660,20 @@ function errorText(err) {
   return err.code;
 }
 
+function isPristine() {
+  const noUnitData = state.units.every((u) => {
+    return !String(u.label || "").trim() && !num(u.shares, 0) && !String(u.owner || "").trim();
+  });
+  const noItemData = state.items.every((it) => {
+    return !String(it.name || "").trim() && !num(it.value, 0);
+  });
+  return noUnitData && noItemData;
+}
+
 function renderErrors(errors) {
   const box = $("errors");
-  if (!errors || !errors.length) {
+  const list = isPristine() ? [] : errors || [];
+  if (!list.length) {
     box.className = "warn-box";
     box.innerHTML = "";
     return;
@@ -697,7 +714,7 @@ function renderQuick() {
   host.innerHTML =
     '<div class="kpi"><span>' +
     escapeHtml(t.quickAmount) +
-    "</span><strong>" +
+    '</span><strong id="quick-amount">' +
     formatHKD(r.amount, 0.01) +
     "</strong></div><div class=\"kpi\"><span>" +
     escapeHtml(t.quickPct) +
@@ -727,11 +744,11 @@ function renderSummary(result) {
     return;
   }
   kpis.innerHTML =
-    kpi(t.kpiGross, formatHKD(result.totals.gross, 0.01)) +
-    kpi(t.kpiSubsidy, formatHKD(result.totals.subsidy, 0.01)) +
-    kpi(t.kpiNet, formatHKD(result.totals.itemsColumnSum, step)) +
-    kpi(t.kpiDeduct, formatHKD(result.totals.deductions, step)) +
-    kpi(t.kpiPay, formatHKD(result.totals.payable, step));
+    kpi(t.kpiGross, formatHKD(result.totals.gross, 0.01), "kpi-gross") +
+    kpi(t.kpiSubsidy, formatHKD(result.totals.subsidy, 0.01), "kpi-subsidy") +
+    kpi(t.kpiNet, formatHKD(result.totals.itemsColumnSum, step), "kpi-net") +
+    kpi(t.kpiDeduct, formatHKD(result.totals.deductions, step), "kpi-deduct") +
+    kpi(t.kpiPay, formatHKD(result.totals.payable, step), "kpi-pay");
 
   const itemHeads = result.items
     .map((item) => "<th>" + escapeHtml(item.name || t.colSub) + "</th>")
@@ -801,16 +818,18 @@ function renderSummary(result) {
     formatHKD(result.totals.itemsColumnSum, step) +
     '</td><td class="num">' +
     formatHKD(result.totals.deductions, step) +
-    '</td><td class="num">' +
+    '</td><td class="num" id="total-payable">' +
     formatHKD(result.totals.payable, step) +
     "</td><td></td></tr>";
 }
 
-function kpi(label, value) {
+function kpi(label, value, id) {
   return (
     '<div class="kpi"><span>' +
     escapeHtml(label) +
-    "</span><strong>" +
+    "</span><strong" +
+    (id ? ' id="' + id + '"' : "") +
+    ">" +
     escapeHtml(value) +
     "</strong></div>"
   );
@@ -824,9 +843,16 @@ function renderNotices(result) {
   }
   const meta = readMeta();
   const t = pack();
-  host.innerHTML = result.rows
-    .map((row) => renderNotice(row, result, meta, t))
-    .join("");
+  const note =
+    result.rows.length > 1
+      ? '<p class="muted no-print" id="notice-preview-note">' +
+        escapeHtml(t.previewMore) +
+        " (" +
+        result.rows.length +
+        ")</p>"
+      : "";
+  host.innerHTML =
+    note + result.rows.map((row) => renderNotice(row, result, meta, t)).join("");
 }
 
 function renderNotice(row, result, meta, t) {
@@ -848,11 +874,11 @@ function renderNotice(row, result, meta, t) {
     .map((amt, i) => {
       const d = result.dates[i] || "";
       return (
-        "<tr><td>" +
-        (state.lang === "en" ? "Instalment " : "第") +
+        "<tr><td>第 " +
         (i + 1) +
-        (state.lang === "en" ? "" : " 期") +
-        " / " +
+        " 期 / Instalment " +
+        (i + 1) +
+        " · " +
         formatDateZh(d) +
         " · " +
         formatDateEn(d) +
@@ -912,7 +938,9 @@ function renderNotice(row, result, meta, t) {
       ? "<p><strong>付款方法 / Payment method</strong><br />" + escapeHtml(meta.payNotes) + "</p>"
       : "") +
     '<p class="formula"><strong>計算方式 / Formula used</strong><br />' +
-    escapeHtml(t.formula) +
+    escapeHtml(I18N.zh.formulaZh) +
+    "<br />" +
+    escapeHtml(I18N.en.formulaEn) +
     "</p>" +
     '<div class="signs"><div class="sign"><div class="line"></div><p class="who">法團／管理處 / OC or manager</p></div><div class="sign"><div class="line"></div><p class="who">業主簽收 / Owner acknowledgement</p></div></div>' +
     '<p class="receipt-note">只供參考，並非法律或專業意見；實際分攤須以大廈公契、法團決議及《建築物管理條例》為準。 For reference only; follow your DMC, OC resolutions and Cap. 344.</p></article>'

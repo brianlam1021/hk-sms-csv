@@ -415,7 +415,7 @@ button:disabled {
 .summary-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 720px;
+  min-width: 980px;
   font-size: 0.88rem;
 }
 
@@ -501,6 +501,12 @@ button:disabled {
 .notices {
   display: grid;
   gap: 16px;
+}
+
+@media screen {
+  .notices .notice-sheet ~ .notice-sheet {
+    display: none;
+  }
 }
 
 .notice-sheet {
