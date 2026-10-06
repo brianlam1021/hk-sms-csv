@@ -110,6 +110,11 @@
   font-size: 0.86rem;
 }
 
+.hk-hub,
+#sms-tool {
+  scroll-margin-top: 64px;
+}
+
 .hk-hub {
   margin: 0 0 22px;
   padding: 18px 20px 20px;
