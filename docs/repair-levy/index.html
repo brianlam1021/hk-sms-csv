@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>大廈維修費分攤計算器｜按業權份數計每戶應付 中英</title>
+    <meta
+      name="description"
+      content="免費大廈維修費分攤計算器：按公契或業權份數（《建築物管理條例》第22條）把大維修、驗樓／驗窗、升降機及消防工程費攤分至各戶，支援類別分攤、最大餘數湊整、分期及繳款通知。資料只留在瀏覽器。 Free HK building repair levy calculator — undivided / management shares, section costs, rounding, instalments, printable payment notices."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/repair-levy/" />
+    <meta property="og:title" content="大廈維修費分攤計算器｜按業權份數計每戶應付 中英" />
+    <meta
+      property="og:description"
+      content="按公契或業權份數分攤大維修開支，產生每戶應付、分期及繳款通知。資料不上傳。 Split OC repair bills by DMC or undivided shares — print payment notices in the browser."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/repair-levy/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "甚麼是業權份數和管理份數？在哪裡查？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "業權份數（undivided shares）是公契把土地及樓宇分配予各單位的份數。部分公契另訂管理份數（management shares），用作分攤管理開支。可在公契、土地註冊處查冊，或向管理公司索取單位份數表核對。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "《建築物管理條例》第22條怎樣規定分攤？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "第22(1)條規定管理委員會須按照公契，釐定各業主應繳的款額。第22(2)條訂明，若公契沒有相關規定，則按照各業主所擁有的業權份數分攤。請以電子版香港法例原文為準。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "為甚麼以公契為準，而不是一律按業權份數？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "公契對全體業主有約束力。條例先要求按公契分攤，業權份數只是公契沒有規定時的後備方法。不少公契按座數或用途（例如只有住宅分攤升降機、只有車位分攤停車場工程）分段計算。本工具可用類別模擬，但仍須核對你的公契及法團決議。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "為甚麼要用最大餘數法湊整？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "金額須湊整至港幣1元或1毫。若每則四捨五入，各戶合計可能與工程總額差數元。最大餘數法先向下取整，再把餘額分給小數部分最大的單位，令該項目各戶金額之和剛好等於項目總額。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "樓宇更新大行動或公用地方維修資助怎樣輸入？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "各計劃的申請資格、發放方式及金額不同，可能撥予法團或個別業主。獲批後可把法團層面資助填在「法團資助」，或把已核准的戶別扣減填在該單位「扣減」。請以樓宇復修平台及相關計劃公布為準，本頁不羅列資助額。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip no-print" href="#quick-title">跳到計算 / Skip to calculator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="save-draft" data-i18n="saveDraft">儲存草稿</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">維修<br />分攤</div>
+        <div>
+          <h1 data-i18n="pageTitle">大廈維修費分攤計算器</h1>
+          <p class="lede" data-i18n="lede">
+            按公契或業權份數，把大維修、強制驗樓／驗窗、升降機、消防及特別基金開支攤分至各戶。可處理住宅／商舖／車位分段、分期及繳款通知。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供參考，並非法律或專業意見；實際分攤須以大廈公契、法團決議及《建築物管理條例》為準。 / For reference only; follow your DMC, OC resolutions and Cap. 344.</span>
+      </p>
+
+      <section class="panel explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          香港業主立案法團經常要把大型維修賬單攤分給各戶。《建築物管理條例》（第344章）第22(1)條規定管理委員會須按照公契釐定各業主應繳款額；第22(2)條訂明，若公契沒有相關規定，則按各業主的業權份數分攤。司庫和業主多靠手算或 Excel，本頁在瀏覽器內一次算好，並可列印每戶繳款通知。
+        </p>
+      </section>
+
+      <section class="panel no-print" aria-labelledby="quick-title">
+        <h2 id="quick-title" data-i18n="quickTitle">快速估算（單一業主）</h2>
+        <p class="muted" data-i18n="quickLead">只需總額、自己份數與大廈總份數，即時得出本戶應付。</p>
+        <div class="fields row-4" id="quick-form">
+          <label class="field" for="quick-total">
+            <span data-i18n="quickTotal">工程／徵款總額（港元）</span>
+            <input id="quick-total" name="quickTotal" type="number" inputmode="decimal" min="0" step="0.01" />
+          </label>
+          <label class="field" for="quick-mine">
+            <span data-i18n="quickMine">我的份數</span>
+            <input id="quick-mine" name="quickMine" type="number" inputmode="decimal" min="0" step="any" />
+          </label>
+          <label class="field" for="quick-all">
+            <span data-i18n="quickAll">大廈總份數</span>
+            <input id="quick-all" name="quickAll" type="number" inputmode="decimal" min="0" step="any" />
+          </label>
+          <label class="field" for="quick-n">
+            <span data-i18n="quickN">分期期數（可選）</span>
+            <input id="quick-n" name="quickN" type="number" inputmode="numeric" min="1" step="1" value="1" />
+          </label>
+        </div>
+        <div class="quick-out" id="quick-out" aria-live="polite"></div>
+      </section>
+
+      <section class="panel no-print" aria-labelledby="full-title">
+        <h2 id="full-title" data-i18n="fullTitle">完整分攤（法團／管理處）</h2>
+        <p class="muted" data-i18n="fullLead">輸入各單位份數與一項或多項開支。可指定只由某些類別分攤，例如升降機只由住宅承擔。</p>
+
+        <div class="toolbar">
+          <button type="button" id="demo-btn" data-i18n="demoBtn">載入示範數據</button>
+          <button type="button" class="secondary" id="download-csv" data-i18n="downloadCsv">下載 CSV</button>
+          <button type="button" class="secondary" id="copy-summary" data-i18n="copySummary">複製摘要文字</button>
+          <button type="button" class="secondary" id="print-btn" data-i18n="printBtn">列印繳款通知</button>
+        </div>
+        <p class="hint" id="draft-hint" data-i18n="draftHint">可選擇把草稿儲存在這個瀏覽器（不上傳）。</p>
+
+        <fieldset>
+          <legend data-i18n="metaLegend">大廈與決議</legend>
+          <div class="fields row-2">
+            <label class="field" for="building-name">
+              <span data-i18n="buildingName">大廈名稱</span>
+              <input id="building-name" name="buildingName" type="text" maxlength="80" />
+            </label>
+            <label class="field" for="oc-name">
+              <span data-i18n="ocName">業主立案法團名稱</span>
+              <input id="oc-name" name="ocName" type="text" maxlength="80" />
+            </label>
+            <label class="field" for="resolution-date">
+              <span data-i18n="resolutionDate">決議日期</span>
+              <input id="resolution-date" name="resolutionDate" type="date" />
+            </label>
+            <label class="field" for="resolution-ref">
+              <span data-i18n="resolutionRef">決議／通告編號</span>
+              <input id="resolution-ref" name="resolutionRef" type="text" maxlength="40" />
+            </label>
+            <label class="field field-span" for="pay-notes">
+              <span data-i18n="payNotes">付款方法備註</span>
+              <textarea id="pay-notes" name="payNotes" maxlength="400" rows="2"></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="rulesLegend">分攤規則</legend>
+          <div class="fields row-2">
+            <fieldset class="radios">
+              <legend data-i18n="basisLegend">份數基準（只改標籤，計法相同）</legend>
+              <label>
+                <input type="radio" name="shareBasis" value="undivided" checked />
+                <span data-i18n="basisUndivided">業權份數 Undivided shares</span>
+              </label>
+              <label>
+                <input type="radio" name="shareBasis" value="management" />
+                <span data-i18n="basisManagement">管理份數 Management shares</span>
+              </label>
+            </fieldset>
+            <fieldset class="radios">
+              <legend data-i18n="roundLegend">湊整</legend>
+              <label>
+                <input type="radio" name="roundingStep" value="1" checked />
+                <span data-i18n="round1">至港幣 $1（最大餘數法）</span>
+              </label>
+              <label>
+                <input type="radio" name="roundingStep" value="0.1" />
+                <span data-i18n="round01">至港幣 $0.1（最大餘數法）</span>
+              </label>
+            </fieldset>
+            <label class="field" for="oc-subsidy">
+              <span data-i18n="ocSubsidy">法團層面資助（分攤前扣減，港元）</span>
+              <input id="oc-subsidy" name="ocSubsidy" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+            </label>
+            <div class="row-2">
+              <label class="field" for="instalments">
+                <span data-i18n="instalments">分期期數</span>
+                <input id="instalments" name="instalments" type="number" inputmode="numeric" min="1" step="1" value="1" />
+              </label>
+              <label class="field" for="first-due">
+                <span data-i18n="firstDue">首期到期日（其後每月）</span>
+                <input id="first-due" name="firstDue" type="date" />
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="unitsLegend">單位</legend>
+          <p class="hint" data-i18n="unitsHint">可從試算表貼上（單位、業主（可選）、份數、類別，以 Tab 或逗號分隔）。</p>
+          <div class="toolbar">
+            <button type="button" class="secondary" id="add-unit" data-i18n="addUnit">新增單位</button>
+            <button type="button" class="secondary" id="toggle-paste" data-i18n="togglePaste">貼上試算表</button>
+          </div>
+          <div id="paste-box" class="paste-box" hidden>
+            <label class="field" for="paste-input">
+              <span data-i18n="pasteLabel">貼上單位資料</span>
+              <textarea id="paste-input" rows="5" spellcheck="false" autocomplete="off"></textarea>
+            </label>
+            <button type="button" class="secondary" id="import-paste" data-i18n="importPaste">匯入並取代現有單位</button>
+          </div>
+          <div id="units-list" class="stack-list"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="itemsLegend">開支項目</legend>
+          <p class="hint" data-i18n="itemsHint">每項可指定由全部類別或只由部分類別分攤。百份比項目按其他固定金額項目合計計算（例如顧問費 8%）。</p>
+          <div class="toolbar">
+            <button type="button" class="secondary" id="add-item" data-i18n="addItem">新增項目</button>
+          </div>
+          <div id="items-list" class="stack-list"></div>
+        </fieldset>
+
+        <section class="warn-box" id="errors" aria-live="polite"></section>
+      </section>
+
+      <section class="panel no-print" id="summary-panel" aria-labelledby="summary-title">
+        <h2 id="summary-title" data-i18n="summaryTitle">分攤結果</h2>
+        <p class="muted" id="rounding-note"></p>
+        <div class="kpis" id="summary-kpis"></div>
+        <div class="table-scroll" id="summary-wrap">
+          <table class="summary-table" id="summary-table">
+            <thead id="summary-head"></thead>
+            <tbody id="summary-body"></tbody>
+            <tfoot id="summary-foot"></tfoot>
+          </table>
+        </div>
+        <p class="hint" id="copy-status" role="status"></p>
+      </section>
+
+      <section class="notices-wrap" aria-labelledby="notice-title">
+        <div class="no-print">
+          <h2 id="notice-title" data-i18n="noticeTitle">繳款通知預覽</h2>
+          <p class="muted" data-i18n="noticeLead">列印時每戶一頁 A4。通知同時顯示中英文。</p>
+        </div>
+        <div id="notices" class="notices" aria-live="polite"></div>
+      </section>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">甚麼是業權份數和管理份數？在哪裡查？</summary>
+          <p data-i18n="faq1a">
+            業權份數是公契把土地及樓宇分配予各單位的份數。部分公契另訂管理份數，用作分攤管理開支。可在公契、土地註冊處查冊，或向管理公司索取單位份數表核對。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">《建築物管理條例》第22條怎樣規定分攤？</summary>
+          <p data-i18n="faq2a">
+            第22(1)條規定管理委員會須按照公契，釐定各業主應繳的款額。第22(2)條訂明，若公契沒有相關規定，則按照各業主所擁有的業權份數分攤。請以電子版香港法例原文為準。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">為甚麼以公契為準，而不是一律按業權份數？</summary>
+          <p data-i18n="faq3a">
+            公契對全體業主有約束力。條例先要求按公契分攤，業權份數只是公契沒有規定時的後備方法。不少公契按座數或用途分段計算（例如只有住宅分攤升降機）。本工具可用類別模擬，但仍須核對你的公契及法團決議。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">為甚麼要用最大餘數法湊整？</summary>
+          <p data-i18n="faq4a">
+            金額須湊整至港幣1元或1毫。若每則四捨五入，各戶合計可能與工程總額差數元。最大餘數法先向下取整，再把餘額分給小數部分最大的單位，令該項目各戶金額之和剛好等於項目總額。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">樓宇更新大行動或公用地方維修資助怎樣輸入？</summary>
+          <p data-i18n="faq5a">
+            各計劃的申請資格、發放方式及金額不同，可能撥予法團或個別業主。獲批後可把法團層面資助填在「法團資助」，或把已核准的戶別扣減填在該單位「扣減」。請以樓宇復修平台及相關計劃公布為準，本頁不羅列資助額。
+          </p>
+        </details>
+      </section>
+
+      <aside class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">法例及資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <a href="https://www.buildingmgt.gov.hk/file_manager/tc/documents/bmo_guide/ch9_tc.pdf" rel="noopener noreferrer">民政事務總署《大廈管理》指南第9章：法團的財務安排（中文 PDF）</a>
+          </li>
+          <li>
+            <a href="https://www.buildingmgt.gov.hk/file_manager/en/documents/bmo_guide/a_guide_on_building_management_ordinance_cap344_en.pdf" rel="noopener noreferrer">A Guide on Building Management Ordinance (Cap. 344) (English PDF)</a>
+          </li>
+          <li>
+            <a href="https://www.elegislation.gov.hk/hk/cap344" rel="noopener noreferrer">《建築物管理條例》（第344章）電子版香港法例 / Cap. 344 on eLegislation</a>
+          </li>
+          <li>
+            <a href="https://brplatform.org.hk/tc/faq" rel="noopener noreferrer">樓宇復修平台常見問題 Building Rehabilitation Platform FAQ</a>
+          </li>
+        </ul>
+      </aside>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          單位、業主姓名與金額只留在這個瀏覽器（localStorage，且僅在你儲存草稿或自動保存時）。本頁不上傳、不設帳號、不設後端，也沒有分析程式。列印或下載 CSV 才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供參考，並非法律或專業意見；實際分攤須以大廈公契、法團決議及《建築物管理條例》為準。 / For reference only; follow your DMC, OC resolutions and Cap. 344.</span>
+      </p>
+
+      <footer class="site-footer no-print">
+        <p><a href="../" data-i18n="backHome">← 返回短訊記帳CSV</a></p>
+        <p class="more-tools">
+          <span data-i18n="moreTools">其他免費工具：</span>
+          <a href="../helper-receipt/" data-i18n="toolReceipt">外傭工資收據</a>
+          ·
+          <a href="../sizi-cipi/" data-i18n="toolSizi">四字紙皮</a>
+          ·
+          <a href="../rwb-bag/" data-i18n="toolRwb">紅白藍金句袋</a>
+        </p>
+        <p>
+          <span data-i18n="source">開源靜態頁，原始碼在</span>
+          <a href="https://github.com/brianlam1021/hk-sms-csv">GitHub</a>。
+        </p>
+        <p class="fineprint" data-i18n="footerFine">
+          不是民政事務總署、土地註冊處或任何政府部門的官方工具。請以公契、法團決議及法例原文為準。
+        </p>
+      </footer>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

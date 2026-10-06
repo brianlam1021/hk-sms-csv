@@ -21,6 +21,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://hk-sms-csv.pages.dev/repair-levy/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -37,6 +42,11 @@
   </url>
   <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/helper-receipt/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/repair-levy/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
