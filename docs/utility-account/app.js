@@ -1686,15 +1686,25 @@ function renderAccount() {
       .map(function (row) {
         var who = row.isLandlord ? pack.landlordLabel : row.tenantName;
         return (
-          "<tr><td>" +
+          "<tr><td data-label=\"" +
+          escapeHtml(pack.colUnit) +
+          "\">" +
           escapeHtml(row.label) +
-          "</td><td>" +
+          "</td><td data-label=\"" +
+          escapeHtml(pack.colTenant) +
+          "\">" +
           escapeHtml(who) +
-          "</td><td>" +
+          "</td><td data-label=\"" +
+          escapeHtml(pack.colBasis) +
+          "\">" +
           escapeHtml(row.basisText) +
-          '</td><td class="num">' +
+          '</td><td class="num" data-label="' +
+          escapeHtml(pack.colShare) +
+          '">' +
           row.sharePct.toFixed(2) +
-          '%</td><td class="num">' +
+          '%</td><td class="num" data-label="' +
+          escapeHtml(pack.colAmount) +
+          '">' +
           formatHKD(row.amount) +
           "</td></tr>"
         );
@@ -1792,15 +1802,21 @@ function renderAccount() {
   });
   var totalRows = totals
     .map(function (row) {
-      return (
-        "<tr><td>" +
-        escapeHtml(row.label) +
-        "</td><td>" +
-        escapeHtml(row.tenantName) +
-        '</td><td class="num" colspan="3">' +
-        formatHKD(row.amount) +
-        "</td></tr>"
-      );
+        return (
+          "<tr><td data-label=\"" +
+          escapeHtml(pack.colUnit) +
+          "\">" +
+          escapeHtml(row.label) +
+          "</td><td data-label=\"" +
+          escapeHtml(pack.colTenant) +
+          "\">" +
+          escapeHtml(row.tenantName) +
+          '</td><td class="num" colspan="3" data-label="' +
+          escapeHtml(pack.colAmount) +
+          '">' +
+          formatHKD(row.amount) +
+          "</td></tr>"
+        );
     })
     .join("");
   var notes = model.notes
