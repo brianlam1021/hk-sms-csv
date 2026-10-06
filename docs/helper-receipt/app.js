@@ -321,8 +321,9 @@
     } else {
       var ten = Math.floor(rest / 10);
       var one = rest % 10;
-      if (ten) parts.push(TENS[ten]);
-      if (one) parts.push(ONES[one]);
+      if (ten && one) parts.push(TENS[ten] + "-" + ONES[one]);
+      else if (ten) parts.push(TENS[ten]);
+      else if (one) parts.push(ONES[one]);
     }
     return parts.join(" ");
   }
@@ -869,12 +870,18 @@
         formatDateEn(data.contractStart) +
         "</span></div>"
       : "";
+    var periodLabel =
+      formatDateZh(model.periodFrom) +
+      " 至 " +
+      formatDateZh(model.periodTo) +
+      " / " +
+      formatDateEn(model.periodFrom) +
+      " to " +
+      formatDateEn(model.periodTo);
     var foodRow =
       data.foodMode === "allowance"
         ? "<tr><td>2. 膳食津貼 / Food allowance（" +
-          formatDateZh(model.periodFrom) +
-          " 至 " +
-          formatDateZh(model.periodTo) +
+          periodLabel +
           "）</td><td class=\"num\">" +
           formatHKD(model.foodAmt) +
           "</td></tr>"
@@ -1033,8 +1040,14 @@
       }
     }
     updateRefLabel();
+    updateFoodField();
     saveStore();
     renderPreview();
+  }
+
+  function updateFoodField() {
+    var allowance = foodMode() === "allowance";
+    els.foodAllowance.disabled = !allowance;
   }
 
   function onLeaveInput(ev) {
@@ -1121,6 +1134,7 @@
     var ym = els.periodMonth.value || defaults.periodMonth;
     els.leaveYear.value = monthBounds(ym).year;
     applyI18n();
+    updateFoodField();
     syncFormLeaveToLog();
     renderLeaveTable();
     renderPreview();

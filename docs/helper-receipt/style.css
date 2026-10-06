@@ -241,6 +241,11 @@ textarea {
   font: inherit;
 }
 
+input:disabled {
+  opacity: 0.55;
+  background: #f4efe4;
+}
+
 textarea {
   min-height: 72px;
   resize: vertical;
@@ -340,6 +345,7 @@ button:disabled {
   color: #1a1612;
   break-inside: avoid;
   page-break-inside: avoid;
+  overflow-wrap: anywhere;
 }
 
 .receipt-head {
@@ -430,6 +436,14 @@ button:disabled {
   text-align: right;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .lines th:last-child,
+  .lines td:last-child,
+  .num {
+    white-space: normal;
+  }
 }
 
 .lines .total-row th,

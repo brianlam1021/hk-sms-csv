@@ -19,6 +19,7 @@
     <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/helper-receipt/" />
     <meta property="og:locale" content="zh_HK" />
     <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./style.css" />
     <script type="application/ld+json">
       {
@@ -233,7 +234,20 @@
           </form>
 
           <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
 
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="gen12-btn" data-i18n="gen12">產生全年12張</button>
+            <button type="button" class="secondary" id="single-btn" hidden data-i18n="singleMonth">返回單月</button>
+          </div>
+          <p class="muted no-print" id="preview-mode-label"></p>
+          <div id="receipts" class="receipts" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="no-print">
           <section class="panel" aria-labelledby="leave-title">
             <h2 id="leave-title" data-i18n="leaveLogTitle">全年假期紀錄</h2>
             <p class="muted" data-i18n="leaveLogLead">按月記下休息日、法定假日與年假，只存在本機，可匯出 CSV。</p>
@@ -282,17 +296,6 @@
             <ol class="hol-list" id="hol-list"></ol>
             <p class="hint" id="hol-note"></p>
           </section>
-        </div>
-
-        <div class="preview-col">
-          <div class="preview-tools no-print">
-            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
-            <button type="button" class="secondary" id="gen12-btn" data-i18n="gen12">產生全年12張</button>
-            <button type="button" class="secondary" id="single-btn" hidden data-i18n="singleMonth">返回單月</button>
-          </div>
-          <p class="muted no-print" id="preview-mode-label"></p>
-          <div id="receipts" class="receipts" aria-live="polite"></div>
-        </div>
       </div>
 
       <section class="faq no-print" aria-labelledby="faq-title">
