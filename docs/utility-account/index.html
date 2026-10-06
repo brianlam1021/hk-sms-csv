@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>劏房／分租水電費分攤帳目產生器｜規管租賃書面帳目 中英</title>
+    <meta
+      name="description"
+      content="免費香港劏房／分租水電費分攤書面帳目產生器：按分錶、面積、人日或百分比攤分中電、港燈、水務署、煤氣及寬頻帳單，向下取整確保總和不大於繳費單。瀏覽器內運算，中英對照，可列印、複製或下載 CSV。Free HK SDU / flatshare utility apportionment account — Part IVA written account, print or CSV, nothing uploaded."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/utility-account/" />
+    <meta property="og:title" content="劏房／分租水電費分攤帳目產生器｜規管租賃書面帳目 中英" />
+    <meta
+      property="og:description"
+      content="免費產生香港規管租賃所需的水電費分攤書面帳目。向下取整，總和不大於繳費單。資料只留在瀏覽器。 Free HK utility apportionment written account for SDU / flatmates."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/utility-account/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "劏房租客要分擔水電費，業主要符合甚麼條件？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "根據《業主與租客（綜合）條例》第IVA部，若分間單位沒有獨立水電／煤氣／通訊帳單，業主要求租客償還該等費用前，須為繳費單上的具名人、向租客出示帳單副本，並給予書面帳目說明如何分攤，且所有分攤款額之和不得超過帳單款額；亦不得收取多於該單位所示分攤額。超收屬罪行。本工具只供參考，並非法律意見。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "可以用甚麼方法分攤水電費？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "本頁支援：獨立分錶度數（平均單價＝帳單÷總錶，未分錶／公用用量再按分錶比例、平均或自訂百分比攤分）、按面積、按人數×日數、按日數、平均，以及自訂百分比（須合計100%）。合租室友分中電、港燈、水務署、煤氣或寬頻帳單同樣適用。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "為甚麼金額要向下取整？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "條例要求各經分攤款額總和不得超過繳費單款額。每名租客款額向下取整至港幣1角或1元，差額由業主承擔，即可保證總和不大於帳單，亦避免因四捨五入而超收。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "合租室友可以用這個工具嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以。書面帳目格式對劏房規管租賃及一般合租分帳單都有用。合租並非一律受第IVA部規管，但仍可用同一套透明分攤方法。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。全部分攤在瀏覽器內計算，草稿只可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。列印、複製或下載 CSV 才會在你選擇的位置產生內容。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip no-print" href="#form-title">跳到表格 / Skip to form</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">載入示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">分攤<br />帳目</div>
+        <div>
+          <h1 data-i18n="pageTitle">劏房／分租水電費分攤帳目產生器</h1>
+          <p class="lede" data-i18n="lede">
+            為香港劏房規管租賃及合租室友產生水電、煤氣、石油氣與上網等費用的書面分攤帳目。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供參考，並非法律意見；一切以《業主與租客（綜合）條例》第IVA部及差估署資料為準。</span>
+      </p>
+
+      <section class="checklist no-print" aria-labelledby="check-title">
+        <h2 id="check-title" data-i18n="checkTitle">業主合規提示</h2>
+        <p class="muted" data-i18n="checkLead">若單位沒有獨立帳單而要求租客償還水電等費用，業主應同時做到：</p>
+        <ol>
+          <li data-i18n="check1">業主為繳費單上的具名人／繳費人 ✓</li>
+          <li data-i18n="check2">向租客出示該份帳單副本 ✓</li>
+          <li data-i18n="check3">給予本頁產生的書面帳目，說明如何分攤 ✓</li>
+          <li data-i18n="check4">不得收取多於帳目上該單位所示的分攤額 ✓</li>
+        </ol>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="account-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">帳目資料</h2>
+              <fieldset>
+                <legend data-i18n="whoLegend">繳費人與物業</legend>
+                <div class="fields">
+                  <label class="field" for="landlord-name">
+                    <span data-i18n="landlordName">繳費人／業主姓名（帳單具名人）</span>
+                    <input id="landlord-name" name="landlordName" type="text" maxlength="80" />
+                  </label>
+                  <label class="field" for="property-address">
+                    <span data-i18n="propertyAddress">物業地址（可選）</span>
+                    <input id="property-address" name="propertyAddress" type="text" maxlength="160" />
+                  </label>
+                  <label class="field" for="issued-date">
+                    <span data-i18n="issuedDate">帳目發出日期</span>
+                    <input id="issued-date" name="issuedDate" type="date" />
+                  </label>
+                  <label class="field" for="notes">
+                    <span data-i18n="notes">備註（可選）</span>
+                    <textarea id="notes" name="notes" maxlength="400"></textarea>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="rulesLegend">取整與單位</legend>
+                <div class="fields">
+                  <fieldset class="radios inline">
+                    <legend data-i18n="roundLegend">金額向下取整至</legend>
+                    <label>
+                      <input type="radio" name="rounding" value="0.1" checked />
+                      <span data-i18n="roundDime">港幣 0.1 元</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="rounding" value="1" />
+                      <span data-i18n="roundDollar">港幣 1 元</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="radios inline">
+                    <legend data-i18n="areaUnitLegend">面積單位</legend>
+                    <label>
+                      <input type="radio" name="areaUnit" value="ft2" checked />
+                      <span>ft²</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="areaUnit" value="m2" />
+                      <span>m²</span>
+                    </label>
+                  </fieldset>
+                  <label class="check" for="landlord-row">
+                    <input id="landlord-row" name="includeLandlordRow" type="checkbox" />
+                    <span data-i18n="landlordRow">加入「業主自用／公用」一列，該份額由業主承擔</span>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+
+            <section class="panel" aria-labelledby="bills-title">
+              <h2 id="bills-title" data-i18n="billsTitle">繳費單</h2>
+              <p class="muted" data-i18n="billsLead">可加入多張單（電、水、煤氣、石油氣、上網／電話／收費電視）。</p>
+              <div id="bills-list"></div>
+              <div class="toolbar">
+                <button type="button" id="add-bill" data-i18n="addBill">新增繳費單</button>
+              </div>
+            </section>
+
+            <section class="panel" aria-labelledby="units-title">
+              <h2 id="units-title" data-i18n="unitsTitle">單位／住客</h2>
+              <p class="muted" data-i18n="unitsLead">日數留空則按該張繳費單的期間日數計算。</p>
+              <div id="units-list"></div>
+              <div class="toolbar">
+                <button type="button" id="add-unit" data-i18n="addUnit">新增單位</button>
+              </div>
+            </section>
+          </form>
+
+          <section class="tenant-check" aria-labelledby="tenant-check-title">
+            <h2 id="tenant-check-title" data-i18n="tenantCheckTitle">租客核對</h2>
+            <p class="muted" data-i18n="tenantCheckLead">輸入帳單總額、你的分攤基準，以及業主要求的金額，核對是否高於按該基準計算的公允分攤額（向下取整）。</p>
+            <div class="fields">
+              <label class="field" for="tc-bill">
+                <span data-i18n="tcBill">繳費單總額（港元）</span>
+                <input id="tc-bill" type="number" inputmode="decimal" min="0" step="0.01" />
+              </label>
+              <div class="row-2">
+                <label class="field" for="tc-basis">
+                  <span data-i18n="tcBasis">你的基準（例如度數、面積、人日或百分比）</span>
+                  <input id="tc-basis" type="number" inputmode="decimal" min="0" step="any" />
+                </label>
+                <label class="field" for="tc-whole">
+                  <span data-i18n="tcWhole">全體基準（例如總錶度數、總面積或 100）</span>
+                  <input id="tc-whole" type="number" inputmode="decimal" min="0" step="any" />
+                </label>
+              </div>
+              <label class="field" for="tc-demand">
+                <span data-i18n="tcDemand">業主要求你支付的金額（港元）</span>
+                <input id="tc-demand" type="number" inputmode="decimal" min="0" step="0.01" />
+              </label>
+            </div>
+            <div class="tenant-result" id="tenant-check-result" aria-live="polite"></div>
+          </section>
+
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="copy-btn" data-i18n="copyBtn">複製文字</button>
+            <button type="button" class="secondary" id="csv-btn" data-i18n="csvBtn">下載 CSV</button>
+            <label class="field" for="slip-view">
+              <span data-i18n="slipLabel">顯示</span>
+              <select id="slip-view"></select>
+            </label>
+          </div>
+          <p class="muted no-print copy-status" id="copy-status" aria-live="polite"></p>
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">草稿會自動保存在此瀏覽器。</p>
+          <div id="accounts" class="accounts" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">劏房租客要分擔水電費，業主要符合甚麼條件？</summary>
+          <p data-i18n="faq1a">
+            根據《業主與租客（綜合）條例》第IVA部，若分間單位沒有獨立水電／煤氣／通訊帳單，業主要求租客償還該等費用前，須為繳費單上的具名人、向租客出示帳單副本，並給予書面帳目說明如何分攤，且所有分攤款額之和不得超過帳單款額；亦不得收取多於該單位所示分攤額。超收屬罪行。本工具只供參考，並非法律意見。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">可以用甚麼方法分攤水電費？</summary>
+          <p data-i18n="faq2a">
+            本頁支援：獨立分錶度數（平均單價＝帳單÷總錶，未分錶／公用用量再按分錶比例、平均或自訂百分比攤分）、按面積、按人數×日數、按日數、平均，以及自訂百分比（須合計100%）。合租室友分中電、港燈、水務署、煤氣或寬頻帳單同樣適用。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">為甚麼金額要向下取整？</summary>
+          <p data-i18n="faq3a">
+            條例要求各經分攤款額總和不得超過繳費單款額。每名租客款額向下取整至港幣1角或1元，差額由業主承擔，即可保證總和不大於帳單，亦避免因四捨五入而超收。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">合租室友可以用這個工具嗎？</summary>
+          <p data-i18n="faq4a">
+            可以。書面帳目格式對劏房規管租賃及一般合租分帳單都有用。合租並非一律受第IVA部規管，但仍可用同一套透明分攤方法。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳嗎？</summary>
+          <p data-i18n="faq5a">
+            不會。全部分攤在瀏覽器內計算，草稿只可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。列印、複製或下載 CSV 才會在你選擇的位置產生內容。
+          </p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">法例及資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcRvd">差餉物業估價署 — 第IVA部規管租賃：</span>
+            <a href="https://www.rvd.gov.hk/tc/our_services/part_iva.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.rvd.gov.hk/en/our_services/part_iva.html" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcSdu">分間單位區域服務隊資訊平台 — 規管租賃：</span>
+            <a href="https://sdu-info.org.hk/tc/regulated-tenancy" rel="noopener noreferrer">sdu-info.org.hk</a>
+          </li>
+          <li>
+            <span data-i18n="srcCap">《業主與租客（綜合）條例》（第7章）電子版：</span>
+            <a href="https://www.elegislation.gov.hk/hk/cap7" rel="noopener noreferrer">elegislation.gov.hk/hk/cap7</a>
+          </li>
+        </ul>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          姓名、地址與帳單數字只留在這個瀏覽器（localStorage）。本頁不上傳、不設帳號、不設後端，亦不會向外部伺服器發送請求。列印、複製或匯出 CSV 才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供參考，並非法律意見；一切以《業主與租客（綜合）條例》第IVA部及差估署資料為準。 / For reference only, not legal advice.</span>
+      </p>
+
+      <footer class="site-footer no-print">
+        <p><a href="../" data-i18n="backHome">← 返回短訊記帳CSV</a></p>
+        <p class="more-tools">
+          <span data-i18n="otherTools">其他免費工具：</span>
+          <a href="../helper-receipt/" data-i18n="toolReceipt">外傭工資收據</a>
+          ·
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          ·
+          <a href="../sizi-cipi/">四字紙皮</a>
+          ·
+          <a href="../rwb-bag/">紅白藍金句袋</a>
+        </p>
+        <p>
+          <span data-i18n="source">開源靜態頁，原始碼在</span>
+          <a href="https://github.com/brianlam1021/hk-sms-csv">GitHub</a>。
+        </p>
+        <p class="fineprint" data-i18n="footerFine">
+          不是差餉物業估價署或任何政府部門的官方工具。請自行核對法例與帳單原文。
+        </p>
+      </footer>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
