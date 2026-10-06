@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>外傭工資收據產生器｜免費列印 糧單 · HK Domestic Helper Wage Receipt Generator</title>
+    <meta
+      name="description"
+      content="免費外傭工資收據產生器：填寫僱主、外傭、月薪、膳食津貼與假期，瀏覽器內產生中英雙語糧單，列印或另存 PDF，並記錄休息日／勞工假／年假。資料只留在本機，不會上傳。 Free HK domestic helper wage receipt generator — bilingual 繁中 + English, print or save PDF, simple leave log. Everything stays in your browser."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/helper-receipt/" />
+    <meta property="og:title" content="外傭工資收據產生器｜免費列印 糧單 · HK Domestic Helper Wage Receipt Generator" />
+    <meta
+      property="og:description"
+      content="免費中英雙語外傭糧單產生器，對準勞工處樣本欄位。列印或另存 PDF，附假期紀錄。資料只留在瀏覽器。 Bilingual HK FDH wage receipt — print/PDF, leave log, nothing uploaded."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/helper-receipt/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "外傭工資收據要寫甚麼？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "勞工處樣本包括：外傭姓名、香港身份證／護照號碼、僱主、收款日期、付款方式（現金／支票／銀行自動轉帳）、該期工資及起迄日期、如不提供膳食則列膳食津貼，以及收款人與見證人（如有）簽署。本工具另可列出其他款項、銀行參考編號，以及該月休息日、法定假日與年假日數。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "外傭最低工資幾多？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "規定最低工資（Minimum Allowable Wage）以簽訂標準僱傭合約當日為準。2026年10月3日或之後簽訂的合約為每月港幣5,220元；2026年10月3日之前簽訂的合約仍適用當時水平（2025年9月30日至2026年10月2日簽訂者為港幣5,100元）。請以勞工處公布為準。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "膳食津貼幾多？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "標準僱傭合約規定僱主須免費提供膳食。若不提供膳食而改付膳食津貼，現時水平為每月不少於港幣1,236元（2026年10月檢討後維持不變）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "幾時要出糧？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "工資於工資期最後一天到期，僱主須在切實可行範圍內盡快支付，無論如何不得遲於工資期屆滿後7天。勞工處亦建議以銀行轉帳支付並每月保留已簽署收據。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip no-print" href="#form-title">跳到表格 / Skip to form</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 / Clear data</button>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">工資<br />收據</div>
+        <div>
+          <h1 data-i18n="pageTitle">外傭工資收據產生器</h1>
+          <p class="lede" data-i18n="lede">
+            對準勞工處外傭工資收據樣本，在瀏覽器填寫、預覽、列印或另存 PDF，並記下全年休息日與勞工假。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">僅供參考，以勞工處及標準僱傭合約為準 / For reference only; the Labour Department and Standard Employment Contract prevail.</span>
+        <a href="https://www.fdh.labour.gov.hk/" rel="noopener noreferrer">fdh.labour.gov.hk</a>
+      </p>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="receipt-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">收據資料</h2>
+
+              <fieldset>
+                <legend data-i18n="whoLegend">僱主與外傭</legend>
+                <div class="fields">
+                  <label class="field" for="employer-name">
+                    <span data-i18n="employerName">僱主姓名</span>
+                    <input id="employer-name" name="employerName" type="text" maxlength="80" />
+                  </label>
+                  <label class="field" for="helper-name">
+                    <span data-i18n="helperName">外傭姓名</span>
+                    <input id="helper-name" name="helperName" type="text" maxlength="80" />
+                  </label>
+                  <label class="field" for="helper-id">
+                    <span data-i18n="helperId">外傭香港身份證／護照號碼（可選）</span>
+                    <input id="helper-id" name="helperId" type="text" maxlength="40" />
+                  </label>
+                  <label class="field" for="contract-start">
+                    <span data-i18n="contractStart">合約開始日期</span>
+                    <input id="contract-start" name="contractStart" type="date" />
+                  </label>
+                  <label class="field" for="witness-name">
+                    <span data-i18n="witnessName">見證人姓名（可選）</span>
+                    <input id="witness-name" name="witnessName" type="text" maxlength="80" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="wageLegend">工資與膳食</legend>
+                <div class="fields">
+                  <label class="field" for="wage">
+                    <span data-i18n="wage">每月工資（港元）</span>
+                    <input id="wage" name="wage" type="number" inputmode="decimal" min="0" step="0.01" />
+                  </label>
+                  <fieldset class="radios">
+                    <legend data-i18n="foodLegend">膳食安排</legend>
+                    <label>
+                      <input type="radio" name="foodMode" value="provided" checked />
+                      <span data-i18n="foodProvided">僱主提供免費膳食</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="foodMode" value="allowance" />
+                      <span data-i18n="foodAllowancePaid">不提供膳食，支付膳食津貼</span>
+                    </label>
+                  </fieldset>
+                  <label class="field" for="food-allowance">
+                    <span data-i18n="foodAllowance">膳食津貼（港元）</span>
+                    <input id="food-allowance" name="foodAllowance" type="number" inputmode="decimal" min="0" step="0.01" value="1236" />
+                    <p class="hint" data-i18n="foodHint">不提供膳食時，現時不少於 HK$1,236。</p>
+                  </label>
+                  <fieldset class="radios">
+                    <legend data-i18n="mawLegend">適用最低工資（以簽約日為準）</legend>
+                    <label>
+                      <input type="radio" name="mawRule" value="5220" checked />
+                      <span data-i18n="mawNew">2026年10月3日或之後簽約 · HK$5,220</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="mawRule" value="5100" />
+                      <span data-i18n="mawOld">2026年10月3日之前簽約 · HK$5,100</span>
+                    </label>
+                  </fieldset>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="periodLegend">工資期與付款</legend>
+                <div class="fields">
+                  <label class="field" for="period-month">
+                    <span data-i18n="periodMonth">工資月份</span>
+                    <input id="period-month" name="periodMonth" type="month" />
+                  </label>
+                  <div class="row-2">
+                    <label class="field" for="period-from">
+                      <span data-i18n="periodFrom">工資期由</span>
+                      <input id="period-from" name="periodFrom" type="date" />
+                    </label>
+                    <label class="field" for="period-to">
+                      <span data-i18n="periodTo">工資期至</span>
+                      <input id="period-to" name="periodTo" type="date" />
+                    </label>
+                  </div>
+                  <label class="field" for="pay-date">
+                    <span data-i18n="payDate">付款日期</span>
+                    <input id="pay-date" name="payDate" type="date" />
+                    <p class="hint" data-i18n="payHint">工資須在工資期屆滿後7天內支付。</p>
+                  </label>
+                  <label class="field" for="pay-method">
+                    <span data-i18n="payMethod">付款方式</span>
+                    <select id="pay-method" name="payMethod">
+                      <option value="bank" data-i18n="methodBank">銀行轉帳／自動轉帳</option>
+                      <option value="cash" data-i18n="methodCash">現金</option>
+                      <option value="cheque" data-i18n="methodCheque">支票</option>
+                    </select>
+                  </label>
+                  <label class="field" for="bank-ref">
+                    <span id="bank-ref-label" data-i18n="bankRef">銀行參考編號（可選）</span>
+                    <input id="bank-ref" name="bankRef" type="text" maxlength="40" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="leaveLegend">本月假期日數</legend>
+                <div class="row-3">
+                  <label class="field" for="rest-days">
+                    <span data-i18n="restDays">休息日</span>
+                    <input id="rest-days" name="restDays" type="number" inputmode="numeric" min="0" step="1" value="4" />
+                  </label>
+                  <label class="field" for="stat-days">
+                    <span data-i18n="statDays">法定假日（勞工假）</span>
+                    <input id="stat-days" name="statDays" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="annual-days">
+                    <span data-i18n="annualDays">年假</span>
+                    <input id="annual-days" name="annualDays" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                </div>
+                <p class="hint" data-i18n="restHint">僱傭條例：每7天至少1個休息日。</p>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="otherLegend">其他款項與備註（可選）</legend>
+                <div class="fields">
+                  <label class="field" for="other-desc">
+                    <span data-i18n="otherDesc">其他項目說明（例如 stat. holiday pay、報銷）</span>
+                    <input id="other-desc" name="otherDesc" type="text" maxlength="120" />
+                  </label>
+                  <label class="field" for="other-amount">
+                    <span data-i18n="otherAmount">其他項目金額（港元）</span>
+                    <input id="other-amount" name="otherAmount" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                  </label>
+                  <label class="field" for="notes">
+                    <span data-i18n="notes">備註</span>
+                    <textarea id="notes" name="notes" maxlength="400"></textarea>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+          </form>
+
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+
+          <section class="panel" aria-labelledby="leave-title">
+            <h2 id="leave-title" data-i18n="leaveLogTitle">全年假期紀錄</h2>
+            <p class="muted" data-i18n="leaveLogLead">按月記下休息日、法定假日與年假，只存在本機，可匯出 CSV。</p>
+            <div class="year-row">
+              <label class="field" for="leave-year">
+                <span data-i18n="leaveYear">年份</span>
+                <input id="leave-year" type="number" inputmode="numeric" min="2020" max="2100" step="1" />
+              </label>
+              <button type="button" class="secondary" id="export-leave" data-i18n="exportCsv">匯出 CSV</button>
+            </div>
+            <div class="table-wrap">
+              <table class="leave-table">
+                <thead>
+                  <tr>
+                    <th data-i18n="colMonth">月份</th>
+                    <th data-i18n="colRest">休息日</th>
+                    <th data-i18n="colStat">法定假日</th>
+                    <th data-i18n="colAnnual">年假</th>
+                  </tr>
+                </thead>
+                <tbody id="leave-body"></tbody>
+                <tfoot>
+                  <tr>
+                    <th data-i18n="colTotal">合計</th>
+                    <th id="leave-sum-rest">0</th>
+                    <th id="leave-sum-stat">0</th>
+                    <th id="leave-sum-annual">0</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="hol-title">
+            <h2 id="hol-title" data-i18n="holTitle">香港法定假日（勞工假）</h2>
+            <p class="muted">
+              <span data-i18n="holLead">資料來自勞工處公布。</span>
+              <a href="https://www.labour.gov.hk/tc/news/latest_holidays2027.htm" rel="noopener noreferrer">2027</a>
+              ·
+              <a href="https://www.labour.gov.hk/tc/news/latest_holidays2026.htm" rel="noopener noreferrer">2026</a>
+            </p>
+            <div class="hol-tabs" role="tablist">
+              <button type="button" class="secondary" id="tab-2027" aria-pressed="true">2027</button>
+              <button type="button" class="secondary" id="tab-2026" aria-pressed="false">2026</button>
+            </div>
+            <ol class="hol-list" id="hol-list"></ol>
+            <p class="hint" id="hol-note"></p>
+          </section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="gen12-btn" data-i18n="gen12">產生全年12張</button>
+            <button type="button" class="secondary" id="single-btn" hidden data-i18n="singleMonth">返回單月</button>
+          </div>
+          <p class="muted no-print" id="preview-mode-label"></p>
+          <div id="receipts" class="receipts" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">外傭工資收據要寫甚麼？</summary>
+          <p data-i18n="faq1a">
+            勞工處樣本包括外傭姓名、身份證／護照號碼、僱主、收款日期、付款方式、該期工資及起迄、不提供膳食時的膳食津貼，以及收款人與見證人簽署。本頁可加其他款項、銀行參考編號與該月假期日數。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">最低工資幾多？</summary>
+          <p data-i18n="faq2a">
+            以簽訂標準僱傭合約當日的規定最低工資為準。2026年10月3日或之後簽約為每月 HK$5,220；該日前簽約仍用當時水平（2025年9月30日至2026年10月2日簽約者為 HK$5,100）。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">膳食津貼幾多？</summary>
+          <p data-i18n="faq3a">
+            合約要求免費提供膳食；若不提供而改付津貼，現時不少於每月 HK$1,236。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">幾時要出糧？</summary>
+          <p data-i18n="faq4a">
+            工資於工資期最後一天到期，須盡快支付，不得遲於期滿後7天。勞工處建議銀行轉帳，並每月保留已簽署收據。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳嗎？</summary>
+          <p data-i18n="faq5a">
+            不會。全部只在你的瀏覽器運算，並可選擇寫入本機 localStorage，方便下次開啟。沒有帳戶、沒有伺服器存檔。
+          </p>
+        </details>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          姓名、身份證號碼、工資與假期只留在這個瀏覽器（localStorage）。本頁不上傳、不設帳號、不設後端。列印或匯出 CSV 才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">僅供參考，以勞工處及標準僱傭合約為準 / For reference only; the Labour Department and Standard Employment Contract prevail.</span>
+        <a href="https://www.fdh.labour.gov.hk/" rel="noopener noreferrer">https://www.fdh.labour.gov.hk/</a>
+        ·
+        <a href="https://www.fdh.labour.gov.hk/res/pdf/Sample_Wage_Receipt_for_FDH_Chi.pdf" rel="noopener noreferrer">中文樣本</a>
+        ·
+        <a href="https://www.fdh.labour.gov.hk/res/pdf/Sample_Wage_Receipt_for_FDH_Eng.pdf" rel="noopener noreferrer">English sample</a>
+      </p>
+
+      <footer class="site-footer no-print">
+        <p><a href="../" data-i18n="backHome">← 返回短訊記帳CSV</a></p>
+        <p>
+          <span data-i18n="source">開源靜態頁，原始碼在</span>
+          <a href="https://github.com/brianlam1021/hk-sms-csv">GitHub</a>。
+        </p>
+        <p class="fineprint" data-i18n="footerFine">
+          不是勞工處、入境處或任何政府部門的官方工具。數字會隨政府公布改動，請自行核對。
+        </p>
+      </footer>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>
