@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>公立醫院收費估算器｜急症室住院專科 2026 中英 · HA public hospital fee estimator</title>
+    <meta
+      name="description"
+      content="免費香港公立醫院收費估算：按2026年1月1日起醫管局憲報收費，估算符合資格／非符合資格人士的急症室、住院、專科及家庭醫學門診、藥物與全年1萬元上限。瀏覽器內運算，不用註冊、不會上傳。 Free HK Hospital Authority fee estimator from 1 Jan 2026 — A&E, inpatient, SOPC/FMC, $10,000 annual cap."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/hospital-fees/" />
+    <meta property="og:title" content="公立醫院收費估算器｜急症室住院專科 2026 中英" />
+    <meta
+      property="og:description"
+      content="按2026年1月起醫管局收費估算急症室、住院與門診費用，並對照全年1萬元上限。資料只留在瀏覽器。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/hospital-fees/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "2026年1月起急症室收幾多？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "醫管局憲報由2026年1月1日起，符合資格人士急症室每次診症港幣400元；分流為第I類（危殆）及第II類（危急）可獲豁免。非符合資格人士每次2,100元。已繳費的符合資格人士如在接受醫生診症前離開，可申請退回350元（英文頁列明須於登記後24小時內提出）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "住院費怎樣按日計算？未滿12歲是否半價？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "住院費由入院當日起按日計算，每日截數為午夜12時；入院當日即日出院亦作一日計。符合資格人士急症病床每日300元，療養／復康、護養及精神科病床每日200元。未滿12歲兒童及未能與母親同時出院的嬰兒，住院費減半；其他項目與成人相同。非符合資格人士普通科醫院每日7,400元。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "全年收費上限1萬元怎樣用？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "由2026年1月1日起，符合資格人士可在無需經濟審查下申請每年港幣10,000元公營醫療費用上限。累計已繳付的合資格醫療費用達到1萬元後，可經 HA Go 或醫院繳費處申請；獲批後該曆年餘下合資格費用無需再付。自費藥物、病人自資醫療項目及部分行政收費不計入上限。非符合資格人士不適用。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "誰是符合資格人士？綜援或長者生活津貼可否免收？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "符合資格人士包括持有效香港身份證的人士（憑已過期入境或逗留准許獲發身份證者除外）、身為香港居民的11歲以下兒童，以及醫管局行政總裁認可的其他人士。綜援受助人、長者院舍照顧服務券計劃級別0持有人，以及75歲或以上長者生活津貼受惠人，一般可在出示身份證明後獲豁免公營醫療標準收費。其他人可向醫務社會服務部申請減免。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。列印、複製或下載 CSV 才會在你選擇的位置產生內容。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body class="ep-mode">
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">載入示範</button>
+          <button type="button" class="secondary" id="demo-cap-btn" data-i18n="demoCapBtn">住院上限示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">醫院<br />收費</div>
+        <div>
+          <h1 data-i18n="pageTitle">公立醫院收費估算器</h1>
+          <p class="lede" data-i18n="lede">
+            按2026年1月1日起醫管局憲報收費，估算急症室、住院、專科與家庭醫學門診費用，並對照全年1萬元上限。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供參考，並非醫管局官方工具或繳費單；實際以憲報、醫院收費處及醫管局公布為準。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          公營醫療收費改革已於2026年1月1日生效。醫管局官網列出收費表，另有經濟審查減免程式，但沒有把一次求診、住院日數、藥物與全年上限加總的估算器。本頁把憲報數字在瀏覽器內加起來，方便對照賬單或準備現金。
+        </p>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="fee-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">求診資料</h2>
+              <fieldset>
+                <legend data-i18n="whoLegend">身分</legend>
+                <div class="fields">
+                  <fieldset class="radios inline">
+                    <legend data-i18n="statusLegend">收費類別</legend>
+                    <label>
+                      <input type="radio" name="status" value="ep" checked />
+                      <span data-i18n="statusEp">符合資格人士 Eligible Person</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="status" value="nep" />
+                      <span data-i18n="statusNep">非符合資格人士 Non-eligible Person</span>
+                    </label>
+                  </fieldset>
+                  <label class="check" for="child-under-12">
+                    <input id="child-under-12" name="childUnder12" type="checkbox" />
+                    <span data-i18n="childUnder12">病人未滿12歲（符合資格人士住院費減半）</span>
+                  </label>
+                  <label class="check ep-only" for="full-waiver">
+                    <input id="full-waiver" name="fullWaiver" type="checkbox" />
+                    <span data-i18n="fullWaiver">已獲全面醫療費用減免（例如綜援、75歲或以上長生津）</span>
+                  </label>
+                  <label class="field ep-only" for="ytd-paid">
+                    <span data-i18n="ytdPaid">本曆年已繳付的合資格公營醫療費（港元）</span>
+                    <input id="ytd-paid" name="yearToDatePaid" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                    <p class="hint" data-i18n="ytdHint">用來計算距離1萬元上限還有多少。自費藥物不計入。</p>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="aeLegend">急症室</legend>
+                <div class="fields row-3">
+                  <label class="field" for="ae-consult">
+                    <span data-i18n="aeConsult">已診症次數</span>
+                    <input id="ae-consult" name="aeConsult" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field ep-only" for="ae-exempt">
+                    <span data-i18n="aeExempt">第I／II類豁免次數</span>
+                    <input id="ae-exempt" name="aeExempt" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="ae-left">
+                    <span data-i18n="aeLeft">診症前離開（申請退款）</span>
+                    <input id="ae-left" name="aeLeftBefore" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                </div>
+                <p class="hint" data-i18n="aeHint">符合資格人士每次400元；第I、II類豁免。診症前離開可申請退回350元（英文頁：登記後24小時內）。</p>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="inpatientLegend">住院日數</legend>
+                <p class="hint" data-i18n="inpatientHint">入院當日即日出院亦作1日。日數＝跨越午夜的次數，同日出入院請填1。</p>
+                <div class="fields row-3">
+                  <label class="field" for="acute-days">
+                    <span data-i18n="acuteDays">急症病床日數</span>
+                    <input id="acute-days" name="acuteDays" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="conv-days">
+                    <span data-i18n="convDays">療養／復康／護養日數</span>
+                    <input id="conv-days" name="convDays" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="psych-days">
+                    <span data-i18n="psychDays">精神科病床日數</span>
+                    <input id="psych-days" name="psychDays" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                </div>
+                <div class="fields row-3 nep-only">
+                  <label class="field" for="icu-days">
+                    <span data-i18n="icuDays">深切治療日數</span>
+                    <input id="icu-days" name="icuDays" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="hdu-days">
+                    <span data-i18n="hduDays">加護病房日數</span>
+                    <input id="hdu-days" name="hduDays" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="nursery-days">
+                    <span data-i18n="nurseryDays">嬰兒護理室日數</span>
+                    <input id="nursery-days" name="nurseryDays" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="clinicLegend">門診、日間與社區</legend>
+                <div class="fields row-2">
+                  <label class="field" for="sopc">
+                    <span data-i18n="sopc">專科門診次數</span>
+                    <input id="sopc" name="sopc" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="sopc-drugs">
+                    <span data-i18n="sopcDrugs">專科藥物（每項4星期）</span>
+                    <input id="sopc-drugs" name="sopcDrugs" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="fmc">
+                    <span data-i18n="fmc">家庭醫學門診次數</span>
+                    <input id="fmc" name="fmc" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="fmc-drugs">
+                    <span data-i18n="fmcDrugs">家庭醫學藥物（每項4星期）</span>
+                    <input id="fmc-drugs" name="fmcDrugs" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="injection">
+                    <span data-i18n="injection">注射或敷藥次數</span>
+                    <input id="injection" name="injection" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="day-proc">
+                    <span data-i18n="dayProc">日間程序及治理次數</span>
+                    <input id="day-proc" name="dayProc" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="geriatric-day">
+                    <span data-i18n="geriatricDay">老人科日間醫院次數</span>
+                    <input id="geriatric-day" name="geriatricDay" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="rehab-day">
+                    <span data-i18n="rehabDay">復康日間醫院次數</span>
+                    <input id="rehab-day" name="rehabDay" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="community-nursing">
+                    <span data-i18n="communityNursing">社康護理（普通科）次數</span>
+                    <input id="community-nursing" name="communityNursing" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="community-allied">
+                    <span data-i18n="communityAllied">社區專職醫療次數</span>
+                    <input id="community-allied" name="communityAllied" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                </div>
+                <div class="fields row-2 nep-only">
+                  <label class="field" for="hd-chronic">
+                    <span data-i18n="hdChronic">血液透析（長期）次數</span>
+                    <input id="hd-chronic" name="haemodialysisChronic" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="hd-acute">
+                    <span data-i18n="hdAcute">血液透析（急性）次數</span>
+                    <input id="hd-acute" name="haemodialysisAcute" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="oncology-day">
+                    <span data-i18n="oncologyDay">腫瘤科日間次數</span>
+                    <input id="oncology-day" name="oncologyDay" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="eye-day">
+                    <span data-i18n="ophthalmicDay">眼科日間次數</span>
+                    <input id="eye-day" name="ophthalmicDay" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="cns-psych">
+                    <span data-i18n="communityNursingPsych">社康護理（精神科）次數</span>
+                    <input id="cns-psych" name="communityNursingPsych" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="obstetric">
+                    <span data-i18n="obstetric">產科最低收費（非符合資格）</span>
+                    <select id="obstetric" name="obstetric">
+                      <option value="none" data-i18n="obstetricNone">不適用</option>
+                      <option value="booked" data-i18n="obstetricBooked">已預約並有產檢 · HK$74,000</option>
+                      <option value="unbooked" data-i18n="obstetricUnbooked">未預約／無產檢 · HK$130,000</option>
+                    </select>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="ixLegend">病理及非緊急放射（門診）</legend>
+                <div class="fields row-2">
+                  <label class="field" for="path-inter">
+                    <span data-i18n="pathInter">病理學進階項目</span>
+                    <input id="path-inter" name="pathInter" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="path-adv">
+                    <span data-i18n="pathAdv">病理學高端項目</span>
+                    <input id="path-adv" name="pathAdv" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="radio-inter">
+                    <span data-i18n="radioInter">放射科進階項目</span>
+                    <input id="radio-inter" name="radioInter" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="radio-adv">
+                    <span data-i18n="radioAdv">放射科高端項目</span>
+                    <input id="radio-adv" name="radioAdv" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                </div>
+                <p class="hint" data-i18n="ixHint">符合資格人士基礎病理及基礎非緊急放射免費。急症室當次臨床需要的檢驗一般已包括在急症室診症費。</p>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="adminLegend">不計入全年上限的行政項目</legend>
+                <div class="fields row-2">
+                  <label class="field" for="medical-reports">
+                    <span data-i18n="medicalReports">醫療報告／證明書份數</span>
+                    <input id="medical-reports" name="medicalReports" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="med-delivery">
+                    <span data-i18n="medicationDelivery">藥物送遞次數</span>
+                    <input id="med-delivery" name="medicationDelivery" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+          </form>
+
+          <section class="panel no-print" aria-labelledby="late-title">
+            <h2 id="late-title" data-i18n="lateTitle">逾期行政費試算</h2>
+            <p class="muted" data-i18n="lateLead">由賬單發出日起計：60天後收欠款5%（每單上限1,000元）；90天後另收10%（每單上限10,000元）。兩期合計上限為欠款15%或11,000元。</p>
+            <div class="fields row-2">
+              <label class="field" for="late-amount">
+                <span data-i18n="lateAmount">未付賬單金額（港元）</span>
+                <input id="late-amount" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+              </label>
+              <label class="field" for="late-days">
+                <span data-i18n="lateDays">發出後已過日數</span>
+                <input id="late-days" type="number" inputmode="numeric" min="0" step="1" value="0" />
+              </label>
+            </div>
+            <div class="ok-box is-on" id="late-out" aria-live="polite"></div>
+          </section>
+
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="copy-btn" data-i18n="copyBtn">複製文字</button>
+            <button type="button" class="secondary" id="csv-btn" data-i18n="csvBtn">下載 CSV</button>
+          </div>
+          <p class="muted no-print copy-status" id="copy-status" aria-live="polite"></p>
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">草稿會自動保存在此瀏覽器。</p>
+          <div id="kpis" class="kpis no-print"></div>
+          <div id="bill" class="bill" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section class="rate-card no-print" aria-labelledby="rates-title">
+        <h2 id="rates-title" data-i18n="ratesTitle">2026年1月1日起主要收費（符合資格人士）</h2>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="rateItem">項目</th>
+              <th class="num" data-i18n="rateEp">符合資格</th>
+              <th class="num" data-i18n="rateNep">非符合資格</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td data-i18n="rateAe">急症室（每次）</td><td class="num">HK$400</td><td class="num">HK$2,100</td></tr>
+            <tr><td data-i18n="rateAcute">急症病床／普通科住院（每日）</td><td class="num">HK$300</td><td class="num">HK$7,400</td></tr>
+            <tr><td data-i18n="rateConv">療養／復康／護養／精神科病床（每日）</td><td class="num">HK$200</td><td class="num">HK$3,100（精神科醫院）</td></tr>
+            <tr><td data-i18n="rateSopc">專科門診（每次）</td><td class="num">HK$250</td><td class="num">HK$850</td></tr>
+            <tr><td data-i18n="rateSopcDrug">專科藥物（每項／4星期）</td><td class="num">HK$20</td><td class="num">HK$90</td></tr>
+            <tr><td data-i18n="rateFmc">家庭醫學門診（每次）</td><td class="num">HK$150</td><td class="num">HK$500</td></tr>
+            <tr><td data-i18n="rateFmcDrug">家庭醫學藥物（每項／4星期）</td><td class="num">HK$5</td><td class="num">HK$40</td></tr>
+          </tbody>
+        </table>
+        <p class="hint" data-i18n="ratesHint">完整表及註釋見醫管局收費頁。自費藥物與病人自資醫療項目另行收費，本頁不估算。</p>
+      </section>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">2026年1月起急症室收幾多？</summary>
+          <p data-i18n="faq1a">符合資格人士每次400元；分流第I類（危殆）及第II類（危急）豁免。非符合資格人士每次2,100元。已繳費後如在醫生診症前離開，符合資格人士可申請退回350元，非符合資格人士退回1,850元。醫管局英文頁列明須於登記後24小時內提出。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">住院費怎樣按日計算？未滿12歲是否半價？</summary>
+          <p data-i18n="faq2a">由入院當日起按日計算，每日截數為午夜12時；即日出院亦作一日。符合資格人士急症病床每日300元，療養／復康、護養及精神科病床每日200元。未滿12歲兒童及未能與母親同時出院的嬰兒，住院費減半；其他項目與成人相同。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">全年收費上限1萬元怎樣用？</summary>
+          <p data-i18n="faq3a">由2026年1月1日起，符合資格人士可在無需經濟審查下申請每年10,000元上限。累計已繳付合資格費用達1萬元後，經 HA Go 或醫院繳費處申請；獲批後該曆年餘下合資格費用無需再付。自費藥物、自資醫療項目及部分行政收費不計入。非符合資格人士不適用。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">誰是符合資格人士？綜援或長生津可否免收？</summary>
+          <p data-i18n="faq4a">包括持有效香港身份證的人士（憑已過期入境或逗留准許獲發證者除外）、身為香港居民的11歲以下兒童，以及醫管局行政總裁認可的其他人士。綜援受助人、院舍券級別0持有人，以及75歲或以上長者生活津貼受惠人，一般可在出示身份證明後獲豁免公營醫療標準收費。其他人可向醫務社會服務部申請減免。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳嗎？</summary>
+          <p data-i18n="faq5a">不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。列印、複製或下載 CSV 才會在你選擇的位置產生內容。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcFees">醫院管理局 — 醫療收費（2026年1月1日起）：</span>
+            <a href="https://www.ha.org.hk/visitor/fees_and_charges.asp?lang=CHIB5" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.ha.org.hk/visitor/fees_and_charges.asp" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcCap">醫院管理局 — 全年收費上限：</span>
+            <a href="https://www.ha.org.hk/haho/ho/frm/asc_tc.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.ha.org.hk/visitor/ha_view_content.asp?Content_ID=281820&amp;Lang=ENG" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcWaiver">醫院管理局 — 醫療費用減免：</span>
+            <a href="https://www.ha.org.hk/haho/ho/cs/v3/serviceguide_feewaving_b5_v3_1.htm" rel="noopener noreferrer">中文</a>
+          </li>
+          <li>
+            <span data-i18n="srcOala">社會福利署 — 75歲或以上長者生活津貼醫療費用豁免：</span>
+            <a href="https://www.swd.gov.hk/oala/index_e.html" rel="noopener noreferrer">swd.gov.hk/oala</a>
+          </li>
+        </ul>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          求診次數與金額只留在這個瀏覽器（localStorage）。本頁不上傳、不設帳號、不設後端。列印、複製或匯出 CSV 才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供參考，並非醫管局官方工具、繳費單或醫療意見。 / For reference only; not an HA bill or medical advice.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="./">公立醫院收費</a>
+          <a href="../sizi-cipi/">四字紙皮</a>
+          <a href="../rwb-bag/">紅白藍金句袋</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
