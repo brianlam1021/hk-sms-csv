@@ -6,28 +6,8 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://hk-sms-csv.pages.dev/sizi-cipi/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://hk-sms-csv.pages.dev/rwb-bag/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://brianlam1021.github.io/hk-sms-csv/sizi-cipi/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://brianlam1021.github.io/hk-sms-csv/rwb-bag/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 </urlset>
