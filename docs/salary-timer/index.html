@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>整個月薪計時器｜今日／本月已賺 實時計時 · Monthly salary timer</title>
+    <meta
+      name="description"
+      content="免費整個月薪計時器：輸入月薪、每月工作日與每日工時，或用週一至五 9–6 預設，即時顯示今天、本月與每秒已賺金額。只供估算，不是糧單。資料留在瀏覽器。 Free live monthly salary ticker — today / this month / per second, EN + 繁中, localStorage only."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/salary-timer/" />
+    <meta property="og:title" content="整個月薪計時器｜今日／本月已賺 實時計時" />
+    <meta
+      property="og:description"
+      content="按月薪與工時即時估算今天與本月已賺。只供參考，不是出糧。資料只留在瀏覽器。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/salary-timer/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "這個計時器怎樣算已賺金額？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "每秒金額＝月薪 ÷（本月工作日數 × 每日有薪工時 × 3600）。今天已賺＝今天已過的有薪工時 × 每秒金額；本月已賺＝本月已過的工作日全日工時，加上今天已過工時。午膳時段預設不計入有薪工時。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這是不是糧單或正式工資計算？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不是。這只是按你輸入的月薪與工時做的即時估算，不是僱主出糧、強積金、加班費、有薪假期或僱傭條例下的工資計算。實際以僱傭合約、糧單及法例為準。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "週一至五 9–6 預設包不包括午膳？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "預設為週一至五 09:00–18:00，並暫停 13:00–14:00 午膳，即每日 8 小時有薪工時。可改用 9–5、週一至六，或自訂上班／下班／午膳時間與工作日。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。月薪與工時只在瀏覽器內計算，並可寫入本機 localStorage 方便下次開啟。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到設定 / Skip to settings</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">載入示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">月薪<br />計時</div>
+        <div>
+          <h1 data-i18n="pageTitle">整個月薪計時器</h1>
+          <p class="lede" data-i18n="lede">
+            輸入月薪與工時，即時顯示今天、本月與每秒已賺。午膳可暫停。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供估算，不是糧單、出糧或僱傭條例下的工資計算。實際以合約及僱主為準。</span>
+      </p>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="timer-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">月薪與工時</h2>
+
+              <fieldset>
+                <legend data-i18n="payLegend">月薪</legend>
+                <div class="fields row-2">
+                  <label class="field" for="salary">
+                    <span data-i18n="salary">每月薪金</span>
+                    <input id="salary" name="salary" type="number" inputmode="decimal" min="0" step="0.01" value="20000" />
+                  </label>
+                  <label class="field" for="currency">
+                    <span data-i18n="currency">貨幣</span>
+                    <select id="currency" name="currency">
+                      <option value="HKD" selected>HK$ 港元</option>
+                      <option value="CNY">CN¥ 人民幣</option>
+                      <option value="USD">US$ 美元</option>
+                      <option value="TWD">NT$ 新台幣</option>
+                    </select>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="presetLegend">工時預設</legend>
+                <div class="preset-row" role="group" aria-label="Presets">
+                  <button type="button" class="secondary preset" data-preset="monfri96" aria-pressed="true" data-i18n="preset96">週一至五 9–6</button>
+                  <button type="button" class="secondary preset" data-preset="monfri95" aria-pressed="false" data-i18n="preset95">週一至五 9–5</button>
+                  <button type="button" class="secondary preset" data-preset="monsat96" aria-pressed="false" data-i18n="presetSat">週一至六 9–6</button>
+                  <button type="button" class="secondary preset" data-preset="custom" aria-pressed="false" data-i18n="presetCustom">自訂</button>
+                </div>
+                <p class="hint" data-i18n="presetHint">9–6 預設扣 13:00–14:00 午膳，每日 8 小時有薪工時。</p>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="hoursLegend">每日時間</legend>
+                <div class="fields row-2">
+                  <label class="field" for="start-time">
+                    <span data-i18n="startTime">上班</span>
+                    <input id="start-time" name="startTime" type="time" value="09:00" />
+                  </label>
+                  <label class="field" for="end-time">
+                    <span data-i18n="endTime">下班</span>
+                    <input id="end-time" name="endTime" type="time" value="18:00" />
+                  </label>
+                </div>
+                <label class="check" for="lunch-enabled">
+                  <input id="lunch-enabled" name="lunchEnabled" type="checkbox" checked />
+                  <span data-i18n="lunchEnabled">午膳暫停（不計入已賺）</span>
+                </label>
+                <div class="fields row-2" id="lunch-fields">
+                  <label class="field" for="lunch-start">
+                    <span data-i18n="lunchStart">午膳開始</span>
+                    <input id="lunch-start" name="lunchStart" type="time" value="13:00" />
+                  </label>
+                  <label class="field" for="lunch-end">
+                    <span data-i18n="lunchEnd">午膳結束</span>
+                    <input id="lunch-end" name="lunchEnd" type="time" value="14:00" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="daysLegend">工作日</legend>
+                <div class="dow" role="group" aria-label="Weekdays">
+                  <label><input type="checkbox" name="dow" value="1" checked /><span data-i18n="dow1">一</span></label>
+                  <label><input type="checkbox" name="dow" value="2" checked /><span data-i18n="dow2">二</span></label>
+                  <label><input type="checkbox" name="dow" value="3" checked /><span data-i18n="dow3">三</span></label>
+                  <label><input type="checkbox" name="dow" value="4" checked /><span data-i18n="dow4">四</span></label>
+                  <label><input type="checkbox" name="dow" value="5" checked /><span data-i18n="dow5">五</span></label>
+                  <label><input type="checkbox" name="dow" value="6" /><span data-i18n="dow6">六</span></label>
+                  <label><input type="checkbox" name="dow" value="0" /><span data-i18n="dow0">日</span></label>
+                </div>
+                <fieldset class="radios">
+                  <legend data-i18n="daysModeLegend">本月工作日數（用來計每秒金額）</legend>
+                  <label>
+                    <input type="radio" name="daysMode" value="auto" checked />
+                    <span data-i18n="daysAuto">按日曆自動數本月勾選的工作日</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="daysMode" value="manual" />
+                    <span data-i18n="daysManual">自行輸入每月工作日數</span>
+                  </label>
+                </fieldset>
+                <label class="field" for="work-days" id="manual-days-wrap">
+                  <span data-i18n="workDays">每月工作日數</span>
+                  <input id="work-days" name="workDaysPerMonth" type="number" inputmode="decimal" min="0.5" max="31" step="0.5" value="22" />
+                </label>
+              </fieldset>
+
+              <label class="check" for="show-second">
+                <input id="show-second" name="showSecondRate" type="checkbox" checked />
+                <span data-i18n="showSecond">顯示每秒金額</span>
+              </label>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">設定會自動保存在此瀏覽器。</p>
+          <div class="ticker" aria-live="polite">
+            <div class="ticker-head">
+              <p class="ticker-label" data-i18n="todayLabel">今天已賺</p>
+              <span class="status-pill" id="status-pill">—</span>
+            </div>
+            <p class="ticker-now" id="clock"></p>
+            <p class="big-amount" id="today-amount">HK$0.00</p>
+            <div class="bar" aria-hidden="true"><span id="today-bar"></span></div>
+            <p class="muted" id="today-progress"></p>
+            <div class="ticker-actions no-print">
+              <button type="button" class="secondary" id="pause-btn" data-i18n="pauseBtn">暫停午膳／休息</button>
+            </div>
+          </div>
+          <div class="kpis no-print" id="kpis"></div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">這個計時器怎樣算已賺金額？</summary>
+          <p data-i18n="faq1a">每秒金額＝月薪 ÷（本月工作日數 × 每日有薪工時 × 3600）。今天已賺＝今天已過的有薪工時 × 每秒金額；本月已賺＝本月已過的工作日全日工時，加上今天已過工時。午膳時段預設不計入有薪工時。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">這是不是糧單或正式工資計算？</summary>
+          <p data-i18n="faq2a">不是。這只是按你輸入的月薪與工時做的即時估算，不是僱主出糧、強積金、加班費、有薪假期或僱傭條例下的工資計算。實際以僱傭合約、糧單及法例為準。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">週一至五 9–6 預設包不包括午膳？</summary>
+          <p data-i18n="faq3a">預設為週一至五 09:00–18:00，並暫停 13:00–14:00 午膳，即每日 8 小時有薪工時。可改用 9–5、週一至六，或自訂上班／下班／午膳時間與工作日。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">資料會上傳嗎？</summary>
+          <p data-i18n="faq4a">不會。月薪與工時只在瀏覽器內計算，並可寫入本機 localStorage 方便下次開啟。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          月薪與工時只留在這個瀏覽器（localStorage）。本頁不上傳、不設帳號、不設後端。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供估算，不是糧單或出糧。 / Estimate only; not payroll.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="./">月薪計時器</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

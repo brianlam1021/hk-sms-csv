@@ -36,6 +36,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://hk-sms-csv.pages.dev/salary-timer/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/</loc>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -67,6 +72,11 @@
   </url>
   <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/hospital-fees/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/salary-timer/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
