@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>租約印花稅估算器｜免租期逾期罰款 中英 · HK tenancy stamp duty</title>
+    <meta
+      name="description"
+      content="免費香港租約印花稅估算：按稅務局 IRSD119 稅率，計算固定／免租期／分段租金、複本5元、頂手費4.25%，以及逾期加蓋印花2／4／10倍罰款。瀏覽器內運算，不用註冊、不會上傳。 Free HK lease stamp-duty estimator with rent-free, counterpart and late-stamping penalty."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/tenancy-stamp/" />
+    <meta property="og:title" content="租約印花稅估算器｜免租期逾期罰款 中英" />
+    <meta
+      property="og:description"
+      content="按稅務局租約印花稅率估算正本、複本、頂手費與逾期罰款。免租期會計入租期。資料只留在瀏覽器。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/tenancy-stamp/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "香港租約印花稅怎樣計？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "稅率視乎租期：不超逾1年按租金總額0.25%；超逾1年但不超逾3年按年租或平均年租0.5%；超逾3年按1%；租期不固定按平均年租0.25%。年租／平均年租／租金總額向上取整至最接近的100元，印花稅向上取整至最接近的1元。按金不計入。每份複本或對應本另加5元。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "免租期會否改變稅階？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "會。稅務局 IRSD119 註明計算租期時免租期須計算在內。例如免租期令整段協議變成1年零7日，便屬「超逾1年但不超逾3年」，改用0.5%。免租期同時減少須繳租金，計稅基數會較低。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "逾期加蓋印花罰幾多？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "租約須於簽立後30日內加蓋印花。逾期不超逾1個月罰印花稅2倍；超逾1個月但不超逾2個月罰4倍；其他情況罰10倍。自願披露個案，印花稅署署長可按情況減免；GovHK 列明常見公式為14%×印花稅×逾期日數÷365，下限500元，並非保證。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "業主還是租客交印花稅？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "法律沒有指定由哪一方繳付。立約各方均有法律責任，實務上多數各付一半。本頁可改分擔比例，只供估算。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body class="mode-months">
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">免租期示範</button>
+          <button type="button" class="secondary" id="demo-short-btn" data-i18n="demoShortBtn">8個月示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">租約<br />印花</div>
+        <div>
+          <h1 data-i18n="pageTitle">租約印花稅估算器</h1>
+          <p class="lede" data-i18n="lede">
+            按稅務局租約印花稅率，估算正本、複本、頂手費，以及逾期加蓋印花罰款。免租期會計入租期。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供參考，並非稅務局官方工具或繳稅單；實際以印花稅條例、e-Stamping 及印花稅署評定為準。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          稅務局有網上租約印花稅計算機，但註明只適用於租期超過1年、全期固定月租、而且沒有免租期的租約；也不計算複本5元或逾期罰款。官方說明是 IRSD119 PDF。本頁把免租期、分段租金、複本、頂手費與逾期2／4／10倍加起來，方便簽約或補蓋印花前對照。
+        </p>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="stamp-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">租約資料</h2>
+              <fieldset>
+                <legend data-i18n="termLegend">租期</legend>
+                <div class="fields">
+                  <fieldset class="radios">
+                    <legend data-i18n="termModeLegend">怎樣輸入租期</legend>
+                    <label>
+                      <input type="radio" name="termMode" value="months" checked />
+                      <span data-i18n="termMonthsMode">固定月數（最常見：12／24個月）</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="termMode" value="dates" />
+                      <span data-i18n="termDatesMode">開始／終止日期（對照稅務局計年方法）</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="termMode" value="uncertain" />
+                      <span data-i18n="termUncertainMode">租期不固定（輸入平均年租）</span>
+                    </label>
+                  </fieldset>
+                  <label class="field months-only fixed-only" for="term-months">
+                    <span data-i18n="termMonths">租期（月）</span>
+                    <input id="term-months" name="termMonths" type="number" inputmode="decimal" min="0" step="1" value="24" />
+                    <p class="hint" data-i18n="termMonthsHint">12個月＝不超逾1年（0.25%）；13–36個月＝0.5%；超過36個月＝1%。</p>
+                  </label>
+                  <div class="fields row-2 dates-only">
+                    <label class="field" for="start-date">
+                      <span data-i18n="startDate">開始日期（計入免租期）</span>
+                      <input id="start-date" name="startDate" type="date" value="2026-09-01" />
+                    </label>
+                    <label class="field" for="end-date">
+                      <span data-i18n="endDate">終止日期</span>
+                      <input id="end-date" name="endDate" type="date" value="2028-08-31" />
+                    </label>
+                  </div>
+                  <p class="hint dates-only" data-i18n="datesHint">稅務局：開始日與終止日都計算。1月1日至12月31日＝1年（不超逾1年）；至翌年1月1日＝1年零1日（改用0.5%）。</p>
+                  <label class="field uncertain-only" for="uncertain-yearly">
+                    <span data-i18n="uncertainYearly">平均年租（港元）</span>
+                    <input id="uncertain-yearly" name="uncertainYearly" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset class="fixed-only">
+                <legend data-i18n="rentLegend">租金</legend>
+                <div class="fields row-2">
+                  <label class="field" for="monthly-rent">
+                    <span data-i18n="monthlyRent">每月租金（港元）</span>
+                    <input id="monthly-rent" name="monthlyRent" type="number" inputmode="decimal" min="0" step="0.01" value="10000" />
+                  </label>
+                  <label class="field" for="rent-free">
+                    <span data-i18n="rentFreeMonths">免租期（月）</span>
+                    <input id="rent-free" name="rentFreeMonths" type="number" inputmode="decimal" min="0" step="1" value="2" />
+                  </label>
+                </div>
+                <p class="hint" data-i18n="rentFreeHint">免租期減少須繳租金，但仍計入租期。按金不計印花稅。</p>
+                <div class="fields row-2">
+                  <label class="field" for="rent2-months">
+                    <span data-i18n="rent2Months">其後月數（分段租金，可0）</span>
+                    <input id="rent2-months" name="rent2Months" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="monthly-rent2">
+                    <span data-i18n="monthlyRent2">其後每月租金</span>
+                    <input id="monthly-rent2" name="monthlyRent2" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                  </label>
+                </div>
+                <label class="field" for="deposit">
+                  <span data-i18n="deposit">按金（不計稅，只作紀錄）</span>
+                  <input id="deposit" name="deposit" type="number" inputmode="decimal" min="0" step="0.01" value="20000" />
+                </label>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="extraLegend">複本、頂手費與分擔</legend>
+                <div class="fields row-2">
+                  <label class="field" for="counterparts">
+                    <span data-i18n="counterparts">複本／對應本份數</span>
+                    <input id="counterparts" name="counterparts" type="number" inputmode="numeric" min="0" step="1" value="1" />
+                    <p class="hint" data-i18n="counterpartsHint">一式兩份通常填1。每份5元。</p>
+                  </label>
+                  <label class="field" for="key-money">
+                    <span data-i18n="keyMoney">頂手費／建築費等（港元）</span>
+                    <input id="key-money" name="keyMoney" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                    <p class="hint" data-i18n="keyMoneyHint">同時有租金時按代價4.25%。沒有租金則與物業轉讓相同，本頁不估算從價印花稅。</p>
+                  </label>
+                  <label class="field" for="landlord-share">
+                    <span data-i18n="landlordShare">業主分擔（%）</span>
+                    <input id="landlord-share" name="landlordShare" type="number" inputmode="decimal" min="0" max="100" step="1" value="50" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="whenLegend">簽立與加蓋印花日期</legend>
+                <div class="fields row-2">
+                  <label class="field" for="signed-date">
+                    <span data-i18n="signedDate">簽立日期</span>
+                    <input id="signed-date" name="signedDate" type="date" value="2026-07-02" />
+                  </label>
+                  <label class="field" for="stamp-date">
+                    <span data-i18n="stampDate">擬加蓋／已加蓋日期</span>
+                    <input id="stamp-date" name="stampDate" type="date" value="2026-07-20" />
+                  </label>
+                </div>
+                <p class="hint" data-i18n="whenHint">須於簽立後30日內加蓋。開始租住日期不影響限期。</p>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="copy-btn" data-i18n="copyBtn">複製文字</button>
+            <button type="button" class="secondary" id="csv-btn" data-i18n="csvBtn">下載 CSV</button>
+          </div>
+          <p class="muted no-print copy-status" id="copy-status" aria-live="polite"></p>
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">草稿會自動保存在此瀏覽器。</p>
+          <div id="kpis" class="kpis no-print"></div>
+          <div id="bill" class="bill" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section class="rate-card no-print" aria-labelledby="rates-title">
+        <h2 id="rates-title" data-i18n="ratesTitle">租約印花稅率（IRSD119，2024年9月）</h2>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="rateTerm">租期</th>
+              <th data-i18n="rateDuty">印花稅</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td data-i18n="rateUncertain">無指定或不固定</td><td data-i18n="rateUncertainV">平均年租 0.25%</td></tr>
+            <tr><td data-i18n="rateUpto1">不超逾1年</td><td data-i18n="rateUpto1V">租金總額 0.25%</td></tr>
+            <tr><td data-i18n="rateOver1">超逾1年但不超逾3年</td><td data-i18n="rateOver1V">年租或平均年租 0.5%</td></tr>
+            <tr><td data-i18n="rateOver3">超逾3年</td><td data-i18n="rateOver3V">年租或平均年租 1%</td></tr>
+            <tr><td data-i18n="rateKey">頂手費等（同時有租金）</td><td data-i18n="rateKeyV">代價 4.25%</td></tr>
+            <tr><td data-i18n="rateCopy">複本／對應本</td><td>HK$5</td></tr>
+          </tbody>
+        </table>
+        <p class="hint" data-i18n="ratesHint">年租／平均年租／租金總額向上取整至100元；印花稅向上取整至1元。按金不計。數字截至2026年10月8日核對官方頁。</p>
+      </section>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">香港租約印花稅怎樣計？</summary>
+          <p data-i18n="faq1a">稅率視乎租期：不超逾1年按租金總額0.25%；超逾1年但不超逾3年按年租或平均年租0.5%；超逾3年按1%；租期不固定按平均年租0.25%。年租／平均年租／租金總額向上取整至最接近的100元，印花稅向上取整至最接近的1元。按金不計入。每份複本或對應本另加5元。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">免租期會否改變稅階？</summary>
+          <p data-i18n="faq2a">會。稅務局 IRSD119 註明計算租期時免租期須計算在內。例如免租期令整段協議變成1年零7日，便屬「超逾1年但不超逾3年」，改用0.5%。免租期同時減少須繳租金，計稅基數會較低。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">逾期加蓋印花罰幾多？</summary>
+          <p data-i18n="faq3a">租約須於簽立後30日內加蓋印花。逾期不超逾1個月罰印花稅2倍；超逾1個月但不超逾2個月罰4倍；其他情況罰10倍。自願披露個案，印花稅署署長可按情況減免；GovHK 列明常見公式為14%×印花稅×逾期日數÷365，下限500元，並非保證。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">業主還是租客交印花稅？</summary>
+          <p data-i18n="faq4a">法律沒有指定由哪一方繳付。立約各方均有法律責任，實務上多數各付一半。本頁可改分擔比例，只供估算。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳嗎？</summary>
+          <p data-i18n="faq5a">不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcLeaflet">稅務局印花稅署 — 租約加蓋印花程序及註釋 IRSD119（2024年9月）：</span>
+            <a href="https://www.ird.gov.hk/chi/pdf/irsd119.pdf" rel="noopener noreferrer">中文 PDF</a>
+            ·
+            <a href="https://www.ird.gov.hk/eng/pdf/irsd119.pdf" rel="noopener noreferrer">English PDF</a>
+          </li>
+          <li>
+            <span data-i18n="srcCalc">稅務局 — 計算印花稅（物業）租約（官方計算機不含免租期／逾期罰款）：</span>
+            <a href="https://www.ird.gov.hk/chi/ese/sd_comp/sdta.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.ird.gov.hk/eng/ese/sd_comp/sdta.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcLate">GovHK — 逾期加蓋印花及漏納印花（罰款及自願披露減免，頁面標示2025年8月覆核）：</span>
+            <a href="https://www.gov.hk/tc/residents/taxes/stamp/late_stamping.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.gov.hk/en/residents/taxes/stamp/late_stamping.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcEstamp">GovHK e-Stamping 網上加蓋印花：</span>
+            <a href="https://www.gov.hk/estamping" rel="noopener noreferrer">gov.hk/estamping</a>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上稅率與例子於2026年10月8日核對上述官方頁；若憲報或稅務局其後修訂，以官方為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          租金、日期與分擔比例只留在這個瀏覽器（localStorage）。本頁不上傳、不設帳號、不設後端。列印、複製或匯出 CSV 才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供參考，並非稅務局評稅或法律意見。 / For reference only; not an IRD assessment or legal advice.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="./">租約印花稅</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
