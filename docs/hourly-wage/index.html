@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>時薪計算器｜月薪／日薪換算 香港 · Hourly wage calculator</title>
+    <meta
+      name="description"
+      content="免費香港時薪計算器：月薪、日薪與時薪即時互轉。預設每月 26 工作日、每日 8 小時（常見糧單假設，不是法例）。只供估算，不是最低工資計算。資料留在瀏覽器。 Free HK hourly wage converter — monthly / daily / hourly, EN + 繁中."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/hourly-wage/" />
+    <meta property="og:title" content="時薪計算器｜月薪／日薪換算 香港" />
+    <meta
+      property="og:description"
+      content="月薪、日薪與時薪即時互轉。26 工作日是常見糧單假設，不是法例。只供估算。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/hourly-wage/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "月薪怎樣換成時薪？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "時薪＝月薪 ÷（每月工作日數 × 每日工時）。例如月薪 20,800 元、26 日、每日 8 小時，時薪＝20,800 ÷ 208＝100 元。26 日是香港糧單常見假設，不是法例規定。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這是不是法定最低工資計算？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不是。香港有法定最低工資（Statutory Minimum Wage），官方工時與工資範圍以勞工處公布為準。本頁只做簡單估算，沒有套用最低工資條例的完整公式，不能用來判斷僱主有沒有達標。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "為甚麼預設每月 26 個工作日？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不少香港糧單會用每月 26 日把月薪估成日薪（月薪 ÷ 26）。這是常見實務假設，不是僱傭條例或最低工資的法定日數。你可以改成實際開工日數，例如 22。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。金額與工時只在瀏覽器內計算，並可寫入本機 localStorage 方便下次開啟。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到計算 / Skip to calculator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">載入示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">重設 Reset</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">時薪<br />計算</div>
+        <div>
+          <h1 data-i18n="pageTitle">時薪計算器</h1>
+          <p class="lede" data-i18n="lede">
+            月薪、日薪同時薪即時互轉。預設每月 26 工作日、每日 8 小時（常見糧單假設，不是法例）。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">僅供估算，唔係勞工法例或最低工資計算；實際時薪／合約以僱主同勞工處規定為準。香港有法定最低工資，本頁沒有套用官方完整公式。</span>
+      </p>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="wage-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">金額與工時</h2>
+
+              <fieldset>
+                <legend data-i18n="modeLegend">由邊度計</legend>
+                <div class="mode-row" role="group" aria-label="Conversion mode">
+                  <button type="button" class="secondary mode" data-mode="monthly" aria-pressed="true" data-i18n="modeMonthly">月薪 → 時薪</button>
+                  <button type="button" class="secondary mode" data-mode="daily" aria-pressed="false" data-i18n="modeDaily">日薪 → 時薪</button>
+                  <button type="button" class="secondary mode" data-mode="hourly" aria-pressed="false" data-i18n="modeHourly">時薪 → 月薪／日薪</button>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="payLegend">金額（港元）</legend>
+                <label class="field" for="amount">
+                  <span id="amount-label" data-i18n="amountMonthly">每月薪金</span>
+                  <input id="amount" name="amount" type="number" inputmode="decimal" min="0" step="0.01" value="20800" />
+                </label>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="hoursLegend">工時假設</legend>
+                <div class="fields row-2">
+                  <label class="field" for="days">
+                    <span data-i18n="days">每月工作日數</span>
+                    <input id="days" name="daysPerMonth" type="number" inputmode="decimal" min="0.5" max="31" step="0.5" value="26" />
+                    <p class="hint" data-i18n="daysHint">預設 26 日是香港糧單常見假設（例如月薪 ÷ 26 估日薪），並非法例規定。</p>
+                  </label>
+                  <label class="field" for="hours-day">
+                    <span data-i18n="hoursDay">每日工時</span>
+                    <input id="hours-day" name="hoursPerDay" type="number" inputmode="decimal" min="0.25" max="24" step="0.25" value="8" />
+                    <p class="hint" data-i18n="hoursDayHint">預設 8 小時。午膳是否有薪請按合約自行加減。</p>
+                  </label>
+                </div>
+                <label class="field" for="hours-week">
+                  <span data-i18n="hoursWeek">每週工時（可選，用來顯示週薪）</span>
+                  <input id="hours-week" name="hoursPerWeek" type="number" inputmode="decimal" min="0" max="168" step="0.5" value="44" />
+                  <p class="hint" data-i18n="hoursWeekHint">預設 44 小時只方便估週薪，不會用來計月薪。可留空或填 0 隱藏週薪。</p>
+                </label>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">設定會自動保存在此瀏覽器（可選）。</p>
+          <div class="ticker" aria-live="polite">
+            <p class="ticker-label" id="hero-label" data-i18n="hourlyLabel">時薪</p>
+            <p class="big-amount" id="hero-amount">HK$100.00</p>
+            <p class="hero-sub" id="hero-sub"></p>
+            <div class="kpis" id="kpis"></div>
+            <h2 data-i18n="formulaTitle">計算公式</h2>
+            <pre class="formula" id="formula"></pre>
+          </div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">月薪怎樣換成時薪？</summary>
+          <p data-i18n="faq1a">時薪＝月薪 ÷（每月工作日數 × 每日工時）。例如月薪 20,800 元、26 日、每日 8 小時，時薪＝20,800 ÷ 208＝100 元。26 日是香港糧單常見假設，不是法例規定。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">這是不是法定最低工資計算？</summary>
+          <p data-i18n="faq2a">不是。香港有法定最低工資（Statutory Minimum Wage），官方工時與工資範圍以勞工處公布為準。本頁只做簡單估算，沒有套用最低工資條例的完整公式，不能用來判斷僱主有沒有達標。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">為甚麼預設每月 26 個工作日？</summary>
+          <p data-i18n="faq3a">不少香港糧單會用每月 26 日把月薪估成日薪（月薪 ÷ 26）。這是常見實務假設，不是僱傭條例或最低工資的法定日數。你可以改成實際開工日數，例如 22。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">資料會上傳嗎？</summary>
+          <p data-i18n="faq4a">不會。金額與工時只在瀏覽器內計算，並可寫入本機 localStorage 方便下次開啟。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          金額與工時只留在這個瀏覽器（localStorage，可選）。本頁不上傳、不設帳號、不設後端。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">僅供估算，唔係勞工法例或最低工資計算；實際時薪／合約以僱主同勞工處規定為準。 / Estimate only; not labour-law or SMW calculation.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="./">時薪計算器</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
