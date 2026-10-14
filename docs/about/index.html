@@ -7,7 +7,7 @@
     <title>關於本站｜香港生活工具 About</title>
     <meta
       name="description"
-      content="香港生活工具是一套免費、私隱優先、只在瀏覽器運作的香港日常工具：短訊記帳、外傭工資收據、大廈維修費分攤、分租水電帳目、公立醫院收費估算、整個月薪計時器、時薪計算器、租約印花稅估算。不用註冊、不用上傳。 A collection of free, privacy-first, browser-only Hong Kong life-utility tools."
+      content="香港生活工具是一套免費、私隱優先、只在瀏覽器運作的香港日常工具：短訊記帳、外傭工資收據、外傭合約終止結算、大廈維修費分攤、分租水電帳目、公立醫院收費估算、整個月薪計時器、時薪計算器、租約印花稅估算。不用註冊、不用上傳。 A collection of free, privacy-first, browser-only Hong Kong life-utility tools."
     />
     <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/about/" />
     <meta property="og:title" content="關於本站｜香港生活工具 About" />
@@ -45,7 +45,7 @@
 
         <h2>這是甚麼</h2>
         <p>
-          香港生活工具把幾件香港日常會用到的計算與文件工作，做成靜態網頁：把銀行簽賬短訊整理成 CSV、列印外傭糧單、按業權份數分攤大維修、為劏房或合租寫水電分攤帳目、估算公立醫院收費、按月薪即時估算今天已賺、把月薪／日薪同時薪互轉、估算租約印花稅。
+          香港生活工具把幾件香港日常會用到的計算與文件工作，做成靜態網頁：把銀行簽賬短訊整理成 CSV、列印外傭糧單、列印外傭合約終止結算單、按業權份數分攤大維修、為劏房或合租寫水電分攤帳目、估算公立醫院收費、按月薪即時估算今天已賺、把月薪／日薪同時薪互轉、估算租約印花稅。
         </p>
         <p>
           網站以開源靜態頁發布，部署在 GitHub Pages 與 Cloudflare Pages，原始碼在
@@ -57,6 +57,7 @@
         <ul>
           <li>想把信用卡簽賬短訊匯入試算表的持卡人</li>
           <li>要每月列印外傭工資收據的僱主</li>
+          <li>合約期滿或提前終止時要列印外傭結算單的僱主</li>
           <li>要估算或通知各戶維修徵款的業主立案法團司庫、管理處或業主</li>
           <li>要為劏房規管租賃或合租室友準備水電分攤書面帳目的業主與租客</li>
           <li>想對照2026年醫管局急症室、住院或門診收費的病人與家屬</li>
@@ -80,6 +81,10 @@
           <li>
             <a href="../helper-receipt/">外傭工資收據</a>
             — 中英雙語外傭糧單產生器，可列印或另存 PDF，並記下休息日與勞工假。
+          </li>
+          <li>
+            <a href="../helper-settlement/">外傭合約終止結算</a>
+            — 中英雙語外傭合約終止結算單：未付工資、未放年假、代通知金與回程旅費，可列印或另存 PDF。不是遣散費／長期服務金計算機。
           </li>
           <li>
             <a href="../repair-levy/">大廈維修費分攤</a>
@@ -127,7 +132,7 @@
 
         <h2>What this is</h2>
         <p>
-          HK life-utility tools are static pages for everyday Hong Kong tasks: turn bank card SMS into a CSV, print a domestic-helper wage receipt, split a building repair levy by shares, write a utility-apportionment account for an SDU or flatshare, estimate public hospital fees after the 2026 HA reform, watch a live estimate of earnings against a monthly salary, convert monthly or daily pay to an hourly estimate, and estimate tenancy stamp duty including rent-free months and late penalties.
+          HK life-utility tools are static pages for everyday Hong Kong tasks: turn bank card SMS into a CSV, print a domestic-helper wage receipt, print an FDH contract-termination settlement, split a building repair levy by shares, write a utility-apportionment account for an SDU or flatshare, estimate public hospital fees after the 2026 HA reform, watch a live estimate of earnings against a monthly salary, convert monthly or daily pay to an hourly estimate, and estimate tenancy stamp duty including rent-free months and late penalties.
         </p>
         <p>
           The site is open-source static HTML, hosted on GitHub Pages and Cloudflare Pages. Source:
@@ -139,6 +144,7 @@
         <ul>
           <li>Cardholders who want SMS spending notices in a spreadsheet</li>
           <li>Employers who print a monthly foreign domestic helper wage receipt</li>
+          <li>Employers who need a one-page FDH settlement at contract expiry or early termination</li>
           <li>OC treasurers, management offices or owners estimating or notifying a repair levy</li>
           <li>Landlords and tenants preparing a written utility-apportionment account for a regulated SDU tenancy or flatshare</li>
           <li>Patients and families checking 2026 Hospital Authority A&E, inpatient or clinic charges</li>
@@ -162,6 +168,10 @@
           <li>
             <a href="../helper-receipt/">Helper wage receipt</a>
             — Bilingual FDH wage receipt: print or save PDF, plus a simple rest-day / statutory-holiday log.
+          </li>
+          <li>
+            <a href="../helper-settlement/">FDH contract termination settlement</a>
+            — Bilingual end-of-contract settlement: unpaid wages, unused leave, payment in lieu and return passage. Not an SP/LSP calculator.
           </li>
           <li>
             <a href="../repair-levy/">Building repair levy</a>
@@ -209,6 +219,7 @@
           <a href="./">關於 About</a>
           <a href="../privacy/">私隱 Privacy</a>
           <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
           <a href="../repair-levy/">大廈維修費分攤</a>
           <a href="../utility-account/">分租水電費帳目</a>
           <a href="../hospital-fees/">公立醫院收費</a>

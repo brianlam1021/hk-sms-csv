@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>外傭合約終止結算單產生器｜免費列印 · FDH Contract Termination Settlement Generator</title>
+    <meta
+      name="description"
+      content="免費外傭合約終止結算單產生器：填寫僱主、外傭、未付工資、未放年假、代通知金、回程機票與膳食旅費，瀏覽器內產生中英雙語結算單，列印或另存 PDF。不是遣散費／長期服務金計算機。資料只留在本機。 Free HK FDH contract-termination settlement — bilingual 繁中 + English, print or save PDF. Not an SP/LSP calculator."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/helper-settlement/" />
+    <meta property="og:title" content="外傭合約終止結算單產生器｜免費列印 · FDH Contract Termination Settlement Generator" />
+    <meta
+      property="og:description"
+      content="中英雙語外傭合約終止結算單：未付工資、年假、代通知金、回程旅費。列印或另存 PDF。不是 SP/LSP 計算機。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/helper-settlement/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "這和每月外傭工資收據有何分別？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "每月糧單記錄該期工資與假期。本頁是合約期滿或提前終止時的一頁結算單，用來列出未付工資、未放年假薪酬、代通知金、回程機票或現金，以及回程膳食及交通津貼。兩者互補，不是同一份文件。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "會計算遣散費或長期服務金嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。本頁不計算遣散費、長期服務金或強積金對沖。如合約終止可能涉及該等法定權益，請用勞工處的法定僱傭權益參考計算機核對，並以僱傭條例及標準僱傭合約為準。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "膳食津貼和回程膳食交通津貼幾多？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "僱主須免費提供膳食，或不提供膳食而支付膳食津貼；勞工處外傭專頁現時列明每月不少於港幣1,236元，數字以簽約當日公布為準，本頁欄位可改。標準僱傭合約常見條款亦列明回程期間每日膳食及交通津貼港幣100元；日數與單價均可改。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "回程機票要怎樣處理？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "標準僱傭合約規定合約期滿或終止時僱主須提供返回原居地的旅費。勞工處指南一般建議提供直航機票，而不是只付現金。本頁可註明已提供機票，或填寫現金代替金額。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。全部只在你的瀏覽器運算，並可選擇寫入本機 localStorage，方便下次開啟。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到表格 / Skip to form</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="toolbar">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">載入示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 / Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">終止<br />結算</div>
+        <div>
+          <h1 data-i18n="pageTitle">外傭合約終止結算單產生器</h1>
+          <p class="lede" data-i18n="lede">
+            合約期滿或提前終止時，在瀏覽器填寫未付工資、未放年假、代通知金與回程旅費，預覽中英雙語結算單，列印或另存 PDF。不是遣散費／長期服務金計算機。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">僅供參考及備存，並非法律意見。遣散費、長期服務金與法定權益請另用勞工處工具核對。 / For record-keeping only; not legal advice. Check SP/LSP with Labour tools if applicable.</span>
+        <a href="https://www.fdh.labour.gov.hk/" rel="noopener noreferrer">fdh.labour.gov.hk</a>
+      </p>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="settlement-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">結算資料</h2>
+
+              <fieldset>
+                <legend data-i18n="whoLegend">僱主與外傭</legend>
+                <div class="fields">
+                  <label class="field" for="employer-name">
+                    <span data-i18n="employerName">僱主姓名</span>
+                    <input id="employer-name" name="employerName" type="text" maxlength="80" />
+                  </label>
+                  <label class="field" for="helper-name">
+                    <span data-i18n="helperName">外傭姓名</span>
+                    <input id="helper-name" name="helperName" type="text" maxlength="80" />
+                  </label>
+                  <label class="field" for="helper-id">
+                    <span data-i18n="helperId">外傭香港身份證／護照尾數（可選）</span>
+                    <input id="helper-id" name="helperId" type="text" maxlength="20" />
+                  </label>
+                  <div class="row-2">
+                    <label class="field" for="contract-start">
+                      <span data-i18n="contractStart">合約開始日期</span>
+                      <input id="contract-start" name="contractStart" type="date" />
+                    </label>
+                    <label class="field" for="contract-end">
+                      <span data-i18n="contractEnd">合約期滿／終止日期</span>
+                      <input id="contract-end" name="contractEnd" type="date" />
+                    </label>
+                  </div>
+                  <label class="field" for="reason">
+                    <span data-i18n="reason">終止原因</span>
+                    <select id="reason" name="reason">
+                      <option value="expiry" data-i18n="reasonExpiry">合約期滿</option>
+                      <option value="employer_notice" data-i18n="reasonEmployer">僱主給予通知</option>
+                      <option value="helper_notice" data-i18n="reasonHelper">外傭給予通知</option>
+                      <option value="lieu" data-i18n="reasonLieu">以工資代替通知</option>
+                    </select>
+                  </label>
+                  <label class="field" for="witness-name">
+                    <span data-i18n="witnessName">見證人姓名（可選）</span>
+                    <input id="witness-name" name="witnessName" type="text" maxlength="80" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="wageLegend">月薪與膳食</legend>
+                <div class="fields">
+                  <label class="field" for="wage">
+                    <span data-i18n="wage">每月工資（港元）</span>
+                    <input id="wage" name="wage" type="number" inputmode="decimal" min="0" step="0.01" />
+                    <p class="hint" data-i18n="wageHint">規定最低工資以簽訂標準僱傭合約當日為準。2026年10月3日起新約現時為 HK$5,220。</p>
+                  </label>
+                  <fieldset class="radios">
+                    <legend data-i18n="foodLegend">膳食安排</legend>
+                    <label>
+                      <input type="radio" name="foodMode" value="provided" checked />
+                      <span data-i18n="foodProvided">僱主提供免費膳食</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="foodMode" value="allowance" />
+                      <span data-i18n="foodAllowancePaid">不提供膳食，支付膳食津貼</span>
+                    </label>
+                  </fieldset>
+                  <label class="field" for="food-allowance">
+                    <span data-i18n="foodAllowance">每月膳食津貼（港元）</span>
+                    <input id="food-allowance" name="foodAllowance" type="number" inputmode="decimal" min="0" step="0.01" value="1236" />
+                    <p class="hint" data-i18n="foodHint">勞工處外傭專頁現時列明：不提供免費膳食時不少於每月 HK$1,236。可改，請以公布為準。</p>
+                  </label>
+                  <label class="field" for="food-due">
+                    <span data-i18n="foodDue">本結算未付膳食津貼（港元）</span>
+                    <input id="food-due" name="foodDue" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="itemsLegend">結算項目</legend>
+                <div class="fields">
+                  <div class="row-2">
+                    <label class="field" for="unpaid-from">
+                      <span data-i18n="unpaidFrom">未付工資期由</span>
+                      <input id="unpaid-from" name="unpaidFrom" type="date" />
+                    </label>
+                    <label class="field" for="unpaid-to">
+                      <span data-i18n="unpaidTo">未付工資期至</span>
+                      <input id="unpaid-to" name="unpaidTo" type="date" />
+                    </label>
+                  </div>
+                  <label class="field" for="unpaid-amount">
+                    <span data-i18n="unpaidAmount">未付工資金額（港元）</span>
+                    <input id="unpaid-amount" name="unpaidAmount" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                    <p class="hint" data-i18n="unpaidHint">請按實際未付期自行填寫，本頁不代你推算日薪。</p>
+                  </label>
+                  <div class="row-2">
+                    <label class="field" for="leave-days">
+                      <span data-i18n="leaveDays">未放年假日數</span>
+                      <input id="leave-days" name="leaveDays" type="number" inputmode="decimal" min="0" step="0.5" value="0" />
+                    </label>
+                    <label class="field" for="leave-pay">
+                      <span data-i18n="leavePay">未放年假薪酬（港元）</span>
+                      <input id="leave-pay" name="leavePay" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                    </label>
+                  </div>
+                  <p class="hint" data-i18n="leaveHint">年假薪酬以僱傭條例公式為準。按鈕只提供常見糧單粗估（月薪÷26×日數），不是法定計算。</p>
+                  <div class="toolbar">
+                    <button type="button" class="secondary" id="suggest-leave" data-i18n="suggestLeave">填入年假粗估</button>
+                  </div>
+                  <label class="field" for="lieu-amount">
+                    <span data-i18n="lieuAmount">代通知金（港元，可選）</span>
+                    <input id="lieu-amount" name="lieuAmount" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                    <p class="hint" data-i18n="lieuHint">標準合約常見為不少於一個月書面通知，或以一個月工資代替。金額請自行填寫。</p>
+                  </label>
+                  <div class="toolbar">
+                    <button type="button" class="secondary" id="suggest-lieu" data-i18n="suggestLieu">填入一個月工資</button>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="passageLegend">回程旅費</legend>
+                <div class="fields">
+                  <fieldset class="radios">
+                    <legend data-i18n="airfareLegend">回程機票</legend>
+                    <label>
+                      <input type="radio" name="airfareMode" value="ticket" checked />
+                      <span data-i18n="airfareTicket">已提供返回原居地機票</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="airfareMode" value="cash" />
+                      <span data-i18n="airfareCash">以現金代替機票</span>
+                    </label>
+                  </fieldset>
+                  <label class="field" for="airfare-amount">
+                    <span data-i18n="airfareAmount">現金代替機票金額（港元）</span>
+                    <input id="airfare-amount" name="airfareAmount" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                    <p class="hint" data-i18n="airfareHint">勞工處指南一般建議提供直航機票，而不是只付現金。</p>
+                  </label>
+                  <div class="row-2">
+                    <label class="field" for="journey-days">
+                      <span data-i18n="journeyDays">回程日數</span>
+                      <input id="journey-days" name="journeyDays" type="number" inputmode="decimal" min="0" step="0.5" value="1" />
+                    </label>
+                    <label class="field" for="journey-rate">
+                      <span data-i18n="journeyRate">每日膳食及交通津貼（港元）</span>
+                      <input id="journey-rate" name="journeyRate" type="number" inputmode="decimal" min="0" step="0.01" value="100" />
+                    </label>
+                  </div>
+                  <p class="hint" data-i18n="journeyHint">標準僱傭合約常見為回程期間每日 HK$100。日數與單價都可改，請以合約為準。</p>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="extraLegend">其他加項／扣減（可選）</legend>
+                <p class="hint" data-i18n="extraHint">例如報銷、預支工資、損毁賠償等。請自行核對是否可合法扣減。</p>
+                <div id="extra-rows" class="extra-rows"></div>
+                <div class="toolbar">
+                  <button type="button" class="secondary" id="add-extra" data-i18n="addExtra">新增一行</button>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="payLegend">付款與備註</legend>
+                <div class="fields">
+                  <label class="field" for="pay-date">
+                    <span data-i18n="payDate">付款／簽署日期</span>
+                    <input id="pay-date" name="payDate" type="date" />
+                  </label>
+                  <label class="field" for="pay-method">
+                    <span data-i18n="payMethod">付款方式</span>
+                    <select id="pay-method" name="payMethod">
+                      <option value="bank" data-i18n="methodBank">銀行轉帳／自動轉帳（建議）</option>
+                      <option value="cash" data-i18n="methodCash">現金</option>
+                      <option value="cheque" data-i18n="methodCheque">支票</option>
+                    </select>
+                  </label>
+                  <label class="field" for="bank-ref">
+                    <span id="bank-ref-label" data-i18n="bankRef">銀行參考編號（可選）</span>
+                    <input id="bank-ref" name="bankRef" type="text" maxlength="40" />
+                  </label>
+                  <label class="field" for="notes">
+                    <span data-i18n="notes">備註</span>
+                    <textarea id="notes" name="notes" maxlength="400"></textarea>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+          </form>
+
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+          </div>
+          <div id="statement" class="receipts" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">這和每月外傭工資收據有何分別？</summary>
+          <p data-i18n="faq1a">
+            每月糧單記錄該期工資與假期。本頁是合約期滿或提前終止時的一頁結算單，用來列出未付工資、未放年假、代通知金與回程旅費。兩者互補，不是同一份文件。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">會計算遣散費或長期服務金嗎？</summary>
+          <p data-i18n="faq2a">
+            不會。本頁不計算遣散費、長期服務金或強積金對沖。如可能適用，請用勞工處法定僱傭權益參考計算機核對。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">膳食津貼和回程膳食交通津貼幾多？</summary>
+          <p data-i18n="faq3a">
+            不提供免費膳食時，勞工處外傭專頁現時列明每月不少於 HK$1,236。回程期間膳食及交通津貼在標準合約常見為每日 HK$100。本頁欄位可改，請以公布及合約為準。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">回程機票要怎樣處理？</summary>
+          <p data-i18n="faq4a">
+            合約期滿或終止時僱主須提供返回原居地的旅費。勞工處指南一般建議提供直航機票。本頁可註明已提供機票，或填寫現金代替金額。
+          </p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳嗎？</summary>
+          <p data-i18n="faq5a">
+            不會。全部只在你的瀏覽器運算，並可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。
+          </p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <a href="https://www.fdh.labour.gov.hk/" rel="noopener noreferrer">勞工處外籍家庭傭工專頁 fdh.labour.gov.hk</a>
+          </li>
+          <li>
+            <a href="https://www.fdh.labour.gov.hk/tc/employer_corner.html" rel="noopener noreferrer">僱主園地（膳食津貼、期滿／終止安排）</a>
+            ·
+            <a href="https://www.fdh.labour.gov.hk/en/employer_corner.html" rel="noopener noreferrer">Employers’ Corner</a>
+          </li>
+          <li>
+            <a href="https://www.labour.gov.hk/tc/labour/Statutory_Employment_Entitlements_Reference_Calculator.htm" rel="noopener noreferrer">法定僱傭權益參考計算機（遣散費／長期服務金）</a>
+            ·
+            <a href="https://www.lr.labour.gov.hk/web/tc/calculator/index.html" rel="noopener noreferrer">網上計算機</a>
+          </li>
+          <li>
+            <a href="https://www.gov.hk/tc/residents/employment/recruitment/terminateforeignhelper.htm" rel="noopener noreferrer">入境處：提前終止外傭合約通知</a>
+          </li>
+          <li>
+            <a href="../helper-receipt/" data-i18n="receiptLink">每月外傭工資收據產生器</a>
+          </li>
+        </ul>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          姓名、證件尾數、工資與結算金額只留在這個瀏覽器（localStorage）。本頁不上傳、不設帳號、不設後端，也不為表格設置 Cookie。列印才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">僅供參考及備存，並非法律意見；以勞工處、入境處及標準僱傭合約（ID 407）為準。本頁不計算遣散費、長期服務金或強積金對沖。 / For reference and record-keeping only; not legal advice. The Labour Department, ImmD and Standard Employment Contract (ID 407) prevail. This page does not calculate SP/LSP or MPF offsetting.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="./">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
