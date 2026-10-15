@@ -206,6 +206,10 @@ legend {
   min-width: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .field span {
   font-weight: 700;
   font-size: 0.92rem;

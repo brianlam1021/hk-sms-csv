@@ -249,6 +249,8 @@ describe("page constraints", () => {
     assert.match(html, /lang="zh-Hant-HK"/);
     assert.match(html, /href="\.\.\/privacy\/"/);
     assert.match(html, /mpfa\.org\.hk/);
+    const css = readFileSync(new URL("../docs/mpf-contribution/style.css", import.meta.url), "utf8");
+    assert.match(css, /\[hidden\]\s*\{[\s\S]*?display:\s*none\s*!important/);
   });
 
   it("is linked from the hub, sitemap and about page", () => {
