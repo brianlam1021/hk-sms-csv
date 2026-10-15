@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>強積金供款估算｜僱主僱員自僱 香港 · MPF contribution</title>
+    <meta
+      name="description"
+      content="免費香港強積金強制性供款估算：按積金局現行最低／最高有關入息水平，即時計算僱主、僱員或自僱人士本期供款、入息上下限與實收。積金局沒有本期供款計算機。瀏覽器內運算，不用註冊。 Free HK MPF mandatory contribution estimator."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/mpf-contribution/" />
+    <meta property="og:title" content="強積金供款估算｜僱主僱員自僱 香港" />
+    <meta
+      property="og:description"
+      content="按積金局強制性供款表估算僱主／僱員或自僱人士本期供款。月入低於$7,100僱員免供、僱主仍供5%；高於$30,000每方封頂$1,500。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/mpf-contribution/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "香港強積金強制性供款怎樣計？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "僱員及僱主一般各按僱員有關入息的5%供款，受最低及最高有關入息水平限制。月薪僱員現行最低為$7,100、最高為$30,000。低於下限，僱員無須供款，僱主仍按實際有關入息供5%；介乎兩者，雙方各供5%；高於上限，雙方各供$1,500。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "月入低於7,100元，僱主是否也不用供款？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "要供。下限只豁免僱員那一半。僱主仍須按實際有關入息供5%。自僱人士低於下限則無須供款。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "新僱員免供款期有多久？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "僱員無須為受僱首30日供款，並可能伸延至其後首個不完整糧期。免供款期不適用於僱主，僱主須由受僱首日起供。首次供款一般在僱員受僱滿60日所在月份完結後的下一個供款日（通常每月10日）或之前交到積金易。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。金額只在瀏覽器內計算，草稿可寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">月薪示範</button>
+          <button type="button" class="secondary" id="demo-low-btn" data-i18n="demoLowBtn">低於下限</button>
+          <button type="button" class="secondary" id="demo-cap-btn" data-i18n="demoCapBtn">超過上限</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">強積金<br />供款</div>
+        <div>
+          <h1 data-i18n="pageTitle">強積金供款估算</h1>
+          <p class="lede" data-i18n="lede">
+            按積金局強制性供款表，估算僱主、僱員或自僱人士本期供款、入息上下限與實收。月入低於$7,100僱員免供、僱主仍供5%。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供估算，並非積金局或積金易官方工具；實際以強制性公積金計劃條例、積金局公布及受託人結算為準。家庭傭工、18歲以下、65歲或以上及部分獲豁免人士不適用。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          積金局網站有強制性供款表和退休策劃計算機，但沒有「這個糧期要供多少」的互動工具。本頁把月薪、周薪、半月薪、日薪與自僱按年一次計出，並標出低於下限時只有僱員免供、高於上限每方$1,500封頂。
+        </p>
+        <table class="rate-mini">
+          <thead>
+            <tr>
+              <th data-i18n="tableIncome">每月有關入息</th>
+              <th data-i18n="tableEr">僱主強制性</th>
+              <th data-i18n="tableEe">僱員強制性</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="tableLow">低於 $7,100</td>
+              <td data-i18n="tableLowEr">有關入息 × 5%</td>
+              <td data-i18n="tableLowEe">無須供款</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableMid">$7,100 至 $30,000</td>
+              <td>5%</td>
+              <td>5%</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableHigh">高於 $30,000</td>
+              <td>$1,500</td>
+              <td>$1,500</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="mpf-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">本期有關入息</h2>
+
+              <fieldset>
+                <legend data-i18n="roleLegend">身份</legend>
+                <div class="mode-row" role="group" aria-label="Role">
+                  <button type="button" class="secondary role" data-role="employee" aria-pressed="true" data-i18n="roleEmployee">僱員</button>
+                  <button type="button" class="secondary role" data-role="selfEmployed" aria-pressed="false" data-i18n="roleSelf">自僱人士</button>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="periodLegend">糧期／供款期</legend>
+                <div class="mode-row" role="group" aria-label="Contribution period">
+                  <button type="button" class="secondary period" data-period="monthly" aria-pressed="true" data-i18n="periodMonthly">月薪</button>
+                  <button type="button" class="secondary period" id="mode-weekly" data-period="weekly" aria-pressed="false" data-i18n="periodWeekly">周薪</button>
+                  <button type="button" class="secondary period" id="mode-semi" data-period="semiMonthly" aria-pressed="false" data-i18n="periodSemi">半月薪</button>
+                  <button type="button" class="secondary period" id="mode-daily" data-period="daily" aria-pressed="false" data-i18n="periodDaily">日薪</button>
+                  <button type="button" class="secondary period" id="mode-yearly" data-period="yearly" aria-pressed="false" hidden data-i18n="periodYearly">按年（自僱）</button>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="incomeLegend">有關入息（港元）</legend>
+                <label class="field" for="income">
+                  <span id="income-label" data-i18n="incomeMonthly">本月有關入息</span>
+                  <input id="income" name="income" type="number" inputmode="decimal" min="0" step="0.01" value="20000" />
+                  <p class="hint" data-i18n="incomeHint">包括工資、佣金、花紅、假期薪酬；不包括遣散費、長期服務金、代通知金及發還墊支。</p>
+                </label>
+                <label class="field" id="days-field" for="days" hidden>
+                  <span data-i18n="days">本糧期日數</span>
+                  <input id="days" name="days" type="number" inputmode="decimal" min="1" max="31" step="1" value="7" />
+                  <p class="hint" data-i18n="daysHint">非月薪以每日下限$280、上限$1,000乘糧期日數。周薪預設7日，半月薪可填15或16。</p>
+                </label>
+                <label class="field" for="voluntary">
+                  <span data-i18n="voluntary">自願性供款（可0）</span>
+                  <input id="voluntary" name="voluntary" type="number" inputmode="decimal" min="0" step="0.01" value="0" />
+                  <p class="hint" data-i18n="voluntaryHint">自願性供款不受$1,500上限限制。本頁只把此數從實收扣走，不當強制性。</p>
+                </label>
+                <label class="check" id="holiday-field">
+                  <input id="holiday" name="holiday" type="checkbox" />
+                  <span data-i18n="holiday">此糧期屬僱員免供款期（受僱首約30日及隨後不完整糧期）</span>
+                </label>
+                <p class="hint" data-i18n="holidayHint">免供款期不適用於僱主。臨時僱員（飲食／建造業受僱少於60日）一般沒有免供款期。</p>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">設定會自動保存在此瀏覽器（可選）。</p>
+          <div class="ticker" aria-live="polite">
+            <p class="ticker-label" id="hero-label" data-i18n="heroTotal">本期強制性供款合計</p>
+            <p class="big-amount" id="hero-amount">HK$2,000.00</p>
+            <p class="hero-sub" id="hero-sub"></p>
+            <div class="kpis" id="kpis"></div>
+            <table class="breakdown" id="breakdown"></table>
+            <h2 data-i18n="formulaTitle">計算步驟</h2>
+            <pre class="formula" id="formula"></pre>
+          </div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">香港強積金強制性供款怎樣計？</summary>
+          <p data-i18n="faq1a">僱員及僱主一般各按僱員有關入息的5%供款，受最低及最高有關入息水平限制。月薪僱員現行最低為$7,100、最高為$30,000。低於下限，僱員無須供款，僱主仍按實際有關入息供5%；介乎兩者，雙方各供5%；高於上限，雙方各供$1,500。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">月入低於7,100元，僱主是否也不用供款？</summary>
+          <p data-i18n="faq2a">要供。下限只豁免僱員那一半。僱主仍須按實際有關入息供5%。自僱人士低於下限則無須供款。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">甚麼算有關入息？</summary>
+          <p data-i18n="faq3a">有關入息是僱主以金錢支付或須支付的工資、薪金、假期津貼、佣金、花紅、獎金、約滿酬金、賞錢或津貼。不包括《僱傭條例》遣散費或長期服務金、代通知金，以及發還僱員墊支的開支。非金錢利益（例如免費膳食、旅遊套餐）一般也不計。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">新僱員免供款期有多久？</summary>
+          <p data-i18n="faq4a">僱員無須為受僱首30日供款，並可能伸延至其後首個不完整糧期。免供款期不適用於僱主。首次把僱主及僱員供款交到積金易，一般是僱員受僱滿60日所在月份完結後的下一個供款日（通常每月10日）或之前。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">自僱人士怎樣供？</summary>
+          <p data-i18n="faq5a">自僱人士按有關入息的5%供款，可選按月或按年。現行最低／最高為每月$7,100（每年$85,200）及每月$30,000（每年$360,000）。低於下限無須供款；高於上限每月$1,500或每年$18,000。有關入息可用最近期評稅通知書的應評稅利潤等積金局認可方法確定。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq6q">這是不是積金局或積金易官方計算機？</summary>
+          <p data-i18n="faq6a">不是。積金局官方是供款表和退休策劃計算機，沒有本期供款互動工具。本頁只按公布的上下限做估算，不能代替付款結算書或受託人紀錄。建造業／飲食業行業計劃的臨時僱員供款方法不同，本頁不涵蓋。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq7q">資料會上傳嗎？</summary>
+          <p data-i18n="faq7a">不會。金額只在瀏覽器內計算，草稿可寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcEmp">積金局 — 僱員強制性供款（月薪／非月薪表、有關入息、免供款期）：</span>
+            <a href="https://www.mpfa.org.hk/mpf-system/mandatory-contributions/employees" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.mpfa.org.hk/en/mpf-system/mandatory-contributions/employees" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcSep">積金局 — 自僱人士強制性供款（按月／按年上下限）：</span>
+            <a href="https://www.mpfa.org.hk/mpf-system/mandatory-contributions/self-employed-persons" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.mpfa.org.hk/en/mpf-system/mandatory-contributions/self-employed-persons" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcRet">積金局 — 退休策劃計算機（長期累算，不是本期供款）：</span>
+            <a href="https://www.mpfa.org.hk/calculator/calculator" rel="noopener noreferrer">退休策劃計算機</a>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上上下限於2026年10月15日核對積金局網頁（每月最低$7,100、最高$30,000）。水平每四年可按通脹調整，以官方為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          入息與供款數字只留在這個瀏覽器（localStorage，可選）。本頁不上傳、不設帳號、不設後端。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供估算，並非積金局／積金易官方計算或法律、稅務意見。 / Estimate only; not MPFA or eMPF, and not legal or tax advice.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="./">強積金供款</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../property-tax/">物業稅</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

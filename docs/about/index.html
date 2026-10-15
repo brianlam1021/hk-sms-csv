@@ -7,7 +7,7 @@
     <title>關於本站｜香港生活工具 About</title>
     <meta
       name="description"
-      content="香港生活工具是一套免費、私隱優先、只在瀏覽器運作的香港日常工具：短訊記帳、外傭工資收據、外傭合約終止結算、大廈維修費分攤、分租水電帳目、公立醫院收費估算、整個月薪計時器、時薪計算器、租約印花稅估算、物業稅估算。不用註冊、不用上傳。 A collection of free, privacy-first, browser-only Hong Kong life-utility tools."
+      content="香港生活工具是一套免費、私隱優先、只在瀏覽器運作的香港日常工具：短訊記帳、外傭工資收據、外傭合約終止結算、大廈維修費分攤、分租水電帳目、公立醫院收費估算、整個月薪計時器、時薪計算器、強積金供款估算、租約印花稅估算、物業稅估算。不用註冊、不用上傳。 A collection of free, privacy-first, browser-only Hong Kong life-utility tools."
     />
     <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/about/" />
     <meta property="og:title" content="關於本站｜香港生活工具 About" />
@@ -45,7 +45,7 @@
 
         <h2>這是甚麼</h2>
         <p>
-          香港生活工具把幾件香港日常會用到的計算與文件工作，做成靜態網頁：把銀行簽賬短訊整理成 CSV、列印外傭糧單、列印外傭合約終止結算單、按業權份數分攤大維修、為劏房或合租寫水電分攤帳目、估算公立醫院收費、按月薪即時估算今天已賺、把月薪／日薪同時薪互轉、估算租約印花稅、估算出租物業稅與暫繳稅。
+          香港生活工具把幾件香港日常會用到的計算與文件工作，做成靜態網頁：把銀行簽賬短訊整理成 CSV、列印外傭糧單、列印外傭合約終止結算單、按業權份數分攤大維修、為劏房或合租寫水電分攤帳目、估算公立醫院收費、按月薪即時估算今天已賺、把月薪／日薪同時薪互轉、估算強積金強制性供款、估算租約印花稅、估算出租物業稅與暫繳稅。
         </p>
         <p>
           網站以開源靜態頁發布，部署在 GitHub Pages 與 Cloudflare Pages，原始碼在
@@ -63,6 +63,7 @@
           <li>想對照2026年醫管局急症室、住院或門診收費的病人與家屬</li>
           <li>想按月薪看看今天或本月已過工時大約賺了多少的打工仔（只供估算）</li>
           <li>想把月薪、日薪同時薪互相換算的打工仔或僱主（只供估算，不是最低工資計算）</li>
+          <li>想估算這個糧期強積金強制性供款、入息下限或$1,500上限的僱員、僱主或自僱人士（只供估算，不是積金局／積金易）</li>
           <li>要估算住宅租約印花稅、免租期稅階或逾期加蓋印花罰款的業主與租客</li>
           <li>要估算出租物業稅、翌年暫繳稅或緩繳門檻的收租業主（只供估算，不是評稅單）</li>
         </ul>
@@ -108,6 +109,10 @@
             — 月薪、日薪同時薪即時互轉。預設 26 工作日是糧單常見假設，不是法例。只供估算。
           </li>
           <li>
+            <a href="../mpf-contribution/">強積金供款估算</a>
+            — 按積金局強制性供款表估算僱主／僱員或自僱人士本期供款、入息上下限與實收。只供估算。
+          </li>
+          <li>
             <a href="../tenancy-stamp/">租約印花稅估算</a>
             — 按稅務局租約印花稅率估算正本、免租期、複本、頂手費與逾期罰款。
           </li>
@@ -137,7 +142,7 @@
 
         <h2>What this is</h2>
         <p>
-          HK life-utility tools are static pages for everyday Hong Kong tasks: turn bank card SMS into a CSV, print a domestic-helper wage receipt, print an FDH contract-termination settlement, split a building repair levy by shares, write a utility-apportionment account for an SDU or flatshare, estimate public hospital fees after the 2026 HA reform, watch a live estimate of earnings against a monthly salary, convert monthly or daily pay to an hourly estimate, estimate tenancy stamp duty including rent-free months and late penalties, and estimate property tax plus provisional tax on rental income.
+          HK life-utility tools are static pages for everyday Hong Kong tasks: turn bank card SMS into a CSV, print a domestic-helper wage receipt, print an FDH contract-termination settlement, split a building repair levy by shares, write a utility-apportionment account for an SDU or flatshare, estimate public hospital fees after the 2026 HA reform, watch a live estimate of earnings against a monthly salary, convert monthly or daily pay to an hourly estimate, estimate this-period mandatory MPF contributions, estimate tenancy stamp duty including rent-free months and late penalties, and estimate property tax plus provisional tax on rental income.
         </p>
         <p>
           The site is open-source static HTML, hosted on GitHub Pages and Cloudflare Pages. Source:
@@ -155,6 +160,7 @@
           <li>Patients and families checking 2026 Hospital Authority A&E, inpatient or clinic charges</li>
           <li>Anyone who wants a live estimate of how much of a monthly salary has elapsed today or this month (not payroll)</li>
           <li>Workers or employers converting monthly, daily and hourly pay (estimate only; not statutory minimum wage)</li>
+          <li>Employees, employers or self-employed persons estimating this period’s mandatory MPF, the income floor, or the HK$1,500 cap (estimate only; not MPFA / eMPF)</li>
           <li>Landlords and tenants estimating tenancy stamp duty, a rent-free rate-band change, or a late-stamping penalty</li>
           <li>Landlords estimating property tax, next-year provisional tax or the 90% holdover threshold (estimate only; not an IRD notice)</li>
         </ul>
@@ -200,6 +206,10 @@
             — Convert monthly, daily and hourly pay. Default 26 work days is a payroll assumption, not the law. Estimate only.
           </li>
           <li>
+            <a href="../mpf-contribution/">MPF contribution estimator</a>
+            — Estimate this period’s mandatory MPF for employer/employee or self-employed from the MPFA tables. Estimate only.
+          </li>
+          <li>
             <a href="../tenancy-stamp/">Tenancy stamp duty</a>
             — Estimate IRD lease stamp duty, including rent-free months, counterparts, key money and late penalties.
           </li>
@@ -235,6 +245,7 @@
           <a href="../hospital-fees/">公立醫院收費</a>
           <a href="../salary-timer/">月薪計時器</a>
           <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../mpf-contribution/">強積金供款</a>
           <a href="../tenancy-stamp/">租約印花稅</a>
           <a href="../property-tax/">物業稅</a>
           <a href="../">短訊記帳CSV</a>
