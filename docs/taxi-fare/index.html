@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>的士車費估算｜市區新界大嶼山 香港 · Taxi fare</title>
+    <meta
+      name="description"
+      content="免費香港的士車費估算：按運輸署2024年7月14日起收費表，把市區／新界／大嶼山跳錶、等候、行李、電召與隧道附加費一次計出。官方只有靜態收費表。瀏覽器內運算，不用註冊。 Free HK taxi fare estimator from TD tables — urban / NT / Lantau."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/taxi-fare/" />
+    <meta property="og:title" content="的士車費估算｜市區新界大嶼山 香港" />
+    <meta
+      property="og:description"
+      content="按運輸署收費表估算市區／新界／大嶼山跳錶、行李與過海回程附加費。不用地圖API，資料只留在瀏覽器。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/taxi-fare/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "香港市區的士跳錶怎樣計？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "由2024年7月14日起，市區的士首2公里（或其部分）$29。其後每200米或每分鐘等候（或其部分）先加$2.1，直至應收款額達$102.5；之後每格$1.4。行李每件$6、動物／鳥類每隻$5、電召每程$5。過海隧道一般是隧道費$25加回程$25。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "過海的士何時不用付回程費？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "運輸署列明：在過海的士站上車，或最終目的地並非海港另一方，乘客毋須繳付$25回程費，但仍須付該程$25隧道費。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這是不是官方跳錶或GPS車資？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不是。運輸署只公布靜態收費表與換算表，沒有互動估算器。本頁按你填的路程與等候在瀏覽器內加總，不是稅表跳錶，也不用地圖或收費API。實際以車廂收費表及跳錶為準。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。路程與附加費只在瀏覽器內計算，草稿可寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-urban-btn" data-i18n="demoUrbanBtn">市區過海示範</button>
+          <button type="button" class="secondary" id="demo-nt-btn" data-i18n="demoNtBtn">新界示範</button>
+          <button type="button" class="secondary" id="demo-lantau-btn" data-i18n="demoLantauBtn">大嶼山示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">的士<br />車費</div>
+        <div>
+          <h1 data-i18n="pageTitle">的士車費估算</h1>
+          <p class="lede" data-i18n="lede">
+            按運輸署2024年7月14日起收費表，估算市區、新界或大嶼山跳錶、等候、行李、電召與隧道附加費。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供估算，並非運輸署官方工具或跳錶；實際以憲報收費表、車廂收費表及的士跳錶為準。本頁不規劃路線、不讀GPS。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          運輸署網站有市區／新界／大嶼山收費表和換算表PDF，但沒有把路程、等候、行李與過海回程一次加起來的互動頁。官方表在手機上要橫看，隧道附加費又分過海回程與其他隧道。本頁把憲報數字在瀏覽器內加總，方便對照跳錶或預先帶現金。
+        </p>
+        <table class="rate-mini">
+          <thead>
+            <tr>
+              <th data-i18n="tableType">類別</th>
+              <th data-i18n="tableFlag">首2公里</th>
+              <th data-i18n="tableInc">其後每200米／每分鐘</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="typeUrban">市區（紅的）</td>
+              <td>$29</td>
+              <td>$2.1 → 達$102.5後 $1.4</td>
+            </tr>
+            <tr>
+              <td data-i18n="typeNt">新界（綠的）</td>
+              <td>$25.5</td>
+              <td>$1.9 → 達$82.5後 $1.4</td>
+            </tr>
+            <tr>
+              <td data-i18n="typeLantau">大嶼山（藍的）</td>
+              <td>$24</td>
+              <td>$1.9 → 達$195後 $1.6</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="taxi-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">行程</h2>
+
+              <fieldset>
+                <legend data-i18n="typeLegend">的士類別</legend>
+                <div class="mode-row" role="group" aria-label="Taxi type">
+                  <button type="button" class="secondary type" data-type="urban" aria-pressed="true" data-i18n="typeUrban">市區（紅的）</button>
+                  <button type="button" class="secondary type" data-type="nt" aria-pressed="false" data-i18n="typeNt">新界（綠的）</button>
+                  <button type="button" class="secondary type" data-type="lantau" aria-pressed="false" data-i18n="typeLantau">大嶼山（藍的）</button>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="tripLegend">路程與等候</legend>
+                <div class="fields row-2">
+                  <label class="field" for="distance">
+                    <span data-i18n="distance">路程（公里）</span>
+                    <input id="distance" name="distanceKm" type="number" inputmode="decimal" min="0" step="0.1" value="5" />
+                    <p class="hint" data-i18n="distanceHint">首2公里已包在旗落價。其後每200米（或其部分）跳一格。請自行填地圖顯示的路程。</p>
+                  </label>
+                  <label class="field" for="waiting">
+                    <span data-i18n="waiting">等候（分鐘）</span>
+                    <input id="waiting" name="waitingMin" type="number" inputmode="decimal" min="0" step="0.5" value="3" />
+                    <p class="hint" data-i18n="waitingHint">停車等候時，每1分鐘（或其部分）等同跳一格。行車中的時間不用再加。</p>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="extraLegend">其他收費</legend>
+                <div class="fields row-2">
+                  <label class="field" for="baggage">
+                    <span data-i18n="baggage">行李件數</span>
+                    <input id="baggage" name="baggage" type="number" inputmode="numeric" min="0" step="1" value="1" />
+                    <p class="hint" data-i18n="baggageHint">每件$6。車廂內輕便手提行李一般免收；擺放在尾箱，或長＋闊＋高超過140厘米的車廂行李要收費。嬰兒車同樣準則。輪椅／拐杖免費。</p>
+                  </label>
+                  <label class="field" for="animals">
+                    <span data-i18n="animals">動物或鳥類</span>
+                    <input id="animals" name="animals" type="number" inputmode="numeric" min="0" step="1" value="0" />
+                    <p class="hint" data-i18n="animalsHint">每隻$5。</p>
+                  </label>
+                </div>
+                <label class="check" for="booking">
+                  <input id="booking" name="booking" type="checkbox" />
+                  <span data-i18n="booking">電召／電話預約（每程$5）</span>
+                </label>
+              </fieldset>
+
+              <fieldset id="harbour-field">
+                <legend data-i18n="harbourLegend">過海隧道（市區的士）</legend>
+                <div class="radios" role="radiogroup" aria-label="Harbour tunnel">
+                  <label>
+                    <input type="radio" name="harbour" value="none" />
+                    <span data-i18n="harbourNone">沒有過海</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="harbour" value="oneWay" />
+                    <span data-i18n="harbourOneWay">過海、不用回程（$25）</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="harbour" value="return" checked />
+                    <span data-i18n="harbourReturn">過海並付回程（$25+$25）</span>
+                  </label>
+                </div>
+                <p class="hint" data-i18n="harbourHint">紅磡海底隧道、東區海底隧道、西區海底隧道同一附加費。在過海的士站上車，或目的地不在海港另一方，不用回程費。</p>
+              </fieldset>
+
+              <fieldset id="tunnel-field">
+                <legend data-i18n="tunnelLegend">其他隧道／收費區附加費</legend>
+                <div class="check-grid">
+                  <label class="check tunnel" data-tunnels="urban,nt" for="taiLam">
+                    <input id="taiLam" name="taiLam" type="checkbox" />
+                    <span data-i18n="tunTaiLam">大欖隧道 $28</span>
+                  </label>
+                  <label class="check tunnel" data-tunnels="urban" for="tatesCairn">
+                    <input id="tatesCairn" name="tatesCairn" type="checkbox" />
+                    <span data-i18n="tunTates">大老山隧道 $20</span>
+                  </label>
+                  <label class="check tunnel" data-tunnels="urban" for="aberdeen">
+                    <input id="aberdeen" name="aberdeen" type="checkbox" />
+                    <span data-i18n="tunAberdeen">香港仔隧道 $8</span>
+                  </label>
+                  <label class="check tunnel" data-tunnels="urban,nt" for="shingMun">
+                    <input id="shingMun" name="shingMun" type="checkbox" />
+                    <span data-i18n="tunShingMun">城門隧道 $8</span>
+                  </label>
+                  <label class="check tunnel" data-tunnels="urban" for="lionRock">
+                    <input id="lionRock" name="lionRock" type="checkbox" />
+                    <span data-i18n="tunLionRock">獅子山隧道 $8</span>
+                  </label>
+                  <label class="check tunnel" data-tunnels="urban" for="tsingSha">
+                    <input id="tsingSha" name="tsingSha" type="checkbox" />
+                    <span data-i18n="tunTsingSha">青沙管制區 $8</span>
+                  </label>
+                </div>
+                <p class="hint" data-i18n="tunnelHint">這是乘客應付的附加費（運輸署收費表），不是私家車時段收費。新界的士表只列大欖與城門；大嶼山的士表沒有隧道附加費。</p>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">設定會自動保存在此瀏覽器（可選）。</p>
+          <div class="ticker" aria-live="polite">
+            <p class="ticker-label" id="hero-label" data-i18n="heroTotal">估計應付</p>
+            <p class="big-amount" id="hero-amount">HK$122.8</p>
+            <p class="hero-sub" id="hero-sub"></p>
+            <div class="kpis" id="kpis"></div>
+            <table class="breakdown" id="breakdown"></table>
+            <h2 data-i18n="formulaTitle">計算步驟</h2>
+            <pre class="formula" id="formula"></pre>
+          </div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">香港市區的士跳錶怎樣計？</summary>
+          <p data-i18n="faq1a">由2024年7月14日起，市區的士首2公里（或其部分）$29。其後每200米或每分鐘等候（或其部分）先加$2.1，直至應收款額達$102.5；之後每格$1.4。行李每件$6、動物／鳥類每隻$5、電召每程$5。過海隧道一般是隧道費$25加回程$25。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">過海的士何時不用付回程費？</summary>
+          <p data-i18n="faq2a">運輸署列明：在過海的士站上車，或最終目的地並非海港另一方，乘客毋須繳付$25回程費，但仍須付該程$25隧道費。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">新界同大嶼山有何分別？</summary>
+          <p data-i18n="faq3a">新界的士旗落$25.5，其後每格$1.9直至$82.5，之後$1.4。大嶼山旗落$24，其後$1.9直至$195，之後$1.6。行李、動物、電召三類附加費相同。新界表另列大欖$28、城門$8；大嶼山表沒有隧道附加費。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">這是不是官方跳錶或GPS車資？</summary>
+          <p data-i18n="faq4a">不是。運輸署只公布靜態收費表與換算表，沒有互動估算器。本頁按你填的路程與等候在瀏覽器內加總，不是稅表跳錶，也不用地圖或收費API。實際以車廂收費表及跳錶為準。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳嗎？</summary>
+          <p data-i18n="faq5a">不會。路程與附加費只在瀏覽器內計算，草稿可寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcTd">運輸署 — 的士收費表（2024年7月14日起）：</span>
+            <a href="https://www.td.gov.hk/tc/transport_in_hong_kong/public_transport/taxi/taxi_fare_of_hong_kong/index.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.td.gov.hk/en/transport_in_hong_kong/public_transport/taxi/taxi_fare_of_hong_kong/index.html" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcPdf">運輸署 — 車廂收費表（2026年5月10日版，市區／新界）：</span>
+            <a href="https://www.td.gov.hk/filemanager/en/content_276/TaxiFareTable20260510.pdf" rel="noopener noreferrer">PDF</a>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上收費於2026年10月16日核對運輸署網頁（由2024年7月14日起生效；車廂表2026年5月10日版）。跳錶以憲報為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          路程與附加費數字只留在這個瀏覽器（localStorage，可選）。本頁不上傳、不設帳號、不設後端。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供估算，並非運輸署官方計算或跳錶讀數。 / Estimate only; not a TD tool or taximeter reading.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../mpf-contribution/">強積金供款</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../property-tax/">物業稅</a>
+          <a href="../profits-tax/">利得稅</a>
+          <a href="./">的士車費</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
