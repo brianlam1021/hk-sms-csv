@@ -24,8 +24,13 @@ jobs:
           fi
 
       - name: Checkout
-        if: steps.check.outputs.has_token == 'true'
         uses: actions/checkout@v4
+
+      - name: Upload docs Pages zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: hk-sms-csv-pages
+          path: docs
 
       - name: Deploy to Cloudflare Pages
         if: steps.check.outputs.has_token == 'true'
