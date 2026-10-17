@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>薪俸稅估算｜累進稅率標準稅率 香港 · Salaries tax</title>
+    <meta
+      name="description"
+      content="免費香港薪俸稅估算：按稅務局累進稅率與兩級制標準稅率取較低者，計應課稅入息實額、基本／已婚／子女／供養父母免稅額、強積金扣除（上限$18,000）與應繳稅。2025/26一次性寬減上限$3,000。瀏覽器內運算，不用註冊、不寫入入息。 Free HK salaries tax estimator."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/salaries-tax/" />
+    <meta property="og:title" content="薪俸稅估算｜累進稅率標準稅率 香港" />
+    <meta
+      property="og:description"
+      content="按稅務局薪俸稅率估算應課稅入息實額、累進稅與標準稅率（取較低者）及應繳稅。只供估算，不是報稅表。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/salaries-tax/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "香港薪俸稅怎樣計？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "應評稅入息減扣除（例如強制性強積金，每年上限$18,000）得出入息淨額，再減免稅額得出應課稅入息實額。應繳稅是累進稅率課稅與兩級制標準稅率（入息淨額首$500萬15%、其餘16%）兩者的較低者，再減一次性寬減（如有）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "2025/26有沒有薪俸稅寬減？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "有。2026-27年度財政預算案一次性寬減2025/26課稅年度100%薪俸稅，每宗個案上限$3,000。寬減只適用於最後評稅。2024/25上限是$1,500。2026/27尚未公布寬減。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "已婚人士免稅額會否與基本免稅額一併扣？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。已婚人士免稅額取代基本免稅額，不是兩者相加。子女免稅額及供養父母／祖父母免稅額可另外申請。全年與你同住而無付足費用的父母，可另獲額外供養父母免稅額。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這是不是稅務局官方計算機或報稅表？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不是。稅務局有官方薪俸稅／個人入息課稅計算機。本頁只按已公布稅率與免稅額在瀏覽器內估算，不會把入息送出，也不能代替報稅表或評稅通知。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳或儲存嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。金額只在瀏覽器內計算，不會上傳，也不把入息寫入 localStorage。沒有帳戶、沒有伺服器存檔。關閉分頁後數字即消失。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">稅務局例子</button>
+          <button type="button" class="secondary" id="demo-married-btn" data-i18n="demoMarriedBtn">已婚一子</button>
+          <button type="button" class="secondary" id="demo-std-btn" data-i18n="demoStdBtn">標準稅率</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">薪俸<br />稅</div>
+        <div>
+          <h1 data-i18n="pageTitle">薪俸稅估算</h1>
+          <p class="lede" data-i18n="lede">
+            按稅務局累進稅率與兩級制標準稅率（取較低者），估算應課稅入息實額、基本／已婚／子女／供養父母免稅額、強積金扣除與應繳薪俸稅。不用註冊，不會上傳，不把入息寫入本機儲存。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供估算，並非稅務局官方工具、報稅表或評稅單，亦不是稅務意見。實際以稅務條例、個別人士報稅表及評稅通知為準。本頁不做夫婦合併評稅或個人入息課稅。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          稅務局有官方薪俸稅計算機，但要把入息填進 GovHK。本頁把累進稅與兩級制標準稅率一次對照、免稅額與強積金扣除即時計出，數字只留在這個瀏覽器。2025/26一次性寬減上限$3,000。
+        </p>
+        <table class="rate-mini">
+          <thead>
+            <tr>
+              <th data-i18n="tableBand">應課稅入息實額</th>
+              <th data-i18n="tableRate">累進稅率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="tableB1">首 $50,000</td>
+              <td>2%</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableB2">其次 $50,000</td>
+              <td>6%</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableB3">其次 $50,000</td>
+              <td>10%</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableB4">其次 $50,000</td>
+              <td>14%</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableB5">其餘</td>
+              <td>17%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="hint" data-i18n="tableStdHint">兩級制標準稅率（2024/25起）：入息淨額首 $5,000,000 按 15%，其餘按 16%。應繳稅取累進稅與標準稅率的較低者。</p>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="tax-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">入息、扣除與免稅額</h2>
+
+              <fieldset>
+                <legend data-i18n="yearLegend">課稅年度</legend>
+                <label class="field" for="year">
+                  <span data-i18n="yearLabel">課稅年度（4月1日至翌年3月31日）</span>
+                  <select id="year" name="yearOfAssessment">
+                    <option value="2024/25">2024/25</option>
+                    <option value="2025/26" selected>2025/26</option>
+                    <option value="2026/27">2026/27</option>
+                  </select>
+                  <p class="hint" data-i18n="yearHint">預設 2025/26（已刊憲一次性寬減上限$3,000）。2026/27免稅額已提高，尚未公布寬減。累進稅率各年相同。</p>
+                </label>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="incomeLegend">應評稅入息（港元）</legend>
+                <div class="fields row-2">
+                  <label class="field" for="monthly">
+                    <span data-i18n="monthly">每月薪金（可選）</span>
+                    <input id="monthly" name="monthlyIncome" type="number" inputmode="decimal" min="0" step="0.01" value="30000" />
+                    <p class="hint" data-i18n="monthlyHint">填此欄會把年薪設為月薪 × 12。花紅、佣金請加進年薪。</p>
+                  </label>
+                  <label class="field" for="income">
+                    <span data-i18n="income">全年應評稅入息</span>
+                    <input id="income" name="income" type="number" inputmode="decimal" min="0" step="0.01" value="360000" />
+                    <p class="hint" data-i18n="incomeHint">薪金、工資、花紅、假期薪酬等。不是實收（未扣強積金前）。</p>
+                  </label>
+                </div>
+                <label class="field" for="mpf">
+                  <span data-i18n="mpf">強制性強積金供款（僱員）</span>
+                  <input id="mpf" name="mpf" type="number" inputmode="decimal" min="0" step="0.01" value="18000" />
+                  <p class="hint" data-i18n="mpfHint">可扣稅強制性供款每年上限 $18,000。超過部分本頁會封頂。可扣稅自願性供款／年金另有上限，本頁不估算。</p>
+                </label>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="allowLegend">免稅額（可選）</legend>
+                <label class="check">
+                  <input id="married" name="married" type="checkbox" />
+                  <span data-i18n="married">申請已婚人士免稅額（取代基本免稅額）</span>
+                </label>
+                <p class="hint" data-i18n="marriedHint">配偶須符合稅務條例條件。已婚人士免稅額與基本免稅額不可同時申請。</p>
+                <div class="fields row-2">
+                  <label class="field" for="children">
+                    <span data-i18n="children">子女人數（1至9名）</span>
+                    <input id="children" name="children" type="number" inputmode="numeric" min="0" max="9" step="1" value="0" />
+                    <p class="hint" data-i18n="childrenHint">每名 2025/26 為 $130,000；2026/27 為 $140,000。出生年度額外免稅額本頁不計。</p>
+                  </label>
+                  <label class="field" for="parents60">
+                    <span data-i18n="parents60">供養父母／祖父母（60歲或以上，非全年同住）</span>
+                    <input id="parents60" name="parents60" type="number" inputmode="numeric" min="0" max="8" step="1" value="0" />
+                  </label>
+                  <label class="field" for="parents60Live">
+                    <span data-i18n="parents60Live">供養父母／祖父母（60歲或以上，全年同住）</span>
+                    <input id="parents60Live" name="parents60Live" type="number" inputmode="numeric" min="0" max="8" step="1" value="0" />
+                    <p class="hint" data-i18n="parents60Hint">全年同住另加額外免稅額（2025/26 各 $50,000，合計 $100,000）。須符合在港通常居住及供養條件。</p>
+                  </label>
+                  <label class="field" for="parents55">
+                    <span data-i18n="parents55">供養父母／祖父母（55至59歲，非全年同住）</span>
+                    <input id="parents55" name="parents55" type="number" inputmode="numeric" min="0" max="8" step="1" value="0" />
+                  </label>
+                  <label class="field" for="parents55Live">
+                    <span data-i18n="parents55Live">供養父母／祖父母（55至59歲，全年同住）</span>
+                    <input id="parents55Live" name="parents55Live" type="number" inputmode="numeric" min="0" max="8" step="1" value="0" />
+                    <p class="hint" data-i18n="parents55Hint">55至59歲免稅額為60歲或以上的一半。全年同住另加額外免稅額。</p>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="copy-btn" data-i18n="copyBtn">複製文字</button>
+          </div>
+          <p class="muted no-print copy-status" id="copy-status" aria-live="polite"></p>
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">入息與免稅額不會寫入本機儲存；關閉分頁即消失。只保存語言偏好。</p>
+          <div class="ticker" aria-live="polite">
+            <p class="ticker-label" id="hero-label" data-i18n="heroTotal">本年應繳薪俸稅（寬減後）</p>
+            <p class="big-amount" id="hero-amount">HK$14,700.00</p>
+            <p class="hero-sub" id="hero-sub"></p>
+            <div class="kpis" id="kpis"></div>
+          </div>
+          <div id="bill" class="bill" aria-live="polite"></div>
+          <h2 class="no-print" data-i18n="formulaTitle">計算步驟</h2>
+          <pre class="formula no-print" id="formula"></pre>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">香港薪俸稅怎樣計？</summary>
+          <p data-i18n="faq1a">應評稅入息減扣除（例如強制性強積金，每年上限$18,000）得出入息淨額，再減免稅額得出應課稅入息實額。應繳稅是累進稅率課稅與兩級制標準稅率（入息淨額首$500萬15%、其餘16%）兩者的較低者，再減一次性寬減（如有）。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">2025/26有沒有薪俸稅寬減？</summary>
+          <p data-i18n="faq2a">有。2026-27年度財政預算案一次性寬減2025/26課稅年度100%薪俸稅，每宗個案上限$3,000。寬減只適用於最後評稅。2024/25上限是$1,500。2026/27尚未公布寬減。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">已婚人士免稅額會否與基本免稅額一併扣？</summary>
+          <p data-i18n="faq3a">不會。已婚人士免稅額取代基本免稅額，不是兩者相加。子女免稅額及供養父母／祖父母免稅額可另外申請。全年與你同住而無付足費用的父母，可另獲額外供養父母免稅額。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">這是不是稅務局官方計算機或報稅表？</summary>
+          <p data-i18n="faq4a">不是。稅務局有官方薪俸稅／個人入息課稅計算機。本頁只按已公布稅率與免稅額在瀏覽器內估算，不會把入息送出，也不能代替報稅表或評稅通知。亦不做夫婦合併評稅、單親免稅額、居所貸款利息或其他扣除。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳或儲存嗎？</summary>
+          <p data-i18n="faq5a">不會。金額只在瀏覽器內計算，不會上傳，也不把入息寫入 localStorage。沒有帳戶、沒有伺服器存檔。關閉分頁後數字即消失。語言偏好可寫入本機鍵 hk-sms-csv-lang。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcRates">GovHK — 薪俸稅及個人入息課稅稅率（累進稅率、兩級制標準稅率、寬減）：</span>
+            <a href="https://www.gov.hk/tc/residents/taxes/taxfiling/taxrates/salariesrates.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.gov.hk/en/residents/taxes/taxfiling/taxrates/salariesrates.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcAllow">GovHK — 免稅額金額（基本、已婚、子女、供養父母）：</span>
+            <a href="https://www.gov.hk/tc/residents/taxes/salaries/allowances/allowances/7years.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.gov.hk/en/residents/taxes/salaries/allowances/allowances/7years.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcPam">稅務局 — 薪俸稅／個人入息課稅免稅額、扣除及稅率表（PAM 61）：</span>
+            <a href="https://www.ird.gov.hk/chi/pdf/pam61c.pdf" rel="noopener noreferrer">中文 PDF</a>
+            ·
+            <a href="https://www.ird.gov.hk/eng/pdf/pam61e.pdf" rel="noopener noreferrer">English PDF</a>
+          </li>
+          <li>
+            <span data-i18n="srcBudget">稅務局 — 2026-27年度財政預算案稅務措施 FAQ（2025/26寬減$3,000、2026/27免稅額）：</span>
+            <a href="https://www.ird.gov.hk/chi/faq/budget2026_27.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.ird.gov.hk/eng/faq/budget2026_27.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcIrd">稅務局 — 薪俸稅：</span>
+            <a href="https://www.ird.gov.hk/chi/tax/ind.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.ird.gov.hk/eng/tax/ind.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcCalc">GovHK／稅務局 — 官方薪俸稅／個人入息課稅計算機：</span>
+            <a href="https://www.gov.hk/tc/residents/taxes/etax/services/tax_computation.htm" rel="noopener noreferrer">稅款計算機</a>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上稅率、免稅額與寬減於2026年10月17日核對上述官方頁（累進2%/6%/10%/14%/17%；標準稅率首$500萬15%、其餘16%；強制性強積金扣除上限$18,000；2025/26寬減上限$3,000）。其後憲報或稅務局修訂，以官方為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          入息、強積金與免稅額只在這個瀏覽器內運算，不會上傳，也不寫入 localStorage。本頁不設帳號、不設後端。語言偏好可寫入本機鍵。列印或複製才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供估算，並非稅務局評稅、報稅表或法律、稅務意見。 / Estimate only; not an IRD assessment or tax return, and not legal or tax advice.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../mpf-contribution/">強積金供款</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../property-tax/">物業稅</a>
+          <a href="../profits-tax/">利得稅</a>
+          <a href="./">薪俸稅</a>
+          <a href="../taxi-fare/">的士車費</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
