@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>物業買賣印花稅估算｜住宅／非住宅從價印花稅 中英 · HK property stamp duty</title>
+    <meta
+      name="description"
+      content="免費香港物業買賣從價印花稅（AVD）估算：按稅務局住宅第一／第二標準與非住宅第三標準（2026-02-26起），連邊際寬減。買家印花稅／額外印花稅／新住宅印花稅自2024-02-28起已取消。瀏覽器內運算，不用註冊。 Free HK conveyance AVD estimator."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/property-stamp/" />
+    <meta property="og:title" content="物業買賣印花稅估算｜住宅／非住宅從價印花稅 中英" />
+    <meta
+      property="og:description"
+      content="按稅務局從價印花稅率估算住宅與非住宅物業買賣應繳印花稅。BSD／SSD／NRSD已取消。資料只留在瀏覽器。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/property-stamp/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "香港物業買賣印花稅怎樣計？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "從價印花稅（AVD）按代價或物業市值（以較高者為準）計算。2026年2月26日起，住宅適用第一標準第1部／第二標準（稅率相同，逾約1.0957億元可達6.5%）；非住宅適用第三標準（最高4.25%）。印花稅含不足1元之數向上取整至1元。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "還要交買家印花稅、額外印花稅或新住宅印花稅嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "自2024年2月28日起，住宅物業交易已取消買家印花稅（BSD）、額外印花稅（SSD）及新住宅印花稅（NRSD／舊稱第一標準第1部劃一稅率）。本頁對該日起文書顯示此三項為零。稅務局／立法會文件沒有「AVSD」此一獨立稅項；現行物業買賣主要是從價印花稅（AVD）。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "第一標準與第二標準有分別嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "自2024年2月28日起，第一標準第1部稅率已改為與第二標準相同。香港永久性居民購入唯一住宅仍可按第二標準加蓋，但現行數字與第一標準第1部一樣。2026年2月26日起住宅再加設逾1億元的6.5%稅階。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這頁會估算租約印花稅或物業稅嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。租約印花稅見「租約印花稅」工具；出租收入的物業稅見「物業稅」工具。本頁只估算物業買賣／轉讓的從價印花稅。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。估算只在瀏覽器內計算。代價與市值不會寫入 localStorage。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">600萬住宅示範</button>
+          <button type="button" class="secondary" id="demo-luxury-btn" data-i18n="demoLuxuryBtn">1.2億住宅示範</button>
+          <button type="button" class="secondary" id="demo-shop-btn" data-i18n="demoShopBtn">非住宅示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">買賣<br />印花</div>
+        <div>
+          <h1 data-i18n="pageTitle">物業買賣印花稅估算</h1>
+          <p class="lede" data-i18n="lede">
+            按稅務局從價印花稅（AVD）稅率，估算住宅與非住宅物業買賣應繳印花稅。BSD／SSD／NRSD 自2024年2月28日起已取消。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">僅供參考，並非法律／稅務意見；亦非稅務局官方工具或繳稅單。實際以印花稅條例、e-Stamping 及印花稅署評定為準。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          站內已有「租約印花稅」與「物業稅」，但物業買賣從價印花稅是另一套稅表。稅務局有官方計算機，本頁把住宅第一／第二標準、非住宅第三標準、邊際寬減，以及已取消的 BSD／SSD／NRSD 一次列明，方便睇樓或簽臨時買賣合約前粗略對照。
+        </p>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="stamp-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">物業與代價</h2>
+              <fieldset>
+                <legend data-i18n="typeLegend">物業類型</legend>
+                <div class="fields">
+                  <fieldset class="radios">
+                    <legend data-i18n="typeModeLegend">住宅或非住宅</legend>
+                    <label>
+                      <input type="radio" name="propertyType" value="residential" checked />
+                      <span data-i18n="typeResidential">住宅（第一標準第1部／第二標準）</span>
+                    </label>
+                    <label>
+                      <input type="radio" name="propertyType" value="nonResidential" />
+                      <span data-i18n="typeNonResidential">非住宅（第三標準，例如商舖／寫字樓）</span>
+                    </label>
+                  </fieldset>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="amountLegend">代價與市值</legend>
+                <div class="fields row-2">
+                  <label class="field" for="consideration">
+                    <span data-i18n="consideration">代價／成交價（港元）</span>
+                    <input id="consideration" name="consideration" type="number" inputmode="decimal" min="0" step="1" value="6000000" />
+                  </label>
+                  <label class="field" for="market-value">
+                    <span data-i18n="marketValue">市值（港元，可0）</span>
+                    <input id="market-value" name="marketValue" type="number" inputmode="decimal" min="0" step="1" value="0" />
+                    <p class="hint" data-i18n="marketValueHint">稅務局以代價或市值較高者計稅。不確定可留0。</p>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="whenLegend">文書日期與分擔</legend>
+                <div class="fields row-2">
+                  <label class="field" for="instrument-date">
+                    <span data-i18n="instrumentDate">簽立／文書日期</span>
+                    <input id="instrument-date" name="instrumentDate" type="date" value="2026-10-20" />
+                    <p class="hint" data-i18n="instrumentHint">2026-02-26起用現行住宅／第三標準稅表；較早日期用舊第二標準（與現時第三標準相同）。</p>
+                  </label>
+                  <label class="field" for="buyer-share">
+                    <span data-i18n="buyerShare">買家分擔（%）</span>
+                    <input id="buyer-share" name="buyerShare" type="number" inputmode="decimal" min="0" max="100" step="1" value="100" />
+                    <p class="hint" data-i18n="buyerShareHint">法律上買賣雙方共同負責；實務上多數由買家支付。只供估算。</p>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="copy-btn" data-i18n="copyBtn">複製文字</button>
+            <button type="button" class="secondary" id="csv-btn" data-i18n="csvBtn">下載 CSV</button>
+          </div>
+          <p class="muted no-print copy-status" id="copy-status" aria-live="polite"></p>
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">代價與市值不會寫入本機；關閉分頁即消失。</p>
+          <div id="kpis" class="kpis no-print"></div>
+          <div id="bill" class="bill" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section class="rate-card no-print" aria-labelledby="rates-title">
+        <h2 id="rates-title" data-i18n="ratesTitle">從價印花稅率（2026年2月26日起）</h2>
+        <h3 data-i18n="ratesResTitle">住宅：第一標準第1部／第二標準</h3>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="rateBand">代價或市值（較高者）</th>
+              <th data-i18n="rateDuty">印花稅</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>≤ $4,000,000</td><td>$100</td></tr>
+            <tr><td>$4,000,001 – $4,323,780</td><td>$100 + 20% of excess over $4,000,000</td></tr>
+            <tr><td>$4,323,781 – $4,500,000</td><td>1.5%</td></tr>
+            <tr><td>$4,500,001 – $4,935,480</td><td>$67,500 + 10% of excess over $4,500,000</td></tr>
+            <tr><td>$4,935,481 – $6,000,000</td><td>2.25%</td></tr>
+            <tr><td>$6,000,001 – $6,642,860</td><td>$135,000 + 10% of excess over $6,000,000</td></tr>
+            <tr><td>$6,642,861 – $9,000,000</td><td>3%</td></tr>
+            <tr><td>$9,000,001 – $10,080,000</td><td>$270,000 + 10% of excess over $9,000,000</td></tr>
+            <tr><td>$10,080,001 – $20,000,000</td><td>3.75%</td></tr>
+            <tr><td>$20,000,001 – $21,739,120</td><td>$750,000 + 10% of excess over $20,000,000</td></tr>
+            <tr><td>$21,739,121 – $100,000,000</td><td>4.25%</td></tr>
+            <tr><td>$100,000,001 – $109,574,470</td><td>$4,250,000 + 30% of excess over $100,000,000</td></tr>
+            <tr><td>≥ $109,574,471</td><td>6.5%</td></tr>
+          </tbody>
+        </table>
+        <h3 data-i18n="ratesNonTitle">非住宅：第三標準</h3>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="rateBand2">代價或市值（較高者）</th>
+              <th data-i18n="rateDuty2">印花稅</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>≤ $4,000,000</td><td>$100</td></tr>
+            <tr><td>$4,000,001 – $4,323,780</td><td>$100 + 20% of excess over $4,000,000</td></tr>
+            <tr><td>$4,323,781 – $4,500,000</td><td>1.5%</td></tr>
+            <tr><td>$4,500,001 – $4,935,480</td><td>$67,500 + 10% of excess over $4,500,000</td></tr>
+            <tr><td>$4,935,481 – $6,000,000</td><td>2.25%</td></tr>
+            <tr><td>$6,000,001 – $6,642,860</td><td>$135,000 + 10% of excess over $6,000,000</td></tr>
+            <tr><td>$6,642,861 – $9,000,000</td><td>3%</td></tr>
+            <tr><td>$9,000,001 – $10,080,000</td><td>$270,000 + 10% of excess over $9,000,000</td></tr>
+            <tr><td>$10,080,001 – $20,000,000</td><td>3.75%</td></tr>
+            <tr><td>$20,000,001 – $21,739,120</td><td>$750,000 + 10% of excess over $20,000,000</td></tr>
+            <tr><td>≥ $21,739,121</td><td>4.25%</td></tr>
+          </tbody>
+        </table>
+        <p class="hint" data-i18n="ratesHint">印花稅含不足1元之數向上取整至1元。數字截至2026年10月20日核對稅務局 FAQ／GovHK。</p>
+      </section>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">香港物業買賣印花稅怎樣計？</summary>
+          <p data-i18n="faq1a">從價印花稅（AVD）按代價或物業市值（以較高者為準）計算。2026年2月26日起，住宅適用第一標準第1部／第二標準（稅率相同，逾約1.0957億元可達6.5%）；非住宅適用第三標準（最高4.25%）。印花稅含不足1元之數向上取整至1元。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">還要交買家印花稅、額外印花稅或新住宅印花稅嗎？</summary>
+          <p data-i18n="faq2a">自2024年2月28日起，住宅物業交易已取消買家印花稅（BSD）、額外印花稅（SSD）及新住宅印花稅（NRSD／舊稱第一標準第1部劃一稅率）。本頁對該日起文書顯示此三項為零。稅務局／立法會文件沒有「AVSD」此一獨立稅項；現行物業買賣主要是從價印花稅（AVD）。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">第一標準與第二標準有分別嗎？</summary>
+          <p data-i18n="faq3a">自2024年2月28日起，第一標準第1部稅率已改為與第二標準相同。香港永久性居民購入唯一住宅仍可按第二標準加蓋，但現行數字與第一標準第1部一樣。2026年2月26日起住宅再加設逾1億元的6.5%稅階。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">這頁會估算租約印花稅或物業稅嗎？</summary>
+          <p data-i18n="faq4a">不會。租約印花稅見「租約印花稅」工具；出租收入的物業稅見「物業稅」工具。本頁只估算物業買賣／轉讓的從價印花稅。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳嗎？</summary>
+          <p data-i18n="faq5a">不會。估算只在瀏覽器內計算。代價與市值不會寫入 localStorage。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcAvd">稅務局 — 從價印花稅（AVD）FAQ（現行稅率表）：</span>
+            <a href="https://www.ird.gov.hk/chi/faq/avd.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.ird.gov.hk/eng/faq/avd.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcRates">GovHK — 印花稅稅率（物業買賣）：</span>
+            <a href="https://www.gov.hk/tc/residents/taxes/stamp/stamp_duty_rates.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.gov.hk/en/residents/taxes/stamp/stamp_duty_rates.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcDsm">稅務局 — 住宅物業需求管理措施 FAQ（BSD／SSD／NRSD 取消）：</span>
+            <a href="https://www.ird.gov.hk/chi/faq/dsmm.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.ird.gov.hk/eng/faq/dsmm.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcCalc">稅務局 — 計算印花稅（物業）官方計算機：</span>
+            <a href="https://www.ird.gov.hk/chi/ese/sd_comp/sd_ap.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.ird.gov.hk/eng/ese/sd_comp/sd_ap.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcEstamp">GovHK e-Stamping 網上加蓋印花：</span>
+            <a href="https://www.gov.hk/estamping" rel="noopener noreferrer">gov.hk/estamping</a>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上稅率於2026年10月20日核對上述官方頁；若憲報或稅務局其後修訂，以官方為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          代價、市值與日期只在這個瀏覽器記憶體運算，不會寫入 localStorage，也不上傳。本頁不設帳號、不設後端。列印、複製或匯出 CSV 才會在你選擇的位置產生檔案。語言偏好可選寫入本機（不含物業數字）。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">僅供參考，並非法律／稅務意見。 / For reference only; not legal or tax advice.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../mpf-contribution/">強積金供款</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="./">物業買賣印花稅</a>
+          <a href="../property-tax/">物業稅</a>
+          <a href="../profits-tax/">利得稅</a>
+          <a href="../salaries-tax/">薪俸稅</a>
+          <a href="../taxi-fare/">的士車費</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
