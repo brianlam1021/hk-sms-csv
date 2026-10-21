@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>遣散費／長期服務金估算｜僱傭條例 Cap.57 · SP / LSP</title>
+    <meta
+      name="description"
+      content="免費香港遣散費／長期服務金估算：按《僱傭條例》取消強積金對沖後公式（轉制日2025年5月1日），估算一般僱員 SP 或 LSP、年資分拆與$390,000上限。瀏覽器內運算，不用註冊。Free HK severance / long service payment estimator."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/sp-lsp/" />
+    <meta property="og:title" content="遣散費／長期服務金估算｜僱傭條例 Cap.57" />
+    <meta
+      property="og:description"
+      content="按勞工處公布的公式估算遣散費或長期服務金：月薪上限$22,500、每年$15,000、總額$390,000；橫跨2025年5月1日自動分拆。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/sp-lsp/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "遣散費與長期服務金可以同時攞嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不可以。因裁員而獲遣散費的僱員，無權同時獲長期服務金。兩者互斥。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "取消對沖後，計算公式有沒有改？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "計算方法與上限不變：月薪仍是最後一個月全月工資×2/3×年資（月薪上限$22,500，每年上限$15,000，總額上限$390,000）。改變的是對沖安排與橫跨2025年5月1日個案的分拆。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳或儲存嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。工資與日期只在瀏覽器記憶體運算，不寫入 localStorage，不上傳。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">橫跨轉制日示範</button>
+          <button type="button" class="secondary" id="demo-sp-btn" data-i18n="demoSpBtn">月薪遣散費示範</button>
+          <button type="button" class="secondary" id="demo-cap-btn" data-i18n="demoCapBtn">39萬上限示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">遣散<br />長服</div>
+        <div>
+          <h1 data-i18n="pageTitle">遣散費／長期服務金估算</h1>
+          <p class="lede" data-i18n="lede">
+            按《僱傭條例》現行公式（取消強積金對沖後，轉制日2025年5月1日），估算一般僱員的遣散費（SP）或長期服務金（LSP）。月薪上限$22,500、每年$15,000、總額$390,000。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供參考，並非法例意見，亦非勞工處官方工具。請以《僱傭條例》、勞工處 Concise Guide／法定權益計算機／EasyCal 為準。本頁不計算強積金對沖款額。外傭請用「外傭終止結算」工具。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          取消對沖後，橫跨2025年5月1日的僱傭期要拆成轉制前／後兩部分，並可能從轉制後部分扣減超過$390,000上限的差額。勞工處有官方計算機；本頁把資格檢查、月薪／日薪、12個月平均選項與分拆步驟一次列明，方便粗略對照。
+        </p>
+        <table class="rate-mini">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>上限／規則</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>月薪計算上限</td>
+              <td>HK$22,500（每年單位上限 HK$15,000）</td>
+            </tr>
+            <tr>
+              <td>SP／LSP 總額上限</td>
+              <td>HK$390,000</td>
+            </tr>
+            <tr>
+              <td>轉制日</td>
+              <td>2025年5月1日（取消強積金對沖）</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="sp-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">僱傭與工資</h2>
+
+              <fieldset>
+                <legend data-i18n="entitleLegend">權益類型（兩者只可擇一）</legend>
+                <div class="mode-row" role="group" aria-label="Entitlement">
+                  <button type="button" class="secondary entitle" data-entitle="sp" aria-pressed="true" data-i18n="entitleSp">遣散費 SP</button>
+                  <button type="button" class="secondary entitle" data-entitle="lsp" aria-pressed="false" data-i18n="entitleLsp">長期服務金 LSP</button>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="wageLegend">工資計算方式</legend>
+                <div class="mode-row" role="group" aria-label="Wage type">
+                  <button type="button" class="secondary wage-type" data-wage="monthly" aria-pressed="true" data-i18n="wageMonthly">月薪</button>
+                  <button type="button" class="secondary wage-type" data-wage="daily" aria-pressed="false" data-i18n="wageDaily">日薪／件薪</button>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="datesLegend">受僱期</legend>
+                <div class="row-2">
+                  <label class="field" for="start-date">
+                    <span data-i18n="startDate">入職日期</span>
+                    <input id="start-date" name="startDate" type="date" required />
+                  </label>
+                  <label class="field" for="end-date">
+                    <span data-i18n="endDate">終止／有關日期</span>
+                    <input id="end-date" name="endDate" type="date" required />
+                  </label>
+                </div>
+                <p class="hint" data-i18n="datesHint">轉制日為2025年5月1日。橫跨該日會自動分拆轉制前／後部分。</p>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="wageFieldsLegend">有關工資（港元）</legend>
+                <div id="monthly-fields">
+                  <label class="field" for="monthly-wage">
+                    <span data-i18n="monthlyWage">終止前最後一個月全月工資（或12個月平均）</span>
+                    <input id="monthly-wage" name="monthlyWage" type="number" inputmode="decimal" min="0" step="0.01" value="18000" />
+                  </label>
+                  <label class="field" id="monthly-pre-field" for="monthly-wage-pre" hidden>
+                    <span data-i18n="monthlyWagePre">轉制日前最後一個月全月工資（或12個月平均）</span>
+                    <input id="monthly-wage-pre" name="monthlyWagePre" type="number" inputmode="decimal" min="0" step="0.01" value="15000" />
+                  </label>
+                </div>
+                <div id="daily-fields" hidden>
+                  <label class="field" for="eighteen-days">
+                    <span data-i18n="eighteenDays">終止前最後30個正常工作日中選18天工資總和</span>
+                    <input id="eighteen-days" name="eighteenDays" type="number" inputmode="decimal" min="0" step="0.01" value="12000" />
+                  </label>
+                  <label class="field" id="daily-pre-field" for="eighteen-days-pre" hidden>
+                    <span data-i18n="eighteenDaysPre">轉制日前最後30個正常工作日中選18天工資總和</span>
+                    <input id="eighteen-days-pre" name="eighteenDaysPre" type="number" inputmode="decimal" min="0" step="0.01" value="10000" />
+                  </label>
+                </div>
+                <label class="check">
+                  <input id="use-average" name="useAverage" type="checkbox" />
+                  <span data-i18n="useAverage">我採用緊接終止／轉制日前12個月平均工資（條例容許的選項）</span>
+                </label>
+                <p class="hint" data-i18n="useAverageHint">本頁不會替你計平均；請自行填入選用後的數字。</p>
+              </fieldset>
+
+              <fieldset id="sp-reason-wrap">
+                <legend data-i18n="spReasonLegend">遣散費資格情況</legend>
+                <label class="field" for="sp-reason">
+                  <span class="visually-hidden">SP reason</span>
+                  <select id="sp-reason" name="spReason">
+                    <option value="redundancy" data-i18n="spRedundancy">因裁員而被解僱</option>
+                    <option value="fixedTermRedundancy" data-i18n="spFixed">固定期合約期滿因裁員不獲續約</option>
+                    <option value="layoff" data-i18n="spLayoff">停工（lay-off）</option>
+                  </select>
+                </label>
+              </fieldset>
+
+              <fieldset id="lsp-reason-wrap" hidden>
+                <legend data-i18n="lspReasonLegend">長期服務金資格情況</legend>
+                <label class="field" for="lsp-reason">
+                  <span class="visually-hidden">LSP reason</span>
+                  <select id="lsp-reason" name="lspReason">
+                    <option value="dismissal" data-i18n="lspDismissal">被解僱（非裁員、非嚴重過失即時解僱）</option>
+                    <option value="fixedTermNonRenewal" data-i18n="lspFixed">固定期合約期滿不獲續約</option>
+                    <option value="death" data-i18n="lspDeath">在職期間死亡</option>
+                    <option value="illHealth" data-i18n="lspIll">因永久不適合現職（註冊醫生／中醫證明）而辭職</option>
+                    <option value="age65" data-i18n="lspAge">年滿65歲或以上辭職</option>
+                  </select>
+                </label>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">工資與日期不會寫入本機；關閉分頁即消失。</p>
+          <div class="ticker" aria-live="polite">
+            <p class="ticker-label" id="hero-label" data-i18n="heroTotal">估算款額</p>
+            <p class="big-amount" id="hero-amount">—</p>
+            <p class="hero-sub" id="hero-sub"></p>
+            <div class="kpis" id="kpis"></div>
+            <table class="breakdown" id="breakdown"></table>
+            <h2 data-i18n="formulaTitle">計算步驟</h2>
+            <pre class="formula" id="formula"></pre>
+          </div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">遣散費與長期服務金可以同時攞嗎？</summary>
+          <p data-i18n="faq1a">不可以。因裁員而獲遣散費的僱員，無權同時獲長期服務金。兩者互斥，本頁只可擇一估算。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">取消對沖後，計算公式有沒有改？</summary>
+          <p data-i18n="faq2a">計算方法與上限不變：月薪仍是最後一個月全月工資×2/3×年資（月薪上限$22,500，每年上限$15,000，總額上限$390,000）。改變的是：2025年5月1日起僱主不可再用強制性強積金供款對沖轉制後部分；橫跨轉制日的個案要分拆兩部分。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">橫跨2025年5月1日怎樣計？</summary>
+          <p data-i18n="faq3a">轉制前部分用轉制日前工資與轉制前年資；轉制後部分用終止前工資與轉制日起年資。兩部分相加若超過$390,000，超出金額從轉制後部分扣減。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">誰合資格？</summary>
+          <p data-i18n="faq4a">遣散費：連續性合約不少於24個月，並因裁員解僱、因裁員不獲續約或停工。長期服務金：連續性合約不少於5年，並符合被解僱（非裁員／非嚴重過失）、不獲續約、死亡、因健康辭職或年滿65歲辭職等其中一項。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">這是不是勞工處官方計算機？</summary>
+          <p data-i18n="faq5a">不是。請用勞工處「法定僱傭權益參考計算機」及取消對沖「EasyCal」核對。本頁只供粗略估算，不能代替法律意見或勞資審裁處裁決。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq6q">資料會上傳或儲存嗎？</summary>
+          <p data-i18n="faq6a">不會。工資與日期只在瀏覽器記憶體運算，不寫入 localStorage，不上傳。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcFaq">勞工處 — 《僱傭條例》FAQ（遣散費／長期服務金資格與計算）：</span>
+            <a href="https://www.labour.gov.hk/tc/faq/cap57l_whole.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.labour.gov.hk/eng/faq/cap57l_whole.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcGuide">勞工處 — 《僱傭條例簡明指南》第十一章（PDF）：</span>
+            <a href="https://www.labour.gov.hk/tc/public/pdf/wcp/ConciseGuide/11.pdf" rel="noopener noreferrer">中文 PDF</a>
+            ·
+            <a href="https://www.labour.gov.hk/eng/public/wcp/ConciseGuide/11.pdf" rel="noopener noreferrer">English PDF</a>
+          </li>
+          <li>
+            <span data-i18n="srcAoa">勞工處／專題網 — 取消強積金「對沖」安排 FAQ（轉制日、分拆、上限）：</span>
+            <a href="https://www.op.labour.gov.hk/tc/faq.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.op.labour.gov.hk/en/faq.html" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcCalc">勞工處 — 法定僱傭權益參考計算機：</span>
+            <a href="https://www.lr.labour.gov.hk/web/tc/calculator/index.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.lr.labour.gov.hk/web/en/calculator/index.html" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcEasy">取消對沖 — EasyCal 計算工具：</span>
+            <a href="https://www.op.labour.gov.hk/tc/calculator.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.op.labour.gov.hk/en/calculator.html" rel="noopener noreferrer">English</a>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上公式與上限於2026年10月21日核對上述官方頁（月薪上限$22,500、每年$15,000、總額$390,000、轉制日2025-05-01）。若法例或勞工處其後修訂，以官方為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          工資、日期與估算只在這個瀏覽器記憶體運算，不會寫入 localStorage，也不上傳。本頁不設帳號、不設後端。語言偏好可選寫入本機（不含工資數字）。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供參考，並非法例意見，亦非勞工處官方計算。 / For reference only; not legal advice and not a Labour Department tool.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../mpf-contribution/">強積金供款</a>
+          <a href="./">遣散費／長服金</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../property-stamp/">物業買賣印花稅</a>
+          <a href="../property-tax/">物業稅</a>
+          <a href="../profits-tax/">利得稅</a>
+          <a href="../salaries-tax/">薪俸稅</a>
+          <a href="../taxi-fare/">的士車費</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
