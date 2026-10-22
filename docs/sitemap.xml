@@ -36,6 +36,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://hk-sms-csv.pages.dev/water-sewage/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://hk-sms-csv.pages.dev/hospital-fees/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -122,6 +127,11 @@
   </url>
   <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/utility-account/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/water-sewage/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
