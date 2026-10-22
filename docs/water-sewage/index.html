@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>水費／排污費估算器｜住宅四級收費 中英 · HK water bill</title>
+    <meta
+      name="description"
+      content="免費香港水費及排污費估算：按水務署住宅四級收費及121.64日比例，計算本期水費與排污費。不用帳戶、不用IE11。瀏覽器內運算，不用註冊。 Free HK water and sewage estimator from the WSD 4-tier tariff."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/water-sewage/" />
+    <meta property="og:title" content="水費／排污費估算器｜住宅四級收費 中英" />
+    <meta
+      property="og:description"
+      content="按水務署四級算式估算住宅水費與排污費。抄錶日數會調整每一級水量。資料只留在瀏覽器。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/water-sewage/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "香港住宅水費怎樣計？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "住宅食水分四級，以4個月（規例定為121.64日）為周期：首12立方米免費，繼後31立方米每立方米$4.16，再繼後19立方米$6.45，其餘$9.05。抄錶日數不是剛好121.64日時，每一級的水量按日數比例調整。同樣用水量，結算期較長通常較便宜。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "排污費怎樣計？與差餉有分別嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "住宅排污費由2017年4月1日起每立方米$2.92，每4個月首12立方米免費，同樣按抄錶日數比例調整。排污費由渠務署徵收、水務署代收，與差餉／地租（差餉物業估價署按應課差餉租值徵收）不是同一項。差餉物業估價署已有官方差餉及地租計算機，本頁不重複。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "為甚麼不用水務署官方試算？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "水務署「試算水費及排污費」要最近一期帳單的帳戶資料，並註明請用 Internet Explorer 11，用來按過往用水模式推算至某個日期。它不是「輸入立方米與日數」的公開算式工具。本頁只套用水務署公布的四級算式與例子。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "非住宅、沖廁、寬減或逾期怎樣處理？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "商業用水每立方米$4.58、建築$7.11；商業排污費每立方米$2.92，沒有住宅那12立方米免費額。淡水沖廁每單位每4個月首30立方米免費，其餘$4.58，且不徵排污費；海水沖廁免費。2026年1月15日至2027年1月14日非住宅或有50%寬減（有每月上限），本頁不計算。逾期或加徵5%。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">陳先生示範</button>
+          <button type="button" class="secondary" id="demo-lee-btn" data-i18n="demoLeeBtn">李先生示範</button>
+          <button type="button" class="secondary" id="demo-trade-btn" data-i18n="demoTradeBtn">商業用水示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">水費<br />排污</div>
+        <div>
+          <h1 data-i18n="pageTitle">水費／排污費估算器</h1>
+          <p class="lede" data-i18n="lede">
+            按水務署住宅四級收費及121.64日比例，估算本期水費與排污費。不用帳戶、不用IE11。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供參考，並非水務署帳單或官方計算機；實際以水務設施規例、渠務署排污費及本期水費單為準。寬減、上期零額結轉與逾期附加費可能令帳單不同。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          差餉／地租已有差餉物業估價署官方互動計算機，本頁不重複。水務署雖有「試算水費及排污費」，但要最近一期帳單帳戶資料，並註明請用 Internet Explorer 11。官方公開的是四級算式與例子。本頁讓你直接輸入用水量（立方米）與抄錶日數，計出按日數比例調整後的水費與排污費，方便對照水費單或分租帳目。
+        </p>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="bill-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">用水資料</h2>
+              <fieldset>
+                <legend data-i18n="supplyLegend">用水類別</legend>
+                <div class="radios inline">
+                  <label><input type="radio" name="supply" value="domestic" checked /> <span data-i18n="supplyDomestic">住宅</span></label>
+                  <label><input type="radio" name="supply" value="trade" /> <span data-i18n="supplyTrade">商業</span></label>
+                  <label><input type="radio" name="supply" value="construction" /> <span data-i18n="supplyConstruction">建築</span></label>
+                  <label><input type="radio" name="supply" value="flushing" /> <span data-i18n="supplyFlushing">淡水沖廁</span></label>
+                </div>
+                <p class="hint" data-i18n="supplyHint">大多數住戶選住宅。淡水沖廁通常由管理處整幢結算，不會出現在你個人水費單。海水沖廁免費，本頁不計。</p>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="usageLegend">用水量與日數</legend>
+                <div class="fields row-2">
+                  <label class="field" for="consumption">
+                    <span data-i18n="consumption">用水量（立方米 m³）</span>
+                    <input id="consumption" name="consumption" type="number" inputmode="decimal" min="0" step="0.001" value="66" />
+                    <p class="hint" data-i18n="consumptionHint">兩次抄錶之間的用水量，見水費單。</p>
+                  </label>
+                  <label class="field" for="days">
+                    <span data-i18n="days">抄錶相隔日數</span>
+                    <input id="days" name="days" type="number" inputmode="decimal" min="0" step="1" value="127" />
+                    <p class="hint" data-i18n="daysHint">水務設施規例以121.64日為一個4個月周期。日數愈長，同一用水量的收費通常愈低。</p>
+                  </label>
+                </div>
+                <div class="fields row-2">
+                  <label class="field" for="start-date">
+                    <span data-i18n="startDate">抄錶開始日期（可選）</span>
+                    <input id="start-date" name="startDate" type="date" value="1995-08-01" />
+                  </label>
+                  <label class="field" for="end-date">
+                    <span data-i18n="endDate">抄錶結束日期（可選）</span>
+                    <input id="end-date" name="endDate" type="date" value="1995-12-06" />
+                  </label>
+                </div>
+                <p class="hint" data-i18n="dateHint">填妥兩個日期會自動計日數。官方例子：1995-08-01至1995-12-06為127日。</p>
+                <div id="flats-wrap" hidden>
+                  <label class="field" for="flats">
+                    <span data-i18n="flats">住宅單位數目（沖廁）</span>
+                    <input id="flats" name="flats" type="number" inputmode="numeric" min="1" max="500" step="1" value="1" />
+                    <p class="hint" data-i18n="flatsHint">淡水沖廁每單位每4個月首30立方米免費，再按日數比例調整。</p>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="extraLegend">排污費與附加費</legend>
+                <div class="checks">
+                  <label class="check">
+                    <input id="sewage" name="sewage" type="checkbox" checked />
+                    <span>
+                      <span data-i18n="sewage">計算排污費（住宅／商業；沖廁不用繳）</span>
+                      <p class="hint" data-i18n="sewageHint">處所須接駁公用污水渠。首12立方米（按日數比例）住宅免費，其後每立方米$2.92（2017年4月1日起）。</p>
+                    </span>
+                  </label>
+                  <label class="check">
+                    <input id="overdue" name="overdue" type="checkbox" />
+                    <span>
+                      <span data-i18n="overdue">另加5%逾期附加費</span>
+                      <p class="hint" data-i18n="overdueHint">水務署註明逾期帳單可加徵5%。預設關閉。</p>
+                    </span>
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="copy-btn" data-i18n="copyBtn">複製文字</button>
+            <button type="button" class="secondary" id="csv-btn" data-i18n="csvBtn">下載 CSV</button>
+          </div>
+          <p class="muted no-print copy-status" id="copy-status" aria-live="polite"></p>
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">草稿會自動保存在此瀏覽器。</p>
+          <div id="kpis" class="kpis no-print"></div>
+          <div id="bill" class="bill" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section class="rate-card no-print" aria-labelledby="rates-title">
+        <h2 id="rates-title" data-i18n="ratesTitle">住宅水費及排污費算式（水務署）</h2>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="rateStep">級別</th>
+              <th data-i18n="rateHow">每4個月（121.64日）用量</th>
+              <th data-i18n="rateRate">收費率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td data-i18n="rateA">第一級</td><td data-i18n="rateAV">首 12 m³</td><td data-i18n="rateAR">免費</td></tr>
+            <tr><td data-i18n="rateB">第二級</td><td data-i18n="rateBV">繼後 31 m³</td><td data-i18n="rateBR">每立方米 $4.16</td></tr>
+            <tr><td data-i18n="rateC">第三級</td><td data-i18n="rateCV">繼後 19 m³</td><td data-i18n="rateCR">每立方米 $6.45</td></tr>
+            <tr><td data-i18n="rateD">第四級</td><td data-i18n="rateDV">其餘（超過合共 62 m³）</td><td data-i18n="rateDR">每立方米 $9.05</td></tr>
+            <tr><td data-i18n="rateS">排污費</td><td data-i18n="rateSV">首 12 m³ 免費，其餘按用水量</td><td data-i18n="rateSR">每立方米 $2.92（2017-04-01起）</td></tr>
+          </tbody>
+        </table>
+        <p class="hint" data-i18n="ratesHintFoot">各級水量按實際抄錶日數 ÷ 121.64 比例調整。數字截至2026年10月22日核對水務署收費率頁與Key Facts 2026。其後修訂以官方為準。</p>
+      </section>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">香港住宅水費怎樣計？</summary>
+          <p data-i18n="faq1a">住宅食水分四級，以4個月（規例定為121.64日）為周期：首12立方米免費，繼後31立方米每立方米$4.16，再繼後19立方米$6.45，其餘$9.05。抄錶日數不是剛好121.64日時，每一級的水量按日數比例調整。同樣用水量，結算期較長通常較便宜。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">排污費怎樣計？與差餉有分別嗎？</summary>
+          <p data-i18n="faq2a">住宅排污費由2017年4月1日起每立方米$2.92，每4個月首12立方米免費，同樣按抄錶日數比例調整。排污費由渠務署徵收、水務署代收，與差餉／地租（差餉物業估價署按應課差餉租值徵收）不是同一項。差餉物業估價署已有官方差餉及地租計算機，本頁不重複。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">為甚麼不用水務署官方試算？</summary>
+          <p data-i18n="faq3a">水務署「試算水費及排污費」要最近一期帳單的帳戶資料，並註明請用 Internet Explorer 11，用來按過往用水模式推算至某個日期。它不是「輸入立方米與日數」的公開算式工具。本頁只套用水務署公布的四級算式與例子。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">非住宅、沖廁、寬減或逾期怎樣處理？</summary>
+          <p data-i18n="faq4a">商業用水每立方米$4.58、建築$7.11；商業排污費每立方米$2.92，沒有住宅那12立方米免費額。淡水沖廁每單位每4個月首30立方米免費，其餘$4.58，且不徵排污費；海水沖廁免費。2026年1月15日至2027年1月14日非住宅或有50%寬減（有每月上限），本頁不計算。逾期或加徵5%。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">資料會上傳嗎？</summary>
+          <p data-i18n="faq5a">不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcTariff">水務署 — 水費及排污費收費率（四級算式、官方例子、排污費$2.92）：</span>
+            <a href="https://www.wsd.gov.hk/tc/customer-services/manage-account-and-water-bills/water-sewage-tariff/" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.wsd.gov.hk/en/customer-services/manage-account-and-water-bills/water-sewage-tariff/" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcKey">水務署 — Key Facts 2026（截至2026年3月31日收費表仍為上述稅率）：</span>
+            <a href="https://www.wsd.gov.hk/filemanager/en/content_1462/Key_Facts_2026_v2.pdf" rel="noopener noreferrer">PDF</a>
+          </li>
+          <li>
+            <span data-i18n="srcCalc">水務署 — 試算水費及排污費（帳戶／IE11；不是本頁所用的公開算式）：</span>
+            <a href="https://www.esd.wsd.gov.hk/esd/bnc/requestForScenario/requestForScenarioInit.do?pageFlag=1" rel="noopener noreferrer">English</a>
+            ·
+            <a href="https://www.esd.wsd.gov.hk/esd/bnc/requestForScenario/requestForScenarioInit.do?USER_LANG=LANG_TC&amp;pageFlag=1" rel="noopener noreferrer">中文</a>
+          </li>
+          <li>
+            <span data-i18n="srcDsd">渠務署 — 排污費：</span>
+            <a href="https://www.dsd.gov.hk/TC/Sewage_Services_Charging_Scheme/Sewage_Charges/index.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.dsd.gov.hk/EN/Sewage_Services_Charging_Scheme/Sewage_Charges/index.html" rel="noopener noreferrer">English</a>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上收費率與例子於2026年10月22日核對上述官方頁；若其後修訂，以官方為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          用水量與日數只留在這個瀏覽器（localStorage）。本頁不上傳、不設帳號、不設後端。列印、複製或匯出 CSV 才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供參考，並非水務署帳單或法律意見。 / For reference only; not a WSD bill or legal advice.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="./">水費／排污費</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../mpf-contribution/">強積金供款</a>
+          <a href="../sp-lsp/">遣散費／長服金</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../property-stamp/">物業買賣印花稅</a>
+          <a href="../property-tax/">物業稅</a>
+          <a href="../profits-tax/">利得稅</a>
+          <a href="../salaries-tax/">薪俸稅</a>
+          <a href="../taxi-fare/">的士車費</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
