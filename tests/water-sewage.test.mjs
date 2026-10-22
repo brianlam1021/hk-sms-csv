@@ -205,5 +205,8 @@ describe("page constraints", () => {
     assert.match(sitemap, /https:\/\/hk-sms-csv\.pages\.dev\/water-sewage\//);
     assert.match(sitemap, /https:\/\/brianlam1021\.github\.io\/hk-sms-csv\/water-sewage\//);
     assert.match(about, /water-sewage\//);
+    const rootSitemap = readFileSync(new URL("../sitemap.xml", import.meta.url), "utf8");
+    assert.match(rootSitemap, /https:\/\/hk-sms-csv\.pages\.dev\/water-sewage\//);
+    assert.match(rootSitemap, /https:\/\/brianlam1021\.github\.io\/hk-sms-csv\/water-sewage\//);
   });
 });
