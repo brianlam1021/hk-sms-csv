@@ -66,6 +66,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://hk-sms-csv.pages.dev/year-end-pay/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://hk-sms-csv.pages.dev/tenancy-stamp/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -157,6 +162,11 @@
   </url>
   <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/sp-lsp/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/year-end-pay/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

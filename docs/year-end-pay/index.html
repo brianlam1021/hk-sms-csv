@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>年終酬金／雙糧按比例估算器｜僱傭條例 Cap.57 · HK double pay</title>
+    <meta
+      name="description"
+      content="免費香港年終酬金／雙糧按比例估算：按《僱傭條例》第IIA部計算資格、農曆年或曆年酬金期、試用期與解僱／辭職。瀏覽器內運算，不用註冊。 Free HK statutory pro-rata end-of-year payment / double pay estimator under EO Cap.57 Part IIA."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/year-end-pay/" />
+    <meta property="og:title" content="年終酬金／雙糧按比例估算器｜僱傭條例 Cap.57" />
+    <meta
+      property="og:description"
+      content="按勞工處簡明指南第八章及《僱傭條例》第11F條，估算年終酬金／雙糧是否合資格及按比例款額。資料只留在瀏覽器。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/year-end-pay/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "僱主是否必須發放年尾雙糧？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "《僱傭條例》沒有規定僱主必須支付年終酬金（包括雙糧及花紅）。能否享有須視乎僱傭合約（口頭或書面、明言或暗示）。年終酬金不包括屬賞贈性質或隨僱主酌情發放的款項。1997年6月27日後訂立的合約，除非書面表明相反意圖，否則推定每年酬金不屬賞贈、亦非只隨僱主酌情付給。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "僱員在酬金期完結前辭職，可否按比例拿年終酬金？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "除非合約另有規定，否則僱員在酬金期完結前辭職，不可享有按比例計算的年終酬金。酬金期以合約指明為準；沒有指明則以農曆年度計算。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "被解僱可否按比例領取年終酬金？試用期怎樣計？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "僱員在一個酬金期內按照連續性合約受僱不少於3個月，而被僱主解僱（但並非因嚴重過失而被即時解僱），可按比例獲得部分年終酬金。計算是否滿3個月時，試用期（以3個月為上限）不得包括在內；但一旦合資格，計算金額時必須將整段受僱期（包括試用期）計算在內。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "合約沒有寫明金額時，年終酬金怎樣計？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "如僱傭合約已指定款額，用該款額。如沒有指定，則為到期支付日前12個月（或較短受僱期）的每月平均工資。按比例部分為全數×（酬金期內受僱日數÷酬金期日數），除非合約另指明分數。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-btn" data-i18n="demoBtn">解僱半年示範</button>
+          <button type="button" class="secondary" id="demo-resign-btn" data-i18n="demoResignBtn">辭職示範</button>
+          <button type="button" class="secondary" id="demo-full-btn" data-i18n="demoFullBtn">做滿一年示範</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">年終<br />雙糧</div>
+        <div>
+          <h1 data-i18n="pageTitle">年終酬金／雙糧按比例估算器</h1>
+          <p class="lede" data-i18n="lede">
+            按《僱傭條例》第IIA部，估算合約年終酬金／雙糧是否合資格，以及未做滿酬金期時的按比例款額。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供參考，並非法例意見，亦非勞工處官方工具。實際以僱傭合約、《僱傭條例》原文、勞工處簡明指南／法定權益計算機為準。合約可給予多於法定的款額。本頁不處理酌情花紅。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          勞工處大型計算機多半讓你自行填入年終酬金金額；第三方「按比例雙糧」頁又少。本頁用你輸入的合約款額（或未指明時的一個月平均工資）、酬金期與受僱日數，按第11F條計出資格與按比例部分。差餉／地租已有差餉物業估價署官方計算機，本站不重複。年假／代通知金／病假請用勞工處或 stamp4u。
+        </p>
+        <table class="rate-mini">
+          <thead>
+            <tr>
+              <th data-i18n="ruleItem">項目</th>
+              <th data-i18n="ruleHow">法定規則（第IIA部）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="ruleElig">部分年終酬金資格</td>
+              <td data-i18n="ruleEligV">酬金期內連續性合約受僱不少於3個月，並在期滿後仍受僱，或被僱主解僱（非第9條即時解僱）</td>
+            </tr>
+            <tr>
+              <td data-i18n="ruleResign">期內辭職</td>
+              <td data-i18n="ruleResignV">一般無權按比例領取，除非合約另有規定（第11F(1B)條）</td>
+            </tr>
+            <tr>
+              <td data-i18n="ruleProb">試用期</td>
+              <td data-i18n="ruleProbV">計3個月資格時扣除（上限3個月）；合資格後計金額則包括整段受僱期</td>
+            </tr>
+            <tr>
+              <td data-i18n="ruleAmt">款額</td>
+              <td data-i18n="ruleAmtV">合約指定款額；否則為一個月平均工資。按比例＝全數×（期內受僱日數÷酬金期日數）</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="eoy-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">合約與受僱期</h2>
+
+              <fieldset>
+                <legend data-i18n="amountLegend">年終酬金款額</legend>
+                <div class="radios inline">
+                  <label><input type="radio" name="amountMode" value="fixed" checked /> <span data-i18n="amountFixed">合約已指定款額</span></label>
+                  <label><input type="radio" name="amountMode" value="average" /> <span data-i18n="amountAverage">合約未指定（用一個月平均工資）</span></label>
+                </div>
+                <label class="field" for="amount">
+                  <span id="amount-label" data-i18n="amountFixedLabel">合約年終酬金／雙糧（港元）</span>
+                  <input id="amount" name="amount" type="number" inputmode="decimal" min="0" step="0.01" value="20000" />
+                  <p class="hint" data-i18n="amountHint">未指定時，勞工處簡明指南第八章以到期支付日前12個月（或較短受僱期）每月平均工資為全數。本頁不會替你計平均，請填入該數字。</p>
+                </label>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="periodLegend">酬金期</legend>
+                <div class="radios">
+                  <label><input type="radio" name="periodKind" value="lunar" /> <span data-i18n="periodLunar">農曆年（合約未指明時的法定預設）</span></label>
+                  <label><input type="radio" name="periodKind" value="calendar" checked /> <span data-i18n="periodCalendar">公曆年（1月1日至12月31日）</span></label>
+                  <label><input type="radio" name="periodKind" value="custom" /> <span data-i18n="periodCustom">自訂起迄日期</span></label>
+                </div>
+                <div id="period-year-wrap" class="fields">
+                  <label class="field" for="period-year">
+                    <span data-i18n="periodYear">年份</span>
+                    <select id="period-year" name="periodYear"></select>
+                    <p class="hint" data-i18n="periodYearHint">農曆年以該公曆年內的正月初一開始，至下一年初一的前一日結束。</p>
+                  </label>
+                </div>
+                <div id="custom-dates-wrap" class="fields row-2" hidden>
+                  <label class="field" for="custom-start">
+                    <span data-i18n="customStart">酬金期開始</span>
+                    <input id="custom-start" name="customStart" type="date" value="2026-01-01" />
+                  </label>
+                  <label class="field" for="custom-end">
+                    <span data-i18n="customEnd">酬金期結束</span>
+                    <input id="custom-end" name="customEnd" type="date" value="2026-12-31" />
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="serviceLegend">酬金期內受僱日數</legend>
+                <div class="radios inline">
+                  <label><input type="radio" name="serviceMode" value="dates" checked /> <span data-i18n="serviceDates">用入職／離職日期推算</span></label>
+                  <label><input type="radio" name="serviceMode" value="days" /> <span data-i18n="serviceDays">直接填日數</span></label>
+                </div>
+                <div id="service-dates-wrap" class="fields row-2">
+                  <label class="field" for="emp-start">
+                    <span data-i18n="empStart">入職日期</span>
+                    <input id="emp-start" name="empStart" type="date" value="2026-01-01" />
+                  </label>
+                  <label class="field" for="emp-end">
+                    <span data-i18n="empEnd">終止／有關日期</span>
+                    <input id="emp-end" name="empEnd" type="date" value="2026-06-30" />
+                    <p class="hint" data-i18n="empEndHint">如期滿後仍在職，可填酬金期最後一日，或留空由本頁用酬金期結束日。</p>
+                  </label>
+                </div>
+                <div id="service-days-wrap" hidden>
+                  <label class="field" for="employed-days">
+                    <span data-i18n="employedDays">酬金期內受僱日數</span>
+                    <input id="employed-days" name="employedDays" type="number" inputmode="numeric" min="0" step="1" value="181" />
+                    <p class="hint" data-i18n="employedDaysHint">只填日數時，滿3個月資格以90日作粗略代替；有日期則用曆月。</p>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="termLegend">僱傭狀況</legend>
+                <div class="radios">
+                  <label><input type="radio" name="termination" value="stillEmployed" /> <span data-i18n="termStill">酬金期滿後仍受僱</span></label>
+                  <label><input type="radio" name="termination" value="dismissed" checked /> <span data-i18n="termDismissed">被僱主解僱（非即時解僱）</span></label>
+                  <label><input type="radio" name="termination" value="resigned" /> <span data-i18n="termResigned">僱員辭職（非第10條）</span></label>
+                  <label><input type="radio" name="termination" value="summary" /> <span data-i18n="termSummary">因嚴重過失被即時解僱（第9條）</span></label>
+                </div>
+                <label class="check">
+                  <input id="contract-grant" name="contractGrantResign" type="checkbox" />
+                  <span>
+                    <span data-i18n="contractGrant">合約訂明辭職亦可按比例獲年終酬金</span>
+                    <p class="hint" data-i18n="contractGrantHint">法定下限是辭職一般不獲按比例部分；合約可給予更多。勾選後才按你輸入的日數估算。</p>
+                  </span>
+                </label>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="probLegend">試用期（可選）</legend>
+                <label class="check">
+                  <input id="exclude-probation" name="excludeProbation" type="checkbox" />
+                  <span>
+                    <span data-i18n="excludeProbation">合約有試用期：計3個月資格時扣除（上限3個月）</span>
+                    <p class="hint" data-i18n="excludeProbationHint">勞工處／1823：試用期不計入3個月資格，但合資格後計算金額時包括整段受僱期（連試用期）。</p>
+                  </span>
+                </label>
+                <div id="probation-wrap" hidden>
+                  <label class="field" for="probation-months">
+                    <span data-i18n="probationMonths">試用期（月），上限3</span>
+                    <input id="probation-months" name="probationMonths" type="number" inputmode="decimal" min="0" max="3" step="0.5" value="3" />
+                  </label>
+                </div>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="copy-btn" data-i18n="copyBtn">複製文字</button>
+            <button type="button" class="secondary" id="csv-btn" data-i18n="csvBtn">下載 CSV</button>
+          </div>
+          <p class="muted no-print copy-status" id="copy-status" aria-live="polite"></p>
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">草稿會自動保存在此瀏覽器。</p>
+          <div id="kpis" class="kpis no-print"></div>
+          <div id="bill" class="bill" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section class="rate-card no-print" aria-labelledby="rates-title">
+        <h2 id="rates-title" data-i18n="ratesTitle">法定算式（僱傭條例第IIA部）</h2>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="rateStep">步驟</th>
+              <th data-i18n="rateHow">怎樣計</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td data-i18n="rateA">1. 全數</td><td data-i18n="rateAV">合約指定款額；否則一個月平均工資</td></tr>
+            <tr><td data-i18n="rateB">2. 做滿整個酬金期</td><td data-i18n="rateBV">第11B條：獲全數</td></tr>
+            <tr><td data-i18n="rateC">3. 未做滿</td><td data-i18n="rateCV">第11F條：全數 × 期內受僱日數 ÷ 酬金期日數（須滿3個月資格，且非辭職／第9條即時解僱）</td></tr>
+            <tr><td data-i18n="rateD">4. 試用期</td><td data-i18n="rateDV">第11F(1A)條：計3個月時扣除（上限3個月）；計金額時包括</td></tr>
+          </tbody>
+        </table>
+        <p class="hint" data-i18n="ratesHintFoot">數字與條文於2026年10月23日核對勞工處 FAQ、簡明指南第八章 PDF 及1823終止按比例說明。其後修訂以官方為準。</p>
+      </section>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">僱主是否必須發放年尾雙糧？</summary>
+          <p data-i18n="faq1a">《僱傭條例》沒有規定僱主必須支付年終酬金（包括雙糧及花紅）。能否享有須視乎僱傭合約（口頭或書面、明言或暗示）。年終酬金不包括屬賞贈性質或隨僱主酌情發放的款項。1997年6月27日後訂立的合約，除非書面表明相反意圖，否則推定每年酬金不屬賞贈、亦非只隨僱主酌情付給。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">僱員在酬金期完結前辭職，可否按比例拿年終酬金？</summary>
+          <p data-i18n="faq2a">除非合約另有規定，否則僱員在酬金期完結前辭職，不可享有按比例計算的年終酬金。酬金期以合約指明為準；沒有指明則以農曆年度計算。若僱員已做滿整個酬金期，其後才離職，已賺取的全數不受期滿後辭職影響。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">被解僱可否按比例領取年終酬金？試用期怎樣計？</summary>
+          <p data-i18n="faq3a">僱員在一個酬金期內按照連續性合約受僱不少於3個月，而被僱主解僱（但並非因嚴重過失而被即時解僱），可按比例獲得部分年終酬金。計算是否滿3個月時，試用期（以3個月為上限）不得包括在內；但一旦合資格，計算金額時必須將整段受僱期（包括試用期）計算在內。僱員按第10條終止（例如僱主嚴重違約）一般視作可獲按比例部分，與自行辭職不同；本頁「辭職」選項指非第10條的辭職。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">合約沒有寫明金額時，年終酬金怎樣計？</summary>
+          <p data-i18n="faq4a">如僱傭合約已指定款額，用該款額。如沒有指定，則為到期支付日前12個月（或較短受僱期）的每月平均工資（計算平均時須剔除無薪或非全薪日子，見簡明指南附錄）。按比例部分為全數×（酬金期內受僱日數÷酬金期日數），除非合約另指明分數。本頁不替你計12個月平均。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">酬金期是農曆年還是公曆年？何時要支付？</summary>
+          <p data-i18n="faq5a">以合約指明為準。沒有指明則以農曆年度計算。支付日期：合約指定之日；沒有指定則在酬金期滿當日或其後7天內。如在期滿前被解僱而須支付部分年終酬金，則在合約終止當日或7天內支付。如按僱主利潤計算，則在確定利潤當日或7天內。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq6q">這是不是勞工處官方計算機？</summary>
+          <p data-i18n="faq6a">不是。請用勞工處「法定僱傭權益參考計算機」核對。本頁只套用第IIA部公開規則作粗略估算，不能代替法律意見或勞資審裁處裁決。酌情花紅、利潤分紅公式、外傭合約另議條款均不在範圍內。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq7q">資料會上傳嗎？</summary>
+          <p data-i18n="faq7a">不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcFaq">勞工處 — 《僱傭條例》FAQ（年終酬金／雙糧資格與按比例）：</span>
+            <a href="https://www.labour.gov.hk/tc/faq/cap57j_whole.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.labour.gov.hk/eng/faq/cap57j_whole.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcGuide">勞工處 — 《僱傭條例簡明指南》第八章（PDF）：</span>
+            <a href="https://www.labour.gov.hk/tc/public/pdf/wcp/ConciseGuide/08.pdf" rel="noopener noreferrer">中文 PDF</a>
+            ·
+            <a href="https://www.labour.gov.hk/eng/public/wcp/ConciseGuide/08.pdf" rel="noopener noreferrer">English PDF</a>
+          </li>
+          <li>
+            <span data-i18n="src1823">1823 — 僱員離職可否按比例獲發年終酬金：</span>
+            <a href="https://www.1823.gov.hk/tc/faq/when-terminating-employment-contract-is-the-employee-entitled-to-pro-rata-end-of-year-payment-how-to-calculate-the-amount" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.1823.gov.hk/en/faq/when-terminating-employment-contract-is-the-employee-entitled-to-pro-rata-end-of-year-payment-how-to-calculate-the-amount" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcWage">勞工處 — 工資 FAQ（未指定年終酬金時用一個月平均工資）：</span>
+            <a href="https://www.labour.gov.hk/tc/faq/cap57c_whole.htm" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.labour.gov.hk/eng/faq/cap57c_whole.htm" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcEo">香港法例第57章第11F條（部分年終酬金）：</span>
+            <a href="https://www.elegislation.gov.hk/hk/cap57!zh-Hant-HK" rel="noopener noreferrer">電子版香港法例</a>
+            ·
+            <a href="https://hklii.hk/tc/legis/ord/57/s11F" rel="noopener noreferrer">HKLII s.11F</a>
+          </li>
+          <li>
+            <span data-i18n="srcCalc">勞工處 — 法定僱傭權益參考計算機：</span>
+            <a href="https://www.lr.labour.gov.hk/web/tc/calculator/index.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.lr.labour.gov.hk/web/en/calculator/index.html" rel="noopener noreferrer">English</a>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上條文與指引於2026年10月23日核對上述官方頁。若法例或勞工處其後修訂，以官方為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          工資、日期與估算只留在這個瀏覽器（localStorage）。本頁不上傳、不設帳號、不設後端。列印、複製或匯出 CSV 才會在你選擇的位置產生檔案。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供參考，並非法例意見，亦非勞工處官方計算。合約可給予更多。 / For reference only; not legal advice and not a Labour Department tool. A contract may grant more.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../water-sewage/">水費／排污費</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../mpf-contribution/">強積金供款</a>
+          <a href="../sp-lsp/">遣散費／長服金</a>
+          <a href="./">年終酬金／雙糧</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../property-stamp/">物業買賣印花稅</a>
+          <a href="../property-tax/">物業稅</a>
+          <a href="../profits-tax/">利得稅</a>
+          <a href="../salaries-tax/">薪俸稅</a>
+          <a href="../taxi-fare/">的士車費</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
