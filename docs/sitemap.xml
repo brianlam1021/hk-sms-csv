@@ -101,6 +101,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://hk-sms-csv.pages.dev/company-incorp-fees/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://hk-sms-csv.pages.dev/taxi-fare/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -202,6 +207,11 @@
   </url>
   <url>
     <loc>https://brianlam1021.github.io/hk-sms-csv/business-reg-fees/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://brianlam1021.github.io/hk-sms-csv/company-incorp-fees/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
