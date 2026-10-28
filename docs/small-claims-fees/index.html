@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google-adsense-account" content="ca-pub-4101065010696162">
+    <title>小額錢債審裁處申請費用估算｜SCT filing fee · HK</title>
+    <meta
+      name="description"
+      content="免費香港小額錢債審裁處入稟費估算：按司法機構2024年10月收費表，把申索額對應$20／$40／$70／$120，並可加傳票、證人、修訂、執行令狀與覆核等常見附加費。可切換勞資審裁處入稟費。瀏覽器內運算，不用註冊。 Free HK Small Claims Tribunal filing-fee estimator."
+    />
+    <link rel="canonical" href="https://brianlam1021.github.io/hk-sms-csv/small-claims-fees/" />
+    <meta property="og:title" content="小額錢債審裁處申請費用估算｜SCT filing fee" />
+    <meta
+      property="og:description"
+      content="按司法機構小額錢債審裁處收費表估算入稟費與常見附加費。申索上限$75,000。資料只留在瀏覽器。"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://brianlam1021.github.io/hk-sms-csv/small-claims-fees/" />
+    <meta property="og:locale" content="zh_HK" />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../site.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "小額錢債審裁處入稟費幾錢？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "按司法機構2024年10月收費表（第338章附屬法例B，2024年第112號法律公告，2024年10月31日起實施）：申索不超過$5,000收$20；超過$5,000但不超過$25,000收$40；超過$25,000但不超過$50,000收$70；超過$50,000但不超過$75,000收$120。超過$75,000不能以小額錢債審裁處入稟，可放棄超出部分。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "這是不是司法機構官方工具？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不是。本頁只按已公布收費表估算，並非法例意見，亦非司法機構官方服務。不評估申索成敗、利息或訟費判給。完整收費表（抄錄、音像光碟、專家出庭等）見司法機構PDF。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "入稟要親身到登記處嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "司法機構說明：提交申索須於辦公時間內在小額錢債審裁處登記處當面辦理，不可以用郵遞、傳真或電郵。申索人可委派代表代為提交，並須繳付法例訂明費用。請以官方網頁及登記處當日安排為準。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "資料會上傳嗎？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "不會。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <nav class="hk-nav no-print" aria-label="Site">
+      <a class="hk-brand" href="../">香港生活工具 HK tools</a>
+      <ul class="hk-nav-links">
+        <li><a href="../#tools">工具 Tools</a></li>
+        <li><a href="../about/">關於 About</a></li>
+        <li><a href="../privacy/">私隱 Privacy</a></li>
+      </ul>
+    </nav>
+    <a class="skip no-print" href="#form-title">跳到估算 / Skip to estimator</a>
+    <div class="wrap">
+      <div class="topbar no-print">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button type="button" id="lang-zh" aria-pressed="true">中</button>
+          <button type="button" id="lang-en" aria-pressed="false">EN</button>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="secondary" id="demo-3k-btn" data-i18n="demo3kBtn">$3,000 申索</button>
+          <button type="button" class="secondary" id="demo-60k-btn" data-i18n="demo60kBtn">$60,000 申索</button>
+          <button type="button" class="secondary" id="demo-witness-btn" data-i18n="demoWitnessBtn">申索＋證人傳票</button>
+          <button type="button" class="danger" id="clear-data" data-i18n="clearData">清除資料 Clear data</button>
+        </div>
+      </div>
+
+      <header class="site-header no-print">
+        <div class="chop" aria-hidden="true">小額<br />錢債</div>
+        <div>
+          <h1 data-i18n="pageTitle">小額錢債審裁處申請費用估算</h1>
+          <p class="lede" data-i18n="lede">
+            按司法機構2024年10月收費表，把申索額對應入稟費（$20／$40／$70／$120），並可加各方傳票、證人傳票、修訂文件、執行令狀、作廢／覆核／上訴許可與執達主任送達等常見附加費。可切換勞資審裁處入稟費。不用註冊，不會上傳。
+          </p>
+        </div>
+      </header>
+
+      <p class="notice no-print">
+        <span data-i18n="notice">只供參考，並非司法機構官方工具，亦非法例意見。實際以司法機構收費表、登記處及繳費當日為準。不評估申索成敗、利息或訟費判給。申索上限$75,000；超過此額不能以小額錢債審裁處入稟（可放棄超出部分）。不計算區域法院或其他法庭費用。</span>
+      </p>
+
+      <section class="explainer no-print" aria-labelledby="explain-title">
+        <h2 id="explain-title" data-i18n="explainTitle">為甚麼需要這個工具</h2>
+        <p data-i18n="explainBody">
+          司法機構以 PDF 公布小額錢債審裁處收費表，沒有把申索額對應入稟費及常見附加費的互動計算機。勞工處／稅務局已有年假、最低工資、股票印花稅、個人入息課稅、電費及差餉／地租官方計算機，本站不重複那些。搜「入稟幾錢／小額錢債費用」的人需要一條按申索額即時顯示的收費階梯。
+        </p>
+        <table class="rate-mini">
+          <thead>
+            <tr>
+              <th data-i18n="tableItem">申索額</th>
+              <th data-i18n="tableNote">入稟費（核對官方）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="tableLe5k">不超過 $5,000</td>
+              <td data-i18n="tableLe5kV">$20</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableLe25k">超過 $5,000 但不超過 $25,000</td>
+              <td data-i18n="tableLe25kV">$40</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableLe50k">超過 $25,000 但不超過 $50,000</td>
+              <td data-i18n="tableLe50kV">$70</td>
+            </tr>
+            <tr>
+              <td data-i18n="tableLe75k">超過 $50,000 但不超過 $75,000</td>
+              <td data-i18n="tableLe75kV">$120</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="layout">
+        <div class="form-col no-print">
+          <form id="fee-form" autocomplete="off">
+            <section class="panel" aria-labelledby="form-title">
+              <h2 id="form-title" data-i18n="formTitle">輸入</h2>
+
+              <fieldset>
+                <legend data-i18n="tribunalLegend">審裁處 Tribunal</legend>
+                <div class="mode-row" role="group" aria-label="Tribunal">
+                  <button type="button" class="secondary tribunal-mode" data-tribunal="sct" aria-pressed="true" data-i18n="modeSct">小額錢債審裁處</button>
+                  <button type="button" class="secondary tribunal-mode" data-tribunal="lt" aria-pressed="false" data-i18n="modeLt">勞資審裁處</button>
+                </div>
+                <p class="hint" id="tribunal-hint"></p>
+              </fieldset>
+
+              <fieldset>
+                <legend data-i18n="claimLegend">申索額 Claim amount</legend>
+                <label class="field" for="claim-amount">
+                  <span data-i18n="claimAmount">申索款額（港元）</span>
+                  <input id="claim-amount" name="claimAmount" type="number" min="0" step="0.01" value="3000" inputmode="decimal" />
+                  <p class="hint" data-i18n="claimHint">小額錢債審裁處上限 $75,000。入稟費按「不超過／超過」界線（例如 $5,000 收 $20，$5,000.01 收 $40）。</p>
+                </label>
+              </fieldset>
+
+              <fieldset id="sct-addons">
+                <legend data-i18n="sctAddonLegend">常見附加費（同一收費表）</legend>
+                <div class="row-2">
+                  <label class="field" for="inter-party">
+                    <span data-i18n="interParty">各方之間的傳票（每張 $55，包括送達）</span>
+                    <input id="inter-party" name="interPartySummons" type="number" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="witness">
+                    <span data-i18n="witnessSct">證人傳票（每名 $33，包括送達）</span>
+                    <input id="witness" name="witnessSummons" type="number" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="amended">
+                    <span data-i18n="amended">提交經修訂的文件（每份 $20）</span>
+                    <input id="amended" name="amendedDocument" type="number" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="writ">
+                    <span data-i18n="writ">提交執行令狀（每份 $55）</span>
+                    <input id="writ" name="writOfExecution" type="number" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="bailiff">
+                    <span data-i18n="bailiff">執達主任交付文件（每個地址 $10）</span>
+                    <input id="bailiff" name="bailiffDelivery" type="number" min="0" step="1" value="0" />
+                  </label>
+                </div>
+                <label class="check">
+                  <input id="set-aside" name="setAside" type="checkbox" />
+                  <span data-i18n="setAside">申請將裁斷或命令作廢（$61）</span>
+                </label>
+                <label class="check">
+                  <input id="review" name="review" type="checkbox" />
+                  <span data-i18n="reviewSct">覆核申請（$61）</span>
+                </label>
+                <label class="check">
+                  <input id="leave-appeal" name="leaveToAppeal" type="checkbox" />
+                  <span data-i18n="leaveSct">上訴許可申請（$61）</span>
+                </label>
+              </fieldset>
+
+              <fieldset id="lt-addons" hidden>
+                <legend data-i18n="ltAddonLegend">勞資審裁處常見附加費</legend>
+                <div class="row-2">
+                  <label class="field" for="lt-witness">
+                    <span data-i18n="witnessLt">證人傳票（每名 $25，包括送達）</span>
+                    <input id="lt-witness" name="ltWitnessSummons" type="number" min="0" step="1" value="0" />
+                  </label>
+                  <label class="field" for="lt-service">
+                    <span data-i18n="serviceLt">送達被告人文件（每個地址 $10）</span>
+                    <input id="lt-service" name="serviceAddress" type="number" min="0" step="1" value="0" />
+                  </label>
+                </div>
+                <label class="check">
+                  <input id="lt-review" name="ltReview" type="checkbox" />
+                  <span data-i18n="reviewLt">覆核申請（$45）</span>
+                </label>
+                <label class="check">
+                  <input id="lt-leave" name="ltLeaveToAppeal" type="checkbox" />
+                  <span data-i18n="leaveLt">上訴許可申請（$45）</span>
+                </label>
+                <p class="hint" data-i18n="ltAddonHint">證人傳票、覆核與上訴許可見《勞資審裁處（費用）規則》（第25章附屬法例B）。每個地址 $10 送達費見司法機構勞資審裁處網頁。</p>
+              </fieldset>
+            </section>
+          </form>
+          <section class="warn-box" id="warnings" aria-live="polite"></section>
+        </div>
+
+        <div class="preview-col">
+          <div class="preview-tools no-print">
+            <button type="button" id="print-btn" data-i18n="printBtn">列印／另存 PDF</button>
+            <button type="button" class="secondary" id="copy-btn" data-i18n="copyBtn">複製文字</button>
+          </div>
+          <p class="muted no-print copy-status" id="copy-status" aria-live="polite"></p>
+          <p class="muted no-print" id="draft-status" data-i18n="draftStatus">設定會自動保存在此瀏覽器（可選）。</p>
+          <div class="ticker" aria-live="polite">
+            <p class="ticker-label" id="hero-label" data-i18n="heroTotal">估算合計</p>
+            <p class="big-amount" id="hero-amount">HK$20</p>
+            <p class="hero-sub" id="hero-sub"></p>
+            <div class="kpis" id="kpis"></div>
+            <table class="breakdown" id="breakdown"></table>
+            <p class="abandon-note" id="abandon-note"></p>
+            <h2 data-i18n="formulaTitle">計算說明</h2>
+            <pre class="formula" id="formula"></pre>
+          </div>
+        </div>
+      </div>
+
+      <section class="faq no-print" aria-labelledby="faq-title">
+        <h2 id="faq-title" data-i18n="faqTitle">常見問題</h2>
+        <details>
+          <summary data-i18n="faq1q">小額錢債審裁處入稟費幾錢？</summary>
+          <p data-i18n="faq1a">按司法機構2024年10月收費表（《小額錢債審裁處（費用）規則》第338章附屬法例B，經2024年第112號法律公告修訂，2024年10月31日起實施）：申索不超過$5,000收$20；超過$5,000但不超過$25,000收$40；超過$25,000但不超過$50,000收$70；超過$50,000但不超過$75,000收$120。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq2q">申索超過 $75,000 怎麼辦？</summary>
+          <p data-i18n="faq2a">小額錢債審裁處只處理不超過$75,000的金錢申索。超過此額不能以本審裁處入稟。申索人可放棄超出部分，把申索額減至$75,000（入稟費$120）。本頁不估算區域法院或其他法庭的入稟費。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq3q">入稟要親身到登記處嗎？</summary>
+          <p data-i18n="faq3a">司法機構說明：提交申索須於辦公時間內在小額錢債審裁處登記處當面辦理，不可以用郵遞、傳真或電郵。申索人可委派代表代為提交，並須繳付法例訂明費用。詳情以官方網頁及登記處當日安排為準。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq4q">還有哪些收費沒有列入表單？</summary>
+          <p data-i18n="faq4a">同一收費表還有文本、翻譯、抄錄、認證、檔案翻查、看管費、政府官員出庭、誓章、音像光碟、蓋印等較少用項目。大量申索經綜合法院案件管理系統（iCMS）在優惠期可以電子方式繳付較低費用。完整表見司法機構 PDF，本頁不估算那些項目。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq5q">勞資審裁處費用怎樣計？</summary>
+          <p data-i18n="faq5a">按《勞資審裁處（費用）規則》（第25章附屬法例B）及司法機構勞資審裁處網頁：申索不超過$2,000收$20；$2,001至$5,000收$30；$5,001至$10,000收$40；超過$10,000收$50。證人傳票每名$25；覆核申請$45；上訴許可申請$45。送達被告人文件每個地址$10（司法機構網頁）。本頁只列這些已核對項目。</p>
+        </details>
+        <details>
+          <summary data-i18n="faq6q">這是不是司法機構官方工具？資料會上傳嗎？</summary>
+          <p data-i18n="faq6a">不是官方工具，亦非法例意見。不評估申索成敗、利息或對方應付訟費。估算只在瀏覽器內計算，草稿可選擇寫入本機 localStorage。沒有帳戶、沒有伺服器存檔。</p>
+        </details>
+      </section>
+
+      <section class="sources no-print" aria-labelledby="sources-title">
+        <h2 id="sources-title" data-i18n="sourcesTitle">資料來源 / Sources</h2>
+        <ul>
+          <li>
+            <span data-i18n="srcSctPdf">司法機構 — 小額錢債審裁處收費表（2024年10月 PDF）：</span>
+            <a href="https://www.judiciary.hk/doc/zh/court_services_facilities/gcssct_9_202410.pdf" rel="noopener noreferrer">中文 PDF</a>
+            ·
+            <a href="https://www.judiciary.hk/doc/en/court_services_facilities/gcssct_9_202410.pdf" rel="noopener noreferrer">English PDF</a>
+          </li>
+          <li>
+            <span data-i18n="srcSctPage">司法機構 — 小額錢債審裁處說明（申索上限、親身入稟）：</span>
+            <a href="https://www.judiciary.hk/zh/court_services_facilities/sc.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.judiciary.hk/en/court_services_facilities/sc.html" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcCap338b">《小額錢債審裁處（費用）規則》（第338章附屬法例B），經2024年第112號法律公告修訂，2024年10月31日起實施。</span>
+          </li>
+          <li>
+            <span data-i18n="srcLtPage">司法機構 — 勞資審裁處（入稟費表及每個地址 $10 送達費）：</span>
+            <a href="https://www.judiciary.hk/zh/court_services_facilities/labour.html" rel="noopener noreferrer">中文</a>
+            ·
+            <a href="https://www.judiciary.hk/en/court_services_facilities/labour.html" rel="noopener noreferrer">English</a>
+          </li>
+          <li>
+            <span data-i18n="srcCap25b">《勞資審裁處（費用）規則》（第25章附屬法例B）附表：入稟費、證人傳票 $25、覆核 $45、上訴許可 $45。</span>
+          </li>
+        </ul>
+        <p class="hint" data-i18n="srcAsOf">以上收費於2026年10月28日核對上述官方頁／PDF（小額錢債入稟費 $20／$40／$70／$120；勞資審裁處入稟費 $20／$30／$40／$50）。其後憲報或司法機構修訂，以官方為準。</p>
+      </section>
+
+      <aside class="privacy no-print">
+        <h2 data-i18n="privacyTitle">私隱</h2>
+        <p data-i18n="privacyBody">
+          申索額與附加費數字只留在這個瀏覽器（localStorage，可選）。本頁不上傳、不設帳號、不設後端。
+        </p>
+      </aside>
+
+      <p class="disclaimer no-print">
+        <span data-i18n="disclaimer">只供估算，並非司法機構官方服務或法律意見。 / Estimate only; not a Judiciary service, and not legal advice.</span>
+      </p>
+    </div>
+    <footer class="hk-footer no-print">
+      <div class="hk-footer-inner">
+        <nav class="hk-footer-links" aria-label="Footer">
+          <a href="../">Home</a>
+          <a href="../about/">關於 About</a>
+          <a href="../privacy/">私隱 Privacy</a>
+          <a href="../helper-receipt/">外傭工資收據</a>
+          <a href="../helper-settlement/">外傭終止結算</a>
+          <a href="../repair-levy/">大廈維修費分攤</a>
+          <a href="../utility-account/">分租水電費帳目</a>
+          <a href="../water-sewage/">水費／排污費</a>
+          <a href="../hospital-fees/">公立醫院收費</a>
+          <a href="../salary-timer/">月薪計時器</a>
+          <a href="../hourly-wage/">時薪計算器</a>
+          <a href="../mpf-contribution/">強積金供款</a>
+          <a href="../sp-lsp/">遣散費／長服金</a>
+          <a href="../year-end-pay/">年終酬金／雙糧</a>
+          <a href="../tenancy-stamp/">租約印花稅</a>
+          <a href="../property-stamp/">物業買賣印花稅</a>
+          <a href="../property-tax/">物業稅</a>
+          <a href="../profits-tax/">利得稅</a>
+          <a href="../salaries-tax/">薪俸稅</a>
+          <a href="../business-reg-fees/">商業登記費／NAR1</a>
+          <a href="../company-incorp-fees/">公司成立首年費用</a>
+          <a href="./">小額錢債申請費</a>
+          <a href="../taxi-fare/">的士車費</a>
+          <a href="../">短訊記帳CSV</a>
+        </nav>
+        <p class="hk-copy">© 2026 香港生活工具</p>
+        <p class="hk-ref">僅供參考，並非法律、財務或稅務意見。 / For reference only; not legal, financial or tax advice.</p>
+      </div>
+    </footer>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
